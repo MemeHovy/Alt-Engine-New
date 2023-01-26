@@ -76,7 +76,7 @@ class PlayState extends MusicBeatState
 		['Good', 0.8], //From 70% to 79%
 		['Great', 0.9], //From 80% to 89%
 		['Sick!', 1], //From 90% to 99%
-		['IMPOSSIBLE HITS!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
+		['IMPOSSIBLE!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
 	];
 	public var modchartTweens:Map<String, FlxTween> = new Map<String, FlxTween>();
 	public var modchartSprites:Map<String, ModchartSprite> = new Map<String, ModchartSprite>();
@@ -159,18 +159,14 @@ class PlayState extends MusicBeatState
 	public var timeBar:FlxBar;
 	
 	public var noteHit:Int = 0;
-	public var greats:Int = 0;
 	public var sicks:Int = 0;
 	public var goods:Int = 0;
 	public var bads:Int = 0;
 	public var shits:Int = 0;
-	public var sads:Int = 0;
-	public var greatsPercent:Float = 0;
 	public var sicksPercent:Float  = 0;
 	public var goodsPercent:Float = 0;
 	public var badsPercent:Float = 0;
 	public var shitsPercent:Float = 0;
-	public var sadsPercent:Float = 0;
 	
 	private var generatedMusic:Bool = false;
 	public var endingSong:Bool = false;
@@ -1075,14 +1071,14 @@ class PlayState extends MusicBeatState
 		judgementCounter.borderQuality = 2;
 		judgementCounter.scrollFactor.set();
 		judgementCounter.screenCenter(Y);
-		judgementCounter.text = 'Greats: ${greats}\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nSads: ${sads}\nMisses: ${songMisses}\nJudgement Counter by\n KadeDev';
+		judgementCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nMisses: ${songMisses}\nJudgement Counter by\n KadeDev';
 		if (ClientPrefs.judgementCounter == true || !ClientPrefs.hideHud)
 		{
 			add(judgementCounter);
 		}
 		if (ClientPrefs.judgementCounterType == 'Percent')
 		{
-		    judgementCounter.text = 'Great: ${Highscore.floorDecimal(greatsPercent * 100,2)}\nSick: ${Highscore.floorDecimal(sicksPercent * 100, 2)}%\nGood: ${Highscore.floorDecimal(goodsPercent * 100, 2)}%\nBad: ${Highscore.floorDecimal(badsPercent * 100, 2)}%\nShit: ${Highscore.floorDecimal(shitsPercent * 100, 2)}%\nSad: ${Highscore.floorDecimal(sadsPercent * 100, 2)}%\nJudgement percent text by\nFearester';
+		    judgementCounter.text = 'Sick: ${Highscore.floorDecimal(sicksPercent * 100, 2)}%\nGood: ${Highscore.floorDecimal(goodsPercent * 100, 2)}%\nBad: ${Highscore.floorDecimal(badsPercent * 100, 2)}%\nShit: ${Highscore.floorDecimal(shitsPercent * 100, 2)}%\nJudgement percent text by\nFearester';
 		}
 
 		botplayTxt = new FlxText(0, 19 , FlxG.width, "AUTO PLAY", 28);
@@ -1753,22 +1749,18 @@ class PlayState extends MusicBeatState
 	}
 	public function updateScore(miss:Bool = false)
 	{
-	    greatsPercent = (greats / noteHit);
 		sicksPercent = (sicks / noteHit);
 		goodsPercent = (goods / noteHit);
 		badsPercent = (bads / noteHit);
 		shitsPercent = (shits / noteHit);
-		sadsPercent = (sads / noteHit);
 		
-	    judgementCounter.text = 'Greats: ${greats}\nSicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nSads: ${sads}\nMisses: ${songMisses}\njudgement text by kadeDev.';
+	    judgementCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nMisses: ${songMisses}\njudgement text by kadeDev.';
         if (ClientPrefs.judgementCounterType == "Percentage")
 		{
-		    judgementCounter.text = 'Great: ${Highscore.floorDecimal(greatsPercent * 100, 3)}%\n'
-			    + 'Sick: ${Highscore.floorDecimal(sicksPercent * 100, 3)}%\n'
-			    + 'Good: ${Highscore.floorDecimal(goodsPercent * 100, 3)}%\n'
-			    + 'Bad: ${Highscore.floorDecimal(badsPercent * 100, 3)}%\n'
-			    + 'Shit: ${Highscore.floorDecimal(shitsPercent * 100, 3)}%\n'
-			    + 'Sad: ${Highscore.floorDecimal(sadsPercent * 100, 3)}%\n'
+		    judgementCounter.text = 'Sick: ${Highscore.floorDecimal(sicksPercent * 100, 2)}%\n'
+			    + 'Good: ${Highscore.floorDecimal(goodsPercent * 100, 2)}%\n'
+			    + 'Bad: ${Highscore.floorDecimal(badsPercent * 100, 2)}%\n'
+			    + 'Shit: ${Highscore.floorDecimal(shitsPercent * 100, 2)}%\n'
 			    + 'Judgement percent text by Fearester';
 		}
 		
@@ -4627,15 +4619,14 @@ class PlayState extends MusicBeatState
 			}
 
 			// Rating FC
-			ratingFC = "";
-            if (greats > 0) ratingFC = "You Play like PRO?";
+			ratingFC = "[N/A]";
 			if (sicks > 0) ratingFC = "Sick Master!";
 			if (goods > 0) ratingFC = "Good Master!";
-			if (bads > 0 || shits > 0 || sads > 0) ratingFC = "Master!";
+			if (bads > 0 || shits > 0) ratingFC = "Master!";
 			if (songMisses > 0 && songMisses < 10) ratingFC = "Not Master!";
 			else if (songMisses >= 10) ratingFC = "Not Player...";
 		}
-		updateScore(badHit); 
+		updateScore(); 
 		setOnLuas('rating', ratingPercent);
 		setOnLuas('ratingName', ratingName);
 		setOnLuas('ratingFC', ratingFC);
@@ -4710,14 +4701,6 @@ class PlayState extends MusicBeatState
 											unlock = true;
 										}
 									}
-					case 'just_press':
-						if(!ClientPrefs.oldInput) {
-							unlock = true;
-						}
-					case 'pressed_out':
-						if(ClientPrefs.oldInput) {
-							unlock = true;
-				    	}
 				}
 
 				if(unlock) {
