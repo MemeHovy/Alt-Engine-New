@@ -1,5 +1,5 @@
 # This is a basic workflow to help you get started with Actions
-name: Psych engine
+name: Alt engine
 # Controls when the action will run
 on: 
   # Triggers the workflow on push or pull request events but only for the master branch
@@ -86,7 +86,7 @@ jobs:
         run: |
          haxelib run lime build android -D no-compilation -D luajit_static -D macro-times -D analyzer-optimize -armv7 --app-version="4.0.0-${{ github.run_id}}"
          cd export/release/android/bin/app/build/outputs/apk/debug
-         mv PsychEngine-debug.apk PsychEngine-armv7.apk
+         mv AltEngine-debug.apk AltEngine-armv7.apk
 
       - name: Publish Artifact
         uses: actions/upload-artifact@main
@@ -165,7 +165,7 @@ jobs:
         run: |
          haxelib run lime build android -D no-compilation -D luajit_static -D macro-times -D analyzer-optimize -arm64 --app-version="4.0.0-${{ github.run_id}}"
          cd export/release/android/bin/app/build/outputs/apk/debug
-         mv PsychEngine-debug.apk PsychEngine-arm64.apk
+         mv AltEngine-debug.apk AltEngine-arm64.apk
 
       - name: Publish Artifact
         uses: actions/upload-artifact@main
