@@ -18,12 +18,28 @@ import lime.utils.Assets;
 import flixel.system.FlxSound;
 import openfl.utils.Assets as OpenFlAssets;
 import WeekData;
+import haxe.Json;
 #if MODS_ALLOWED
 import sys.FileSystem;
 #end
 
 using StringTools;
-
+typedef FreePlayData =
+{
+    FreeplayScoreText:String,
+    SongAlpha:Float,
+    SongSelectedAlpha:Float,
+    FreeplayScoreBGPos:Array<Int>,
+    FreeplayScoreBGScale:Array<Float>,
+    ScoreTextP:Array<Int>,
+    FreeplayScoreTextSize:Int,
+    DiffTextP:Array<Int>,
+    FreeplayBG:String,
+    ScoreBGA:Float,
+    DifficultText:Array<String>,
+    DiffSize:Int,
+    iconAlpha:Array<Float>
+}
 class FreeplayState extends MusicBeatState
 {
 	var songs:Array<SongMetadata> = [];
@@ -40,6 +56,7 @@ class FreeplayState extends MusicBeatState
 	var lerpRating:Float = 0;
 	var intendedScore:Int = 0;
 	var intendedRating:Float = 0;
+	var FreeplayJSON:FreePlayData;
 
 	private var grpSongs:FlxTypedGroup<Alphabet>;
 	private var curPlaying:Bool = false;
@@ -63,6 +80,8 @@ class FreeplayState extends MusicBeatState
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("In the Menus", null);
 		#end
+		
+        FreeplayJSON = Json.parse(Paths.getTextFromFile('UI Jsons/FreeplayJson.json'));
 
 		for (i in 0...WeekData.weeksList.length) {
 			if(weekIsLocked(WeekData.weeksList[i])) continue;
@@ -101,7 +120,7 @@ class FreeplayState extends MusicBeatState
 			}
 		}*/
 
-		bg = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
+		bg = new FlxSprite().loadGraphic(Paths.image(FreeplayJSON.FreeplayBG));
 		bg.antialiasing = ClientPrefs.globalAntialiasing;
 		add(bg);
 		bg.screenCenter();
@@ -143,14 +162,16 @@ class FreeplayState extends MusicBeatState
 		}
 		WeekData.setDirectoryFromWeek();
 
-		scoreText = new FlxText(FlxG.width * 0.7, 5, 0, "", 32);
-		scoreText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, RIGHT);
+		scoreText = new FlxText(FreeplayJSON.ScoreTextP[0],FreeplayJSON.ScoreTextP[1], 0,FreeplayJSON.FreeplayScoreText, FreeplayJSON.FreeplayScoreTextSize);
+		scoreText.setFormat(Paths.font("vcr.ttf"), FreeplayJSON.FreeplayScoreTextSize, FlxColor.WHITE, RIGHT);
 
-		scoreBG = new FlxSprite(scoreText.x - 6, 0).makeGraphic(1, 66, 0xFF000000);
-		scoreBG.alpha = 0.6;
+		scoreBG = new FlxSprite(FreeplayJSON.FreeplayScoreBGPos[0], FreeplayJSON.FreeplayScoreBGPos[1]).makeGraphic(1, 1,0xFF000000);
+		scoreBG.alpha = FreeplayJSON.ScoreBGA;
+		scoreBG.scale.x = FreeplayJSON.FreeplayScoreBGScale[0];
+		scoreBG.scale.y = FreeplayJSON.FreeplayScoreBGScale[1];
 		add(scoreBG);
 
-		diffText = new FlxText(scoreText.x, scoreText.y + 36, 0, "", 24);
+		diffText = new FlxText(FreeplayJSON.DiffTextP[0],FreeplayJSON.DiffTextP[1], 0, "", FreeplayJSON.DiffSize);
 		diffText.font = scoreText.font;
 		add(diffText);
 
@@ -338,8 +359,6 @@ class FreeplayState extends MusicBeatState
 			persistentUpdate = false;
 			openSubState(new GameplayChangersSubstate());
 		}
-		else if(space)
-		{
 			if(instPlaying != curSelected)
 			{
 				#if PRELOAD_ALL
@@ -348,21 +367,21 @@ class FreeplayState extends MusicBeatState
 				Paths.currentModDirectory = songs[curSelected].folder;
 				var poop:String = Highscore.formatSong(songs[curSelected].songName.toLowerCase(), curDifficulty);
 				PlayState.SONG = Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase());
+				Conductor.changeBPM(PlayState.SONG.bpm);
 				if (PlayState.SONG.needsVoices)
 					vocals = new FlxSound().loadEmbedded(Paths.voices(PlayState.SONG.song));
 				else
 					vocals = new FlxSound();
 
 				FlxG.sound.list.add(vocals);
-				FlxG.sound.playMusic(Paths.inst(PlayState.SONG.song), 0.7);
+				FlxG.sound.playMusic(Paths.inst(PlayState.SONG.song), ClientPrefs.instVolume);
 				vocals.play();
 				vocals.persist = true;
 				vocals.looped = true;
-				vocals.volume = 0.7;
+				vocals.volume = ClientPrefs.vocalVolume;
 				instPlaying = curSelected;
 				#end
 			}
-		}
 
 		else if (accepted)
 		{
@@ -436,7 +455,7 @@ class FreeplayState extends MusicBeatState
 		#end
 
 		PlayState.storyDifficulty = curDifficulty;
-		diffText.text = '< ' + CoolUtil.difficultyString() + ' >';
+		diffText.text = FreeplayJSON.DifficultText[0] + CoolUtil.difficultyString() + FreeplayJSON.DifficultText[1];
 		positionHighscore();
 	}
 
@@ -476,9 +495,11 @@ class FreeplayState extends MusicBeatState
 		for (i in 0...iconArray.length)
 		{
 			iconArray[i].alpha = 0.6;
+		    iconArray[i].animation.curAnim.curFrame = 0; 
 		}
 
-		iconArray[curSelected].alpha = 1;
+        iconArray[curSelected].animation.curAnim.curFrame = 2; 
+		iconArray[curSelected].alpha = FreeplayJSON.iconAlpha[1];
 
 		for (item in grpSongs.members)
 		{
@@ -540,12 +561,15 @@ class FreeplayState extends MusicBeatState
 	}
 
 	private function positionHighscore() {
-		scoreText.x = FlxG.width - scoreText.width - 6;
+		scoreText.x = FreeplayJSON.ScoreTextP[0];
+		scoreText.y = FreeplayJSON.ScoreTextP[1];
 
-		scoreBG.scale.x = FlxG.width - scoreText.x + 6;
-		scoreBG.x = FlxG.width - (scoreBG.scale.x / 2);
-		diffText.x = Std.int(scoreBG.x + (scoreBG.width / 2));
-		diffText.x -= diffText.width / 2;
+		scoreBG.scale.x = FreeplayJSON.FreeplayScoreBGScale[0];
+		scoreBG.scale.y = FreeplayJSON.FreeplayScoreBGScale[1];
+		scoreBG.x = FreeplayJSON.FreeplayScoreBGPos[0];
+		scoreBG.y = FreeplayJSON.FreeplayScoreBGPos[1];
+		diffText.y = FreeplayJSON.DiffTextP[1];
+		diffText.x = FreeplayJSON.DiffTextP[0];
 	}
 }
 
