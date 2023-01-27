@@ -53,31 +53,48 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 		option.onChange = onChangeAntiAliasing; //Changing onChange is only needed if you want to make a special interaction after it changes the value
 		addOption(option);
 
+        #if !android
+		var option:Option = new Option('Shaders', //Name
+			'If unchecked, disables shaders.\nIt\'s used for some visual effects, and also CPU intensive for weaker PCs.', //Description
+			'shaders', //Save data variable name
+			'bool', //Variable type
+			true); //Default value
+		addOption(option);
+		#end
+
 		#if !html5 //Apparently other framerates isn't correctly supported on Browser? Probably it has some V-Sync shit enabled by default, idk
-		var option:Option = new Option('Framerate',
+		var option:Option = new Option('FPS',
 			"Pretty self explanatory, isn't it?",
 			'framerate',
 			'int',
-			60);
+			30);
 		addOption(option);
-
+                
+        option.scrollSpeed = 0;
 		option.minValue = 30;
-		option.maxValue = 240;
+		option.maxValue = 1080;
 		option.displayFormat = '%v FPS';
+                option.changeValue = 30;
 		option.onChange = onChangeFramerate;
 		#end
-
-		/*
-		var option:Option = new Option('Persistent Cached Data',
-			'If checked, images loaded will stay in memory\nuntil the game is closed, this increases memory usage,\nbut basically makes reloading times instant.',
-			'imagesPersist',
-			'bool',
-			false);
-		option.onChange = onChangePersistentData; //Persistent Cached Data changes FlxGraphic.defaultPersist
+		
+        var option:Option = new Option('Screen Resolution',
+			'Choose your preferred screen resolution.',
+			'screenRes',
+			'string',
+			'1280x720',
+			['640x360', '852x480', '960x540', '1280x720', '1960x1080', '3840x2160', '7680x4320']);
 		addOption(option);
-		*/
+		option.onChange = onChangeScreenRes;
 
 		super();
+	}
+function onChangeScreenRes()
+	{
+		if(!FlxG.fullscreen) {
+			var res = ClientPrefs.screenRes.split('x');
+			FlxG.resizeWindow(Std.parseInt(res[0]), Std.parseInt(res[1]));
+		}
 	}
 
 	function onChangeAntiAliasing()
