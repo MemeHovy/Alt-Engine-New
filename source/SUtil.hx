@@ -125,7 +125,7 @@ class SUtil
 			case ROOT:
 				daPath = Context.getFilesDir() + '/';
 			case APP_DATA:
-				daPath = Environment.getExternalStorageDirectory() + '/' + '.' + Lib.application.meta.get('file') + ' ' + '[ ' + MainMenuState.psychEngineVersion + ' ]' + '/';
+				daPath = Environment.getExternalStorageDirectory() + '/' + '.' + Lib.application.meta.get('file') + ' ' + '[ ' + MainMenuState.altEngineVersion + ' ]' + '/';
 		}
 		//if (!FileSystem.exists(SUtil.getPath() + Path.directory(daPath)))
 			//SUtill.copyContent(Path.directory(daPath), Path.directory(daPath)); //this shit was made by an undertale fan and its prob not gonna work
