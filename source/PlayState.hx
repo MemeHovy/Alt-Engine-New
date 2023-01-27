@@ -230,6 +230,7 @@ class PlayState extends MusicBeatState
 	public var songHits:Int = 0;
 	public var songMisses:Int = 0;
 	public var scoreTxt:FlxText;
+	var scoreTween:FlxTween;
 	var iconZoomTween:FlxTween;
 	var iconDadZoomTween:FlxTween;
 	var judgementCounter:FlxText;
@@ -3972,6 +3973,29 @@ class PlayState extends MusicBeatState
 			});
 		}
 	}
+	function scoreMove(?move:Bool = false)
+	{
+		if(move == false)
+		{
+			if(scoreTween != null) {
+				scoreTween.cancel();
+			}
+			scoreTxt.y = 9000;
+			scoreTween = FlxTween.tween(scoreTxt, {y: healthBarBG + 36}, 0.5, {
+				ease: FlxEase.elasticInOut,
+				onComplete: function(twn:FlxTween)
+				{
+					scoreTween = FlxTween.tween(iconP1, {y: 9000}, 0.5, {
+						ease: FlxEase.elasticInOut,
+						onComplete: function(twn:FlxTween)
+						{
+							scoreTween = null;
+						}
+					});
+				}
+			});
+		}
+	}
 	function opponentNoteHit(note:Note):Void
 	{
 		if (Paths.formatToSongPath(SONG.song) != 'tutorial')
@@ -4030,6 +4054,8 @@ class PlayState extends MusicBeatState
 
 	function goodNoteHit(note:Note):Void
 	{
+		if (Paths.formatToSongPath(SONG.song) != 'tutorial')
+		camZooming = true;
 		if (!note.wasGoodHit)
 		{
 			if (ClientPrefs.hitsoundVolume > 0 && !note.hitsoundDisabled)
@@ -4054,6 +4080,7 @@ class PlayState extends MusicBeatState
 				}
 				if(!note.isSustainNote)
 			    {
+			    scoreMove();
 				moveIcon();
 		    	}
 		    	
@@ -4070,6 +4097,7 @@ class PlayState extends MusicBeatState
 			if (!note.isSustainNote)
 			{
 				combo += 1;
+				noteHit += 1;
 				popUpScore(note);
 				if(combo > 9999) combo = 9999;
 			}
