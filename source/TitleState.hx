@@ -39,13 +39,15 @@ import openfl.Assets;
 using StringTools;
 typedef TitleData =
 {
-	
 	titlex:Float,
 	titley:Float,
+	titleS:Array<Float>,
 	startx:Float,
 	starty:Float,
+	startS:Array<Float>,
 	gfx:Float,
 	gfy:Float,
+	gfS:Array<Float>,
 	backgroundSprite:String,
 	bpm:Int
 }
@@ -194,11 +196,6 @@ class TitleState extends MusicBeatState
 		#elseif CHARTING
 		MusicBeatState.switchState(new ChartingState());
 		#else
-		if(FlxG.save.data.flashing == null && !FlashingState.leftState) {
-			FlxTransitionableState.skipNextTransIn = true;
-			FlxTransitionableState.skipNextTransOut = true;
-			MusicBeatState.switchState(new FlashingState());
-		} else {
 			#if desktop
 			if (!DiscordClient.isInitialized)
 			{
@@ -277,11 +274,15 @@ class TitleState extends MusicBeatState
 		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24, false);
 		logoBl.animation.play('bump');
 		logoBl.updateHitbox();
+		logoBl.scale.x = titleJSON.titleS[0];
+		logoBl.scale.y = titleJSON.titleS[1];
 		// logoBl.screenCenter();
 		// logoBl.color = FlxColor.BLACK;
 
 		swagShader = new ColorSwap();
 		gfDance = new FlxSprite(titleJSON.gfx, titleJSON.gfy);
+		gfDance.scale.x = titleJSON.gfS[0];
+		gfDance.scale.y = titleJSON.gfS[1];
 
 		var easterEgg:String = FlxG.save.data.psychDevsEasterEgg;
 		switch(easterEgg.toUpperCase())
@@ -321,6 +322,8 @@ class TitleState extends MusicBeatState
 		logoBl.shader = swagShader.shader;
 
 		titleText = new FlxSprite(titleJSON.startx, titleJSON.starty);
+		titleText.scale.x = titleJSON.startS[0];
+		titleText.scale.y = titleJSON.startS[1];
 		#if MODS_ALLOWED
 		var path = SUtil.getPath() + "mods/" + Paths.currentModDirectory + "/images/titleEnter.png";
 		//trace(path, FileSystem.exists(path));
