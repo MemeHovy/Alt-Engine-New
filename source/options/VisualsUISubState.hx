@@ -52,8 +52,23 @@ class VisualsUISubState extends BaseOptionsMenu
 			"What should the Time Bar display?",
 			'timeBarType',
 			'string',
-			'Time Left',
-			['Time Left', 'Time Elapsed', 'Song Name', 'Disabled']);
+			'Time Elapsed / Song Length',
+			['Time Length Percent' ,'Repeat Bar', 'Time Length', 'Song Percentage', 'Time Left', 'Time Elapsed', 'Song Name', 'Disabled']);
+		addOption(option);
+		
+		var option:Option = new Option('judgement Text Type:',
+			"What should the judge display?",
+			'judgementCounterType',
+			'string',
+			'Default',
+			['Default', 'Percentage']);
+		addOption(option);
+		
+		var option:Option = new Option('Judgement Text Visible',
+			"Show Judgement Text?!",
+			'judgementCounter',
+			'bool',
+			true);
 		addOption(option);
 
 		var option:Option = new Option('Flashing Lights',
@@ -62,6 +77,8 @@ class VisualsUISubState extends BaseOptionsMenu
 			'bool',
 			true);
 		addOption(option);
+		
+		
 
 		var option:Option = new Option('Camera Zooms',
 			"If unchecked, the camera won't zoom in on a beat hit.",
@@ -88,7 +105,7 @@ class VisualsUISubState extends BaseOptionsMenu
 		option.changeValue = 0.1;
 		option.decimals = 1;
 		addOption(option);
-		
+
 		var option:Option = new Option('FPS Counter',
 			'If unchecked, hides FPS Counter.',
 			'showFPS',
@@ -105,7 +122,52 @@ class VisualsUISubState extends BaseOptionsMenu
 			['None', 'Breakfast', 'Tea Time']);
 		addOption(option);
 		option.onChange = onChangePauseMusic;
+		
+		var option:Option = new Option('Drain Type:',
+			"Change Drain Type",
+			'drainType',
+			'string',
+			'Note Hit',
+			['None', 'Note Hit', 'Always']);
+		addOption(option);
+		
+		var option:Option = new Option('FPS Type:',
+			"Change FPS Type",
+			'sysInfo',
+			'string',
+			'OG FPS',
+			['None', 'System', 'PE FPS', 'FPS ALT', 'OG FPS']);
+		addOption(option);
+		
+		var option:Option = new Option('Beat Type:',
+			"Change Beat Type",
+			'beatType',
+			'string',
+			'1/16',
+			['1/2', '1/4', '1/16']);
+		addOption(option);
+		
+		var option:Option = new Option('Beat Mode:',
+			"Change Beat Mode",
+			'beatMode',
+			'string',
+			'Both camera',
+			['Both camera', 'HUD camera', 'Game camera']);
+		addOption(option);
+        
+        var option:Option = new Option('Winning icons',
+			'Show winning icons',
+			'winIcon',
+			'bool',
+			false);
+		addOption(option);
 
+        var option:Option = new Option('Combo Stacking',
+			"If unchecked, Ratings and Combo won't stack, saving on System Memory and making them easier to read",
+			'comboStacking',
+			'bool',
+			true);
+		addOption(option);
 		super();
 	}
 
