@@ -59,20 +59,27 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			false);
 		addOption(option);
 
+		var option:Option = new Option('Opponent Notes',
+			'If unchecked, opponent notes get hidden.',
+			'opponentStrums',
+			'bool',
+			true);
+		addOption(option);
+
 		var option:Option = new Option('Ghost Tapping',
 			"If checked, you won't get misses from pressing keys\nwhile there are no notes able to be hit.",
 			'ghostTapping',
 			'bool',
 			true);
 		addOption(option);
-
+                #if !android
 		var option:Option = new Option('Disable Reset Button',
 			"If checked, pressing Reset won't do anything.",
 			'noReset',
 			'bool',
 			false);
 		addOption(option);
-
+                #end
 		var option:Option = new Option('Hitsound Volume',
 			'Funny notes does \"Tick!\" when you hit them."',
 			'hitsoundVolume',
@@ -84,6 +91,7 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		option.maxValue = 1;
 		option.changeValue = 0.1;
 		option.decimals = 1;
+		option.onChange = onChangeHitsoundVolume;
 
 		var option:Option = new Option('Rating Offset',
 			'Changes how late/early you have to hit for a "Sick!"\nHigher values mean you have to hit later.',
@@ -136,10 +144,33 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			10);
 		option.scrollSpeed = 5;
 		option.minValue = 2;
-		option.maxValue = 16;
+		option.maxValue = 10;
 		option.changeValue = 0.1;
 		addOption(option);
 
+                var option:Option = new Option('Health Drain',
+			'Add Draining health when opponent hit in note.',
+			'healthDrain',
+			'float',
+			0);
+		option.scrollSpeed = 1.6;
+		option.minValue = 0;
+		option.maxValue = 5;
+		option.changeValue = 0.1;
+		addOption(option);
+		
+		var option:Option = new Option('Health Input', //Name
+			'If checked, health not add sustain notes.', //Description
+			'oldInput', //Save data variable name
+			'bool', //Variable type
+			true); //Default value
+		addOption(option);
+
 		super();
+	}
+
+	function onChangeHitsoundVolume()
+	{
+		FlxG.sound.play(Paths.sound('hitsound'), ClientPrefs.hitsoundVolume);
 	}
 }
