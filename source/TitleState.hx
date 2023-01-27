@@ -179,7 +179,7 @@ class TitleState extends MusicBeatState
 				});
 			}
 			#end
-
+        {
 			new FlxTimer().start(1, function(tmr:FlxTimer)
 			{
 				startIntro();
