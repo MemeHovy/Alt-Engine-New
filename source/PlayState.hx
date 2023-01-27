@@ -3981,7 +3981,7 @@ class PlayState extends MusicBeatState
 				scoreTween.cancel();
 			}
 			scoreTxt.y = 9000;
-			scoreTween = FlxTween.tween(scoreTxt, {y: healthBarBG + 36}, 0.5, {
+			scoreTween = FlxTween.tween(scoreTxt, {y: healthBar + 36}, 0.5, {
 				ease: FlxEase.elasticInOut,
 				onComplete: function(twn:FlxTween)
 				{
