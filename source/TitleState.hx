@@ -584,18 +584,6 @@ class TitleState extends MusicBeatState
 	{
 
 				transitioning = true;
-				if(easteregg == 'SHADOW')
-				{
-					new FlxTimer().start(3.2, function(tmr:FlxTimer)
-					{
-						remove(ngSpr);
-						remove(credGroup);
-						FlxG.camera.flash(FlxColor.WHITE, 0.6);
-						transitioning = false;
-					});
-				}
-				else
-				{
 					remove(ngSpr);
 					remove(credGroup);
 					FlxG.camera.flash(FlxColor.WHITE, 3);
@@ -606,7 +594,6 @@ class TitleState extends MusicBeatState
 					};
 				}
 				playJingle = false;
-			}
 			else //Default! Edit this one!!
 			{
 				remove(ngSpr);
