@@ -1860,6 +1860,7 @@ class FunkinLua {
 
 		call('onCreate', []);
 		#end
+	}
 	public function isOfTypes(value:Any, types:Array<Dynamic>)
 	{
 		for (type in types)
@@ -1878,7 +1879,6 @@ class FunkinLua {
 		}
 	}
 	#end
-	}
 
 	inline static function getTextObject(name:String):FlxText
 	{
