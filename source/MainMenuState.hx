@@ -3,7 +3,6 @@ package;
 #if desktop
 import Discord.DiscordClient;
 #end
-import flixel.system.FlxSound;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
@@ -35,21 +34,22 @@ typedef MenuData =
     modsP:Array<Int>,
     awardsP:Array<Int>,
     creditsP:Array<Int>,
+    donateP:Array<Int>,
     optionsP:Array<Int>,
     storyS:Array<Float>,
     freeplayS:Array<Float>,
     modsS:Array<Float>,
     awardsS:Array<Float>,
     creditsS:Array<Float>,
+    donateS:Array<Float>,
     optionsS:Array<Float>,
     centerX:Bool,
     menuBG:String
 }
-
 class MainMenuState extends MusicBeatState
 {
     var MainJSON:MenuData;
-	public static var psychEngineVersion:String = '0.6.2'; //This is also used for Discord RPC
+	public static var psychEngineVersion:String = '0.5.2h'; //This is also used for Discord RPC
     public static var altEngineVersion:String = '2.2.1';
 	public static var curSelected:Int = 0;
 
@@ -63,6 +63,7 @@ class MainMenuState extends MusicBeatState
 		#if MODS_ALLOWED 'mods', #end
 		#if ACHIEVEMENTS_ALLOWED 'awards', #end
 		'credits',
+		#if !switch 'donate', #end
 		'options'
 	];
 
@@ -73,7 +74,6 @@ class MainMenuState extends MusicBeatState
 
 	override function create()
 	{
-
 		WeekData.loadTheFirstEnabledMod();
 
 		#if desktop
@@ -87,15 +87,15 @@ class MainMenuState extends MusicBeatState
 		camAchievement.bgColor.alpha = 0;
 
 		FlxG.cameras.reset(camGame);
-		FlxG.cameras.add(camAchievement, false);
-		FlxG.cameras.setDefaultDrawTarget(camGame, true);
+		FlxG.cameras.add(camAchievement);
+		FlxCamera.defaultCameras = [camGame];
 
 		transIn = FlxTransitionableState.defaultTransIn;
 		transOut = FlxTransitionableState.defaultTransOut;
 
-		persistentUpdate = persistentDraw = true;
-		
 		MainJSON = Json.parse(Paths.getTextFromFile('UI Jsons/MainMenuData.json'));
+
+		persistentUpdate = persistentDraw = true;
 
 		var yScroll:Float = Math.max(0.25 - (0.05 * (optionShit.length - 4)), 0.1);
 		var bg:FlxSprite = new FlxSprite(-80).loadGraphic(Paths.image(MainJSON.menuBG));
@@ -126,7 +126,7 @@ class MainMenuState extends MusicBeatState
 		menuItems = new FlxTypedGroup<FlxSprite>();
 		add(menuItems);
 
-		// var scale:Float = 1;
+		var scale:Float = 1;
 		/*if(optionShit.length > 6) {
 			scale = 6 / optionShit.length;
 		}*/
@@ -146,7 +146,7 @@ class MainMenuState extends MusicBeatState
                 menuItem.screenCenter(X);
             }
 			menuItems.add(menuItem);
-                        var scr:Float = (optionShit.length - 4) * 0.135;
+            var scr:Float = (optionShit.length - 4) * 0.135;
 			if(optionShit.length < 6) scr = 0;
 			menuItem.scrollFactor.set(0,scr);
 			menuItem.antialiasing = ClientPrefs.globalAntialiasing;
@@ -236,6 +236,26 @@ class MainMenuState extends MusicBeatState
 			//menuItem.setGraphicSize(Std.int(menuItem.width * 0.58));
 			menuItem.updateHitbox();
 
+			//donate
+			var menuItem:FlxSprite = new FlxSprite(MainJSON.donateP[0],MainJSON.donateP[1]);
+			menuItem.scale.x = MainJSON.donateS[0];
+			menuItem.scale.y = MainJSON.donateS[1];
+			menuItem.frames = Paths.getSparrowAtlas('mainmenu/menu_' + optionShit[5]);
+			menuItem.animation.addByPrefix('idle', optionShit[5] + " basic", 24);
+			menuItem.animation.addByPrefix('selected', optionShit[5] + " white", 24);
+			menuItem.animation.play('idle');
+			menuItem.ID = 5;
+                        // menuItem.screenCenter(X);
+            if(MainJSON.centerX == true) {
+                menuItem.screenCenter(X);
+            }
+			menuItems.add(menuItem);
+			var scr:Float = (optionShit.length - 4) * 0.135;
+			if(optionShit.length < 6) scr = 0;
+			menuItem.scrollFactor.set(0,scr);
+			menuItem.antialiasing = ClientPrefs.globalAntialiasing;
+			//menuItem.setGraphicSize(Std.int(menuItem.width * 0.58));
+			menuItem.updateHitbox();
 			//options
 			var menuItem:FlxSprite = new FlxSprite(MainJSON.optionsP[0],MainJSON.optionsP[1]);
 			menuItem.scale.x = MainJSON.optionsS[0];
@@ -244,7 +264,7 @@ class MainMenuState extends MusicBeatState
 			menuItem.animation.addByPrefix('idle', optionShit[5] + " basic", 24);
 			menuItem.animation.addByPrefix('selected', optionShit[5] + " white", 24);
 			menuItem.animation.play('idle');
-			menuItem.ID = 5;
+			menuItem.ID = 6;
                         // menuItem.screenCenter(X);
             if(MainJSON.centerX == true) {
                 menuItem.screenCenter(X);
@@ -287,7 +307,8 @@ class MainMenuState extends MusicBeatState
 
 		#if android
 		addVirtualPad(UP_DOWN, A_B_X_Y);
-		#end
+		//virtualPad.y = -44;
+	    #end
 
 		super.create();
 	}
@@ -305,6 +326,10 @@ class MainMenuState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
+		if (FlxG.sound.music.volume < 0.8)
+		{
+			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
+		}
 
 		var lerpVal:Float = CoolUtil.boundTo(elapsed * 7.5, 0, 1);
 		camFollowPos.setPosition(FlxMath.lerp(camFollowPos.x, camFollow.x, lerpVal), FlxMath.lerp(camFollowPos.y, camFollow.y, lerpVal));
@@ -347,13 +372,13 @@ class MainMenuState extends MusicBeatState
 					{
 						if (curSelected != spr.ID)
 						{
-							FlxTween.tween(spr, {alpha: 0}, 0.6, {
-							ease: FlxEase.linear,
-							onComplete: function(twn:FlxTween)
-							{
-								spr.kill();
-							}
-						});
+							FlxTween.tween(spr, {alpha: 0}, 0.4, {
+								ease: FlxEase.quadOut,
+								onComplete: function(twn:FlxTween)
+								{
+									spr.kill();
+								}
+							});
 						}
 						else
 						{
@@ -391,8 +416,8 @@ class MainMenuState extends MusicBeatState
 			}
 			else if (FlxG.keys.anyJustPressed(debugKeys) #if android || _virtualpad.buttonY.justPressed #end)
 			{
-			    selectedSomethin = true;
-			    MusicBeatState.switchState(new ExitGame());
+				selectedSomethin = true;
+				MusicBeatState.switchState(new ExitGame());
 			}
 			#end
 		}
