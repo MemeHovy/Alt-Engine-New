@@ -60,6 +60,14 @@ import DialogueBoxPsych;
 import sys.FileSystem;
 #end
 
+#if hscript
+import hscript.Expr;
+import hscript.Parser;
+import hscript.ParserEx;
+import hscript.Interp;
+import hscript.InterpEx;
+#end
+
 using StringTools;
 
 class PlayState extends MusicBeatState
@@ -4411,6 +4419,10 @@ class PlayState extends MusicBeatState
 			FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
 			FlxG.stage.removeEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
 		}
+		
+		#if hscript
+		FunkinLua.hscript = null;
+		#end
 		super.destroy();
 	}
 
