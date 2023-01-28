@@ -63,6 +63,7 @@ jobs:
           haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
           haxelib git polymod https://github.com/larsiusprime/polymod
           haxelib git extension-hscriptTools https://github.com/Fearester/HscriptTools-extension
+          haxelib git extension-videoview https://github.com/MAJigsaw77/extension-videoview.git
           haxelib list
       - name: Setup Lime
         run: |
