@@ -30,6 +30,7 @@ import openfl.filters.BitmapFilter;
 import openfl.utils.Assets;
 import flixel.math.FlxMath;
 import flixel.util.FlxSave;
+import flixel.ui.FlxBar;
 import flixel.addons.transition.FlxTransitionableState;
 #if sys
 import sys.FileSystem;
