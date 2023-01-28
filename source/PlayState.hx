@@ -63,9 +63,7 @@ import sys.FileSystem;
 #if hscript
 import hscript.Expr;
 import hscript.Parser;
-import hscript.ParserEx;
 import hscript.Interp;
-import hscript.InterpEx;
 #end
 
 using StringTools;
