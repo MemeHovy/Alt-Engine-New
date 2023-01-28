@@ -99,7 +99,7 @@ class MainMenuState extends MusicBeatState
 
 		var yScroll:Float = Math.max(0.25 - (0.05 * (optionShit.length - 4)), 0.1);
 		var bg:FlxSprite = new FlxSprite(-80).loadGraphic(Paths.image(MainJSON.menuBG));
-		bg.scrollFactor.set(0, yScroll);
+		bg.scrollFactor.set(0, 0.10);
 		bg.setGraphicSize(Std.int(bg.width * 1.175));
 		bg.updateHitbox();
 		bg.screenCenter();
@@ -112,7 +112,7 @@ class MainMenuState extends MusicBeatState
 		add(camFollowPos);
 
 		magenta = new FlxSprite(-80).loadGraphic(Paths.image(MainJSON.menuBG));
-		magenta.scrollFactor.set(0, yScroll);
+		magenta.scrollFactor.set(0, 0.10);
 		magenta.setGraphicSize(Std.int(magenta.width * 1.175));
 		magenta.updateHitbox();
 		magenta.screenCenter();
@@ -167,7 +167,7 @@ class MainMenuState extends MusicBeatState
                 menuItem.screenCenter(X);
             }
 			menuItems.add(menuItem);
-                        var scr:Float = (optionShit.length - 4) * 0.135;
+            var scr:Float = (optionShit.length - 4) * 0.135;
 			if(optionShit.length < 6) scr = 0;
 			menuItem.scrollFactor.set(0,scr);
 			menuItem.antialiasing = ClientPrefs.globalAntialiasing;
@@ -196,9 +196,9 @@ class MainMenuState extends MusicBeatState
 			menuItem.updateHitbox();
 
 			//awards
-			var menuItem:FlxSprite = new FlxSprite(MainJSON.awardsP[0],MainJSON.awardsP[1]);
-			menuItem.scale.x = MainJSON.awardsS[0];
-			menuItem.scale.y = MainJSON.awardsS[1];
+			var menuItem:FlxSprite = new FlxSprite(MainJSON.creditsP[0],MainJSON.creditsP[1]);
+			menuItem.scale.x = MainJSON.creditsS[0];
+			menuItem.scale.y = MainJSON.creditsS[1];
 			menuItem.frames = Paths.getSparrowAtlas('mainmenu/menu_' + optionShit[3]);
 			menuItem.animation.addByPrefix('idle', optionShit[3] + " basic", 24);
 			menuItem.animation.addByPrefix('selected', optionShit[3] + " white", 24);
@@ -215,10 +215,10 @@ class MainMenuState extends MusicBeatState
 			//menuItem.setGraphicSize(Std.int(menuItem.width * 0.58));
 			menuItem.updateHitbox();
 
-			//credits
-			var menuItem:FlxSprite = new FlxSprite(MainJSON.creditsP[0],MainJSON.creditsP[1]);
-			menuItem.scale.x = MainJSON.creditsS[0];
-			menuItem.scale.y = MainJSON.creditsS[1];
+			//donate
+			var menuItem:FlxSprite = new FlxSprite(MainJSON.donateP[0],MainJSON.donateP[1]);
+			menuItem.scale.x = MainJSON.donateS[0];
+			menuItem.scale.y = MainJSON.donateS[1];
 			menuItem.frames = Paths.getSparrowAtlas('mainmenu/menu_' + optionShit[4]);
 			menuItem.animation.addByPrefix('idle', optionShit[4] + " basic", 24);
 			menuItem.animation.addByPrefix('selected', optionShit[4] + " white", 24);
@@ -237,34 +237,15 @@ class MainMenuState extends MusicBeatState
 			menuItem.updateHitbox();
 
 			//donate
-			var menuItem:FlxSprite = new FlxSprite(MainJSON.donateP[0],MainJSON.donateP[1]);
-			menuItem.scale.x = MainJSON.donateS[0];
-			menuItem.scale.y = MainJSON.donateS[1];
+			var menuItem:FlxSprite = new FlxSprite(MainJSON.optionsP[0],MainJSON.optionsP[1]);
+			menuItem.scale.x = MainJSON.optionsS[0];
+			menuItem.scale.y = MainJSON.optionsS[1];
+			
 			menuItem.frames = Paths.getSparrowAtlas('mainmenu/menu_' + optionShit[5]);
 			menuItem.animation.addByPrefix('idle', optionShit[5] + " basic", 24);
 			menuItem.animation.addByPrefix('selected', optionShit[5] + " white", 24);
 			menuItem.animation.play('idle');
 			menuItem.ID = 5;
-                        // menuItem.screenCenter(X);
-            if(MainJSON.centerX == true) {
-                menuItem.screenCenter(X);
-            }
-			menuItems.add(menuItem);
-			var scr:Float = (optionShit.length - 4) * 0.135;
-			if(optionShit.length < 6) scr = 0;
-			menuItem.scrollFactor.set(0,scr);
-			menuItem.antialiasing = ClientPrefs.globalAntialiasing;
-			//menuItem.setGraphicSize(Std.int(menuItem.width * 0.58));
-			menuItem.updateHitbox();
-			//options
-			var menuItem:FlxSprite = new FlxSprite(MainJSON.optionsP[0],MainJSON.optionsP[1]);
-			menuItem.scale.x = MainJSON.optionsS[0];
-			menuItem.scale.y = MainJSON.optionsS[1];
-			menuItem.frames = Paths.getSparrowAtlas('mainmenu/menu_' + optionShit[6]);
-			menuItem.animation.addByPrefix('idle', optionShit[6] + " basic", 24);
-			menuItem.animation.addByPrefix('selected', optionShit[6] + " white", 24);
-			menuItem.animation.play('idle');
-			menuItem.ID = 6;
                         // menuItem.screenCenter(X);
             if(MainJSON.centerX == true) {
                 menuItem.screenCenter(X);
