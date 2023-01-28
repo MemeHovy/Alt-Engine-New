@@ -1288,7 +1288,7 @@ class PlayState extends MusicBeatState
 			if(vocals != null) vocals.pitch = value;
 			FlxG.sound.music.pitch = value;
 		}
-		ackRate = value;
+		playbackRate = value;
 		FlxAnimationController.globalSpeed = value;
 		trace('Anim speed: ' + FlxAnimationController.globalSpeed);
 		Conductor.safeZoneOffset = (ClientPrefs.safeFrames / 60) * 1000 * value;
