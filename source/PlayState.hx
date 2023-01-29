@@ -2308,7 +2308,6 @@ class PlayState extends MusicBeatState
 		}*/
 
 		callOnLuas('onUpdate', [elapsed]);
-		songScore = FlxMath.lerp(lastsongScore, songScore, CoolUtil.boundTo(elapsed * 7, 0, 1));
 
 		switch (curStage)
 		{
