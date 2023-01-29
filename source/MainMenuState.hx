@@ -32,14 +32,12 @@ typedef MenuData =
     storyP:Array<Int>,
     freeplayP:Array<Int>,
     modsP:Array<Int>,
-    awardsP:Array<Int>,
     creditsP:Array<Int>,
     donateP:Array<Int>,
     optionsP:Array<Int>,
     storyS:Array<Float>,
     freeplayS:Array<Float>,
     modsS:Array<Float>,
-    awardsS:Array<Float>,
     creditsS:Array<Float>,
     donateS:Array<Float>,
     optionsS:Array<Float>,
@@ -236,7 +234,7 @@ class MainMenuState extends MusicBeatState
 			//menuItem.setGraphicSize(Std.int(menuItem.width * 0.58));
 			menuItem.updateHitbox();
 
-			//donate
+			//options
 			var menuItem:FlxSprite = new FlxSprite(MainJSON.optionsP[0],MainJSON.optionsP[1]);
 			menuItem.scale.x = MainJSON.optionsS[0];
 			menuItem.scale.y = MainJSON.optionsS[1];
