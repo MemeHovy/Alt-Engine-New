@@ -21,7 +21,7 @@ using StringTools;
 class MasterEditorMenu extends MusicBeatState
 {
 	var options:Array<String> = [
-                'mods menu',
+                //'Replay Menu',
 		'Week Editor',
 		'Menu Character Editor',
 		'Dialogue Editor',
@@ -131,8 +131,6 @@ class MasterEditorMenu extends MusicBeatState
 					LoadingState.loadAndSwitchState(new DialogueEditorState(), false);
 				case 'Chart Editor'://felt it would be cool maybe
 					LoadingState.loadAndSwitchState(new ChartingState(), false);
-                                case 'mods menu':
-					MusicBeatState.switchState(new ModsMenuState()); //idk why but ye just add it
 			}
 			FlxG.sound.music.volume = 0;
 			#if PRELOAD_ALL
