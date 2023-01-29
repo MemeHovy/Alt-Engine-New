@@ -55,6 +55,7 @@ import flixel.util.FlxSave;
 import StageData;
 import FunkinLua;
 import DialogueBoxPsych;
+import ReplayState.ReplayPauseSubstate;
 #if MODS_ALLOWED
 import sys.FileSystem;
 #end
@@ -274,6 +275,8 @@ class PlayState extends MusicBeatState
 	var detailsPausedText:String = "";
 	#end
 
+    var inReplay:Bool;
+
 	//Achievement shit
 	var keysPressed:Array<Bool> = [];
 	var boyfriendIdleTime:Float = 0.0;
@@ -306,7 +309,15 @@ class PlayState extends MusicBeatState
 
 		// for lua
 		instance = this;
-
+		
+        if (!inReplay)
+		{
+			ReplayState.hits = [];
+			ReplayState.miss = [];
+			ReplayState.judgements = [];
+			ReplayState.sustainHits = [];
+		}
+		
 		debugKeysChart = ClientPrefs.copyKey(ClientPrefs.keyBinds.get('debug_1'));
 		debugKeysCharacter = ClientPrefs.copyKey(ClientPrefs.keyBinds.get('debug_2'));
 		PauseSubState.songName = null; //Reset to default
@@ -2454,20 +2465,14 @@ class PlayState extends MusicBeatState
 				persistentDraw = true;
 				paused = true;
 
-				// 1 / 1000 chance for Gitaroo Man easter egg
-				/*if (FlxG.random.bool(0.1))
-				{
-					// gitaroo man easter egg
-					cancelMusicFadeTween();
-					MusicBeatState.switchState(new GitarooPause());
-				}
-				else {*/
 				if(FlxG.sound.music != null) {
 					FlxG.sound.music.pause();
 					vocals.pause();
 				}
+		    if (inReplay)
+				openSubState(new ReplayPauseSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
+		    else
 				openSubState(new PauseSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
-				//}
 		
 				#if desktop
 				DiscordClient.changePresence(detailsPausedText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
@@ -3341,19 +3346,42 @@ class PlayState extends MusicBeatState
 			}
 			playbackRate = 1;
 			
-			if (chartingMode)
+			if (inReplay)
+			{
+				MusicBeatState.switchState(new FreeplayState());
+				return;
+			}
+			else if (chartingMode)
 			{
 				openChartEditor();
 				return;
 			}
 
-			if (isStoryMode)
+			else if (isStoryMode)
 			{
 				campaignScore += songScore;
 				campaignMisses += songMisses;
 
 				storyPlaylist.remove(storyPlaylist[0]);
+				
+                #if sys
+				if (!inReplay)
+				{
+					var files:Array<String> = Paths.replay('replays/');
+					var length:Null<Int> = null;
+					var song:String = Paths.formatToSongPath().toLowerCase();
 
+					if (files == null)
+						length = 0;
+
+					else
+						length = files.length;
+
+					if (ClientPrefs.saveReplay)
+						File.saveContent(Paths.replay('$song ${length}.json'), ReplayState.stringify());
+				}
+				#end
+				
 				if (storyPlaylist.length <= 0)
 				{
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
@@ -3466,6 +3494,12 @@ class PlayState extends MusicBeatState
 
 		var rating:FlxSprite = new FlxSprite();
 		var score:Int = 350;
+		
+		if (!inReplay)
+		{
+			ReplayState.hits.push(note.strumTime);
+			ReplayState.judgements.push(noteDiff);
+		}
 
 		//tryna do MS based judgment due to popular demand
 		var daRating:String = Conductor.judgeNote(note, noteDiff);
@@ -3908,6 +3942,10 @@ class PlayState extends MusicBeatState
 	{
 		if (!boyfriend.stunned)
 		{
+		    if (!inReplay)
+			{
+				ReplayState.miss.push([Std.int(Conductor.songPosition), direction]);
+			}
 			health -= 0.05 * healthLoss;
 			if(instakillOnMiss)
 			{
@@ -4118,6 +4156,10 @@ class PlayState extends MusicBeatState
 				noteHit += 1;
 				popUpScore(note);
 				if(combo > 9999) combo = 9999;
+			}
+			else if (!inReplay && note.isSustainNote)
+			{
+				ReplayState.sustainHits.push(Std.int(note.strumTime));
 			}
 			if(!note.isSustainNote && ClientPrefs.oldInput){
 			health += note.hitHealth * healthGain;

@@ -38,14 +38,13 @@ class Paths
 		'songs',
 		'music',
 		'sounds',
-		'shaders',
 		'videos',
 		'images',
 		'stages',
 		'weeks',
 		'fonts',
 		'scripts',
-		'achievements'
+		'replays'
 	];
 	#end
 
@@ -174,6 +173,11 @@ class Paths
 	inline static public function json(key:String, ?library:String)
 	{
 		return getPath('data/$key.json', TEXT, library);
+	}
+	
+	inline static public function replay(key:String, ?library:String)
+	{
+		return getPath('replays/$key.json', TEXT, library);
 	}
 
 	inline static public function shaderFragment(key:String, ?library:String)
