@@ -52,7 +52,6 @@ import flixel.input.keyboard.FlxKey;
 import Note.EventNote;
 import openfl.events.KeyboardEvent;
 import flixel.util.FlxSave;
-import Achievements;
 import StageData;
 import FunkinLua;
 import DialogueBoxPsych;
