@@ -559,10 +559,9 @@ class TitleState extends MusicBeatState
 				case 4:
 					#if PSYCH_WATERMARKS
 					addMoreText('Fearester', 15);
-					addMoreText('StefanBETA2008', 15);
+					addMoreText('Stefan2008', 15);
 					addMoreText('Rom4chek', 15);
-                                        addMoreText('Thanks to ShadowMario and',15);
-                                        addMoreText('M.A.Jigsaw for the engine',15);
+                                        addMoreText('present', 10);
 					#else
 					addMoreText('present');
 					#end
