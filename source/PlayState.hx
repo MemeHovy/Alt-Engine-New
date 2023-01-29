@@ -236,8 +236,8 @@ class PlayState extends MusicBeatState
 	var bgGhouls:BGSprite;
 
     
-    public var lerpScore:Int = 0;
-	public var lastLerpScore:Int = 0;
+    public var songScore:Int = 0;
+	public var lastsongScore:Int = 0;
 	public var songHits:Int = 0;
 	public var songMisses:Int = 0;
 	public var scoreTxt:FlxText;
@@ -1792,7 +1792,7 @@ class PlayState extends MusicBeatState
 			    + 'Judgement percent text by Fearester';
 		}
 		
-		scoreTxt.text = 'Score: ' + lerpScore
+		scoreTxt.text = 'Score: ' + songScore
 		+ ' | Misses: ' + songMisses
 		+ ' | Rating: ' + ratingName
 		+ (ratingName != '[0%]' ? ' (${Highscore.floorDecimal(ratingPercent * 100, 2)}%) - $ratingFC' : '');
@@ -2437,9 +2437,9 @@ class PlayState extends MusicBeatState
 		super.update(elapsed);
 
 		if(ratingName == '?') {
-			scoreTxt.text = 'Score: ' + lerpScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName;
+			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName;
 		} else {
-			scoreTxt.text = 'Score: ' + lerpScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName + ' (' + Highscore.floorDecimal(ratingPercent * 100, 2) + '%)' + ' - ' + ratingFC;//peeps wanted no integer rating
+			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName + ' (' + Highscore.floorDecimal(ratingPercent * 100, 2) + '%)' + ' - ' + ratingFC;//peeps wanted no integer rating
 		}
 
 		if(botplayTxt.visible) {
@@ -3351,7 +3351,7 @@ class PlayState extends MusicBeatState
 				#if !switch
 				var percent:Float = ratingPercent;
 				if(Math.isNaN(percent)) percent = 0;
-				Highscore.saveScore(SONG.song, lerpScore, storyDifficulty, percent);
+				Highscore.saveScore(SONG.song, songScore, storyDifficulty, percent);
 				#end
 			}
 			playbackRate = 1;
@@ -3364,7 +3364,7 @@ class PlayState extends MusicBeatState
 
 			if (isStoryMode)
 			{
-				campaignScore += lerpScore;
+				campaignScore += songScore;
 				campaignMisses += songMisses;
 
 				storyPlaylist.remove(storyPlaylist[0]);
@@ -3515,8 +3515,8 @@ class PlayState extends MusicBeatState
 		}
 
 		if(!practiceMode && !cpuControlled) {
-		lerpScore += score;
-		lerpScore = FlxMath.lerp(lastLerpScore, lerpScore, CoolUtil.boundTo(elapsed * 7, 0, 1));
+		songScore += score;
+		songScore = FlxMath.lerp(lastsongScore, songScore, CoolUtil.boundTo(elapsed * 7, 0, 1));
 			if(!note.ratingDisabled)
 			{
 				songHits++;
@@ -3910,7 +3910,7 @@ class PlayState extends MusicBeatState
 		//trace(daNote.missHealth);
 		songMisses++;
 		vocals.volume = 0;
-		if(!practiceMode) lerpScore -= 10;
+		if(!practiceMode) songScore -= 10;
 		
 		totalPlayed++;
 		RecalculateRating();
@@ -3951,7 +3951,7 @@ class PlayState extends MusicBeatState
 			}
 			combo = 0;
 
-			if(!practiceMode) lerpScore -= 10;
+			if(!practiceMode) songScore -= 10;
 			if(!endingSong) {
 				songMisses++;
 			}
@@ -4666,7 +4666,7 @@ class PlayState extends MusicBeatState
 	public var ratingPercent:Float;
 	public var ratingFC:String;
 	public function RecalculateRating() {
-		setOnLuas('score', lerpScore);
+		setOnLuas('score', songScore);
 		setOnLuas('misses', songMisses);
 		setOnLuas('hits', songHits);
 
