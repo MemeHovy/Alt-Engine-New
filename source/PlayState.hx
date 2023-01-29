@@ -3835,14 +3835,12 @@ class PlayState extends MusicBeatState
 				}
 			});
 
-			if (controlHoldArray.contains(true) && !endingSong) {
-
-			if (boyfriend.holdTimer > Conductor.stepCrochet * 0.001 * boyfriend.singDuration && boyfriend.animation.curAnim.name.startsWith('sing') && !boyfriend.animation.curAnim.name.endsWith('miss'))
+        if (boyfriend.holdTimer > Conductor.stepCrochet * 0.001 * boyfriend.singDuration && boyfriend.animation.curAnim.name.startsWith('sing') && !boyfriend.animation.curAnim.name.endsWith('miss'))
 			{
 				boyfriend.dance();
 				//boyfriend.animation.curAnim.finish();
 			}
-		        }
+		}
 
 		// TO DO: Find a better way to handle controller inputs, this should work for now
 		if(ClientPrefs.controllerMode)
@@ -4352,12 +4350,6 @@ class PlayState extends MusicBeatState
 				limoCorpse.visible = false;
 				limoCorpseTwo.visible = false;
 				limoKillingState = 1;
-
-				
-		    	FlxG.save.flush();
-				
-				FlxG.log.add('Deaths: ' + Achievements.henchmenDeath);
-			    
 			}
 		}
 	}
