@@ -72,7 +72,7 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
                 
         option.scrollSpeed = 0;
 		option.minValue = 30;
-		option.maxValue = 1080;
+		option.maxValue = 360;
 		option.displayFormat = '%v FPS';
                 option.changeValue = 30;
 		option.onChange = onChangeFramerate;
@@ -83,7 +83,7 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 			'screenRes',
 			'string',
 			'1280x720',
-			['640x360', '852x480', '960x540', '1280x720', '1960x1080', '3840x2160', '7680x4320']);
+			['640x360', '852x480', '960x540', '1280x720', '1980x1080', '3840x2160', '7680x4320']);
 		addOption(option);
 		option.onChange = onChangeScreenRes;
 
