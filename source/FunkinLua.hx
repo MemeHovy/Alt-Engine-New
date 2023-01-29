@@ -31,7 +31,10 @@ import openfl.utils.Assets;
 import flixel.math.FlxMath;
 import flixel.util.FlxSave;
 import flixel.ui.FlxBar;
+import haxe.json;
+import flash.system.System;
 import flixel.addons.transition.FlxTransitionableState;
+import lime.app.Application;
 #if sys
 import sys.FileSystem;
 import sys.io.File;
@@ -2278,7 +2281,10 @@ class HScript
 		interp.variables.set('CustomSubstate', CustomSubstate);
 		interp.variables.set('StringTools', StringTools);
 		interp.variables.set('SUtil', SUtil);
+		interp.variables.set('System',System);
 		interp.variables.set('FlxBar',FlxBar);
+		interp.variables.set('JSON',haxe.json);
+		interp.variables.set('Application',Application);
 	}
 
 	public function execute(codeToRun:String):Dynamic
