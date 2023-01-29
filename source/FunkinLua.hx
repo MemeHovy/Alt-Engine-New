@@ -31,7 +31,7 @@ import openfl.utils.Assets;
 import flixel.math.FlxMath;
 import flixel.util.FlxSave;
 import flixel.ui.FlxBar;
-import haxe.json;
+import haxe.Json;
 import flash.system.System;
 import flixel.addons.transition.FlxTransitionableState;
 import lime.app.Application;
@@ -590,7 +590,36 @@ class FunkinLua {
 				luaTrace('Couldnt find object: ' + vars);
 			}
 		});
-
+		Lua_helper.add_callback(lua, "doTweenLength", function(tag:String, vars:String, value:Dynamic, duration:Float, ease:String) {
+			var penisExam:Dynamic = tweenShit(tag, vars);
+			if(penisExam != null) {
+				PlayState.instance.modchartTweens.set(tag, FlxTween.tween(FlxG.sound.music, {length: value}, duration, {ease: getFlxEaseByString(ease),
+					onComplete: function(twn:FlxTween) {
+						PlayState.instance.callOnLuas('onTweenCompleted', [tag]);
+						PlayState.instance.modchartTweens.remove(tag);
+					}
+				}));
+			} else {
+				luaTrace('Couldnt find object: ' + vars);
+			}
+		});
+		Lua_helper.add_callback(lua, "doTweenSong", function(tag:String, vars:String, value:Dynamic, duration:Float, ease:String) {
+			var penisExam:Dynamic = tweenShit(tag, vars);
+			if(penisExam != null) {
+                FlxG.sound.music.pause();
+                PlayState.instance.vocals.pause();
+				PlayState.instance.modchartTweens.set(tag, FlxTween.tween(FlxG.sound.music, {time: value}, duration, {ease: getFlxEaseByString(ease),
+					onComplete: function(twn:FlxTween) {
+					    FlxG.sound.music.play();
+					    PlayState.instance.vocals.play();
+						PlayState.instance.callOnLuas('onTweenCompleted', [tag]);
+						PlayState.instance.modchartTweens.remove(tag);
+					}
+				}));
+			} else {
+				luaTrace('Couldnt find object: ' + vars);
+			}
+		});
 		//Tween shit, but for strums
 		Lua_helper.add_callback(lua, "noteTweenX", function(tag:String, note:Int, value:Dynamic, duration:Float, ease:String) {
 			cancelTween(tag);
@@ -1997,42 +2026,42 @@ class FunkinLua {
 	//Better optimized than using some getProperty shit or idk
 	function getFlxEaseByString(?ease:String = '') {
 		switch(ease.toLowerCase().trim()) {
-			case 'backin': return FlxEase.backIn;
-			case 'backinout': return FlxEase.backInOut;
-			case 'backout': return FlxEase.backOut;
-			case 'bouncein': return FlxEase.bounceIn;
-			case 'bounceinout': return FlxEase.bounceInOut;
-			case 'bounceout': return FlxEase.bounceOut;
-			case 'circin': return FlxEase.circIn;
-			case 'circinout': return FlxEase.circInOut;
-			case 'circout': return FlxEase.circOut;
-			case 'cubein': return FlxEase.cubeIn;
-			case 'cubeinout': return FlxEase.cubeInOut;
-			case 'cubeout': return FlxEase.cubeOut;
-			case 'elasticin': return FlxEase.elasticIn;
-			case 'elasticinout': return FlxEase.elasticInOut;
-			case 'elasticout': return FlxEase.elasticOut;
-			case 'expoin': return FlxEase.expoIn;
-			case 'expoinout': return FlxEase.expoInOut;
-			case 'expoout': return FlxEase.expoOut;
-			case 'quadin': return FlxEase.quadIn;
-			case 'quadinout': return FlxEase.quadInOut;
-			case 'quadout': return FlxEase.quadOut;
-			case 'quartin': return FlxEase.quartIn;
-			case 'quartinout': return FlxEase.quartInOut;
-			case 'quartout': return FlxEase.quartOut;
-			case 'quintin': return FlxEase.quintIn;
-			case 'quintinout': return FlxEase.quintInOut;
-			case 'quintout': return FlxEase.quintOut;
-			case 'sinein': return FlxEase.sineIn;
-			case 'sineinout': return FlxEase.sineInOut;
-			case 'sineout': return FlxEase.sineOut;
-			case 'smoothstepin': return FlxEase.smoothStepIn;
-			case 'smoothstepinout': return FlxEase.smoothStepInOut;
-			case 'smoothstepout': return FlxEase.smoothStepInOut;
-			case 'smootherstepin': return FlxEase.smootherStepIn;
-			case 'smootherstepinout': return FlxEase.smootherStepInOut;
-			case 'smootherstepout': return FlxEase.smootherStepOut;
+			case 'backIn': return FlxEase.backIn;
+			case 'backInOut': return FlxEase.backInOut;
+			case 'backOut': return FlxEase.backOut;
+			case 'bounceIn': return FlxEase.bounceIn;
+			case 'bounceInOut': return FlxEase.bounceInOut;
+			case 'bounceOut': return FlxEase.bounceOut;
+			case 'circIn': return FlxEase.circIn;
+			case 'circInOut': return FlxEase.circInOut;
+			case 'circOut': return FlxEase.circOut;
+			case 'cubeIn': return FlxEase.cubeIn;
+			case 'cubeInOut': return FlxEase.cubeInOut;
+			case 'cubeOut': return FlxEase.cubeOut;
+			case 'elasticIn': return FlxEase.elasticIn;
+			case 'elasticInOut': return FlxEase.elasticInOut;
+			case 'elasticOut': return FlxEase.elasticOut;
+			case 'expoIn': return FlxEase.expoIn;
+			case 'expoInOut': return FlxEase.expoInOut;
+			case 'expoOut': return FlxEase.expoOut;
+			case 'quadIn': return FlxEase.quadIn;
+			case 'quadInOut': return FlxEase.quadInOut;
+			case 'quadOut': return FlxEase.quadOut;
+			case 'quartIn': return FlxEase.quartIn;
+			case 'quartInOut': return FlxEase.quartInOut;
+			case 'quartOut': return FlxEase.quartOut;
+			case 'quintIn': return FlxEase.quintIn;
+			case 'quintInOut': return FlxEase.quintInOut;
+			case 'quintOut': return FlxEase.quintOut;
+			case 'sineIn': return FlxEase.sineIn;
+			case 'sineInOut': return FlxEase.sineInOut;
+			case 'sineOut': return FlxEase.sineOut;
+			case 'smoothstepIn': return FlxEase.smoothStepIn;
+			case 'smoothstepInOut': return FlxEase.smoothStepInOut;
+			case 'smoothstepOut': return FlxEase.smoothStepInOut;
+			case 'smootherstepIn': return FlxEase.smootherStepIn;
+			case 'smootherstepInOut': return FlxEase.smootherStepInOut;
+			case 'smootherstepOut': return FlxEase.smootherStepOut;
 		}
 		return FlxEase.linear;
 	}
@@ -2283,7 +2312,7 @@ class HScript
 		interp.variables.set('SUtil', SUtil);
 		interp.variables.set('System',System);
 		interp.variables.set('FlxBar',FlxBar);
-		interp.variables.set('JSON',haxe.json);
+		interp.variables.set('JSON',haxe.Json);
 		interp.variables.set('Application',Application);
 	}
 
