@@ -1890,7 +1890,18 @@ class FunkinLua {
 			FlxG.sound.music.fadeOut(duration, toValue);
 			luaTrace('musicFadeOut is deprecated! Use soundFadeOut instead.', false, true);
 		});
-
+		
+		#if android
+		Lua_helper.add_callback(lua, "addVirtualPad", function(arrowButton:Dynamic, letterButton:Dynamic) {
+            addVirtualPad(arrowButton, letterButton);
+			luaTrace('Virtual pad is added.', false, true);
+        #end
+        #if android
+		Lua_helper.add_callback(lua, "removeVirtualPad", function(arrowButton:Dynamic, letterButton:Dynamic) {
+            removeVirtualPad(arrowButton, letterButton);
+			luaTrace('Virtual pad is deleted.', false, true);
+        #end
+        
 		call('onCreate', []);
 		#end
 	}
