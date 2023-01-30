@@ -2026,8 +2026,8 @@ class FunkinLua {
 	//Better optimized than using some getProperty shit or idk
 	function getFlxEaseByString(?ease:String = '') {
 		switch(ease.toLowerCase().trim()) {
-			case 'backIn': return FlxEase.backIn;
-			case 'backInOut': return FlxEase.backInOut;
+			case 'backin': return FlxEase.backIn;
+			case 'backinout': return FlxEase.backInOut;
 			case 'backOut': return FlxEase.backOut;
 			case 'bounceIn': return FlxEase.bounceIn;
 			case 'bounceInOut': return FlxEase.bounceInOut;
