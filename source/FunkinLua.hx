@@ -1895,16 +1895,17 @@ class FunkinLua {
 		Lua_helper.add_callback(lua, "addVirtualPad", function(arrowButton:String, letterButton:String) {
             addVirtualPad(arrowButton, letterButton);
 			luaTrace('Virtual pad is added.', false, true);
-
+		});
 		Lua_helper.add_callback(lua, "removeVirtualPad", function(arButton:String, letButton:String) {
             removeVirtualPad(arButton, letButton);
 			luaTrace('Virtual pad is deleted.', false, true);
+		});
         #end
         
 		call('onCreate', []);
 		#end
 	}
-	public function isOfTypes(value:Any, types:Array<Dynamic>)
+	public function isOfTypes(value:Any , types:Array<Dynamic>)
 	{
 		for (type in types)
 		{
