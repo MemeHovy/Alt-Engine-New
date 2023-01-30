@@ -591,7 +591,7 @@ class FunkinLua {
 			}
 		});
 		Lua_helper.add_callback(lua, "doTweenLength", function(tag:String, vars:String, value:Dynamic, duration:Float, ease:String) {
-			var penisExam:Dynamic = tweenShit(tag, vars);
+			var penisExam:Dynamic = tweenWorld(tag);
 			if(penisExam != null) {
 				PlayState.instance.modchartTweens.set(tag, FlxTween.tween(FlxG.sound.music, {length: value}, duration, {ease: getFlxEaseByString(ease),
 					onComplete: function(twn:FlxTween) {
@@ -600,11 +600,11 @@ class FunkinLua {
 					}
 				}));
 			} else {
-				luaTrace('Couldnt find object: ' + vars);
+				luaTrace('Couldnt find object');
 			}
 		});
 		Lua_helper.add_callback(lua, "doTweenSong", function(tag:String, vars:String, value:Dynamic, duration:Float, ease:String) {
-			var penisExam:Dynamic = tweenShit(tag, vars);
+			var penisExam:Dynamic = tweenWorld(tag);
 			if(penisExam != null) {
                 FlxG.sound.music.pause();
                 PlayState.instance.vocals.pause();
@@ -617,7 +617,7 @@ class FunkinLua {
 					}
 				}));
 			} else {
-				luaTrace('Couldnt find object: ' + vars);
+				luaTrace('Couldnt find object');
 			}
 		});
 		//Tween shit, but for strums
@@ -2012,6 +2012,21 @@ class FunkinLua {
 			sexyProp = Reflect.getProperty(sexyProp, variables[i]);
 		}
 		return sexyProp;
+	}
+	function tweenWorld(tag:String) {
+		cancelTween(tag);
+		var seProp:Dynamic = Reflect.getProperty(getInstance(), variables[0]);
+		if(PlayState.instance.modchartSprites.exists(variables[0])) {
+			seProp = PlayState.instance.modchartSprites.get(variables[0]);
+		}
+		if(PlayState.instance.modchartTexts.exists(variables[0])) {
+			seProp = PlayState.instance.modchartTexts.get(variables[0]);
+		}
+
+		for (i in 1...variables.length) {
+			seProp = Reflect.getProperty(sexyProp, variables[i]);
+		}
+		return seProp;
 	}
 
 	function cancelTimer(tag:String) {
