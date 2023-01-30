@@ -55,8 +55,6 @@ import hscript.Expr;
 
 #if android
 import android.Tools;
-import flixel.input.actions.FlxActionInput;
-import android.FlxVirtualPad;
 #end
 
 using StringTools;
@@ -77,29 +75,6 @@ class FunkinLua {
 	#end
 	
 	public var accessedProps:Map<String, Dynamic> = null;
-    
-    #if android
-	var _virtualpad:FlxVirtualPad;
-	var trackedinputsUI:Array<FlxActionInput> = [];
-	#end
-    
-    #if android
-	public function addVirtualPad(DPad:FlxDPadMode, Action:FlxActionMode) {
-		_virtualpad = new FlxVirtualPad(DPad, Action);
-		add(_virtualpad);
-		controls.setVirtualPadUI(_virtualpad, DPad, Action);
-		trackedinputsUI = controls.trackedinputsUI;
-		controls.trackedinputsUI = [];
-	}
-	#end
-
-	#if android
-	public function removeVirtualPad() {
-		controls.removeFlxInput(trackedinputsUI);
-		remove(_virtualpad);
-	}
-	#end
-	
 	public function new(script:String) {
 		#if LUA_ALLOWED
 		lua = LuaL.newstate();
@@ -1915,22 +1890,11 @@ class FunkinLua {
 			FlxG.sound.music.fadeOut(duration, toValue);
 			luaTrace('musicFadeOut is deprecated! Use soundFadeOut instead.', false, true);
 		});
-		
-		#if android
-		Lua_helper.add_callback(lua, "addVirtualPad", function(dPad:FlxDPadMode, Action:FlxActionMode) {
-            addVirtualPad(dPad, Action);
-			luaTrace('Virtual pad is added.', false, true);
-		});
-		Lua_helper.add_callback(lua, "removeVirtualPad", function(dPad:FlxDPadMode, Action:FlxActionMode) {
-            removeVirtualPad(dPad, Action);
-			luaTrace('Virtual pad is deleted.', false, true);
-		});
-        #end
-        
+
 		call('onCreate', []);
 		#end
 	}
-	public function isOfTypes(value:Any , types:Array<Dynamic>)
+	public function isOfTypes(value:Any, types:Array<Dynamic>)
 	{
 		for (type in types)
 		{
