@@ -55,6 +55,8 @@ import hscript.Expr;
 
 #if android
 import android.Tools;
+import flixel.input.actions.FlxActionInput;
+import android.FlxVirtualPad;
 #end
 
 using StringTools;
@@ -1892,12 +1894,12 @@ class FunkinLua {
 		});
 		
 		#if android
-		Lua_helper.add_callback(lua, "addVirtualPad", function(arrowButton:String, letterButton:String) {
-            addVirtualPad(arrowButton, letterButton);
+		Lua_helper.add_callback(lua, "addVirtualPad", function(dPad:FlxDPadMode, Action:FlxActionMode) {
+            MusicBeatSubstate.addVirtualPad(dPad, Action);
 			luaTrace('Virtual pad is added.', false, true);
 		});
-		Lua_helper.add_callback(lua, "removeVirtualPad", function(arButton:String, letButton:String) {
-            removeVirtualPad(arButton, letButton);
+		Lua_helper.add_callback(lua, "removeVirtualPad", function(dPad:FlxDPadMode, Action:FlxActionMode) {
+            MusicBeatSubstate.removeVirtualPad(arButton, letButton);
 			luaTrace('Virtual pad is deleted.', false, true);
 		});
         #end
