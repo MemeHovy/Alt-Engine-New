@@ -19,6 +19,7 @@ import flixel.util.FlxColor;
 import lime.app.Application;
 import editors.MasterEditorMenu;
 import flixel.input.keyboard.FlxKey;
+import flixel.addons.display.FlxBackdrop;
 import haxe.Json;
 #if MODS_ALLOWED
 import sys.FileSystem;
@@ -40,6 +41,8 @@ typedef MenuData =
     creditsS:Array<Float>,
     donateS:Array<Float>,
     optionsS:Array<Float>,
+    speedWind:Array<Float>,
+    visibleBG:Bool,
     centerX:Bool,
     menuBG:String
 }
@@ -253,6 +256,15 @@ class MainMenuState extends MusicBeatState
 			//menuItem.setGraphicSize(Std.int(menuItem.width * 0.58));
 			menuItem.updateHitbox();
 
+        var bgScroll = new FlxBackdrop(Paths.image('wind'), MainJSON.speedWind[0] ,MainJSON.speedWind[1], true, true, -33, -32);
+		bgScroll.scrollFactor.set();
+		bgScroll.screenCenter();
+		bgScroll.velocity.set(50, 50);
+		bgScroll.antialiasing = ClientPrefs.globalAntialiasing;
+		if(MainJSON.visibleBG){
+		add(bgScroll);
+     	}
+     	
 		FlxG.camera.follow(camFollowPos, null, 1);
 
                 var versionShit:FlxText = new FlxText(12, FlxG.height - 44, 0, "Alt Engine v: " + altEngineVersion, 12);
@@ -269,19 +281,6 @@ class MainMenuState extends MusicBeatState
 		// NG.core.calls.event.logEvent('swag').send();
 
 		changeItem();
-
-		#if ACHIEVEMENTS_ALLOWED
-		Achievements.loadAchievements();
-		var leDate = Date.now();
-		if (leDate.getDay() == 5 && leDate.getHours() >= 18) {
-			var achieveID:Int = Achievements.getAchievementIndex('friday_night_play');
-			if(!Achievements.isAchievementUnlocked(Achievements.achievementsStuff[achieveID][2])) { //It's a friday night. WEEEEEEEEEEEEEEEEEE
-				Achievements.achievementsMap.set(Achievements.achievementsStuff[achieveID][2], true);
-				giveAchievement();
-				ClientPrefs.saveSettings();
-			}
-		}
-		#end
 
 		#if android
 		addVirtualPad(UP_DOWN, A_B_X_Y);
