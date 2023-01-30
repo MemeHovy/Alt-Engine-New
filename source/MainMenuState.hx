@@ -41,7 +41,7 @@ typedef MenuData =
     creditsS:Array<Float>,
     donateS:Array<Float>,
     optionsS:Array<Float>,
-    speedWind:Array<Float>,
+    speedWind:Array<Int>,
     visibleBG:Bool,
     centerX:Bool,
     menuBG:String
@@ -256,10 +256,10 @@ class MainMenuState extends MusicBeatState
 			//menuItem.setGraphicSize(Std.int(menuItem.width * 0.58));
 			menuItem.updateHitbox();
 
-        var bgScroll = new FlxBackdrop(Paths.image('wind'), MainJSON.speedWind[0] ,MainJSON.speedWind[1], true, true, -33, -32);
+        var bgScroll = new FlxBackdrop(Paths.image('wind'), true, true, -33, -32);
 		bgScroll.scrollFactor.set();
 		bgScroll.screenCenter();
-		bgScroll.velocity.set(50, 50);
+		bgScroll.velocity.set(MainJSON.speedWind[0] ,MainJSON.speedWind[1]);
 		bgScroll.antialiasing = ClientPrefs.globalAntialiasing;
 		if(MainJSON.visibleBG){
 		add(bgScroll);
