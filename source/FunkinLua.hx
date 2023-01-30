@@ -1895,11 +1895,11 @@ class FunkinLua {
 		
 		#if android
 		Lua_helper.add_callback(lua, "addVirtualPad", function(dPad:FlxDPadMode, Action:FlxActionMode) {
-            MusicBeatSubstate.addVirtualPad(dPad, Action);
+            addVirtualPad(dPad, Action);
 			luaTrace('Virtual pad is added.', false, true);
 		});
 		Lua_helper.add_callback(lua, "removeVirtualPad", function(dPad:FlxDPadMode, Action:FlxActionMode) {
-            MusicBeatSubstate.removeVirtualPad(arButton, letButton);
+            removeVirtualPad(dPad, Action);
 			luaTrace('Virtual pad is deleted.', false, true);
 		});
         #end
