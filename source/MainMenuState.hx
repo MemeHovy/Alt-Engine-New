@@ -82,8 +82,6 @@ class MainMenuState extends MusicBeatState
 	override function create()
 	{
 
-	    instance = this;
-
 		WeekData.loadTheFirstEnabledMod();
 
 		#if desktop
