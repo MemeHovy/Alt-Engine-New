@@ -469,15 +469,15 @@ class MainMenuState extends MusicBeatState
 	public function callOnLuas(event:String, args:Array<Dynamic>):Dynamic {
 		var returnVal:Dynamic = FunkinLua.Function_Continue;
 		#if LUA_ALLOWED
-		for (i in 0...luaArray.length) {
-			var ret:Dynamic = luaArray[i].call(event, args);
+		for (i in 0...scriptArray.length) {
+			var ret:Dynamic = scriptArray[i].call(event, args);
 			if(ret != FunkinLua.Function_Continue) {
 				returnVal = ret;
 			}
 		}
 
 		for (i in 0...closeLuas.length) {
-			luaArray.remove(closeLuas[i]);
+			scriptArray.remove(closeLuas[i]);
 			closeLuas[i].stop();
 		}
 		#end
