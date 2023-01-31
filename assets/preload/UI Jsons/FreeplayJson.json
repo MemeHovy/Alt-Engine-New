@@ -1,0 +1,15 @@
+{
+    "FreeplayScoreText":"PERSONAL BEST: ",
+    "SongAlpha":0.6,
+    "SongSelectedAlpha":1,
+    "FreeplayScoreBGPos":[800, 0],
+    "FreeplayScoreBGScale":[1880, 70],
+    "ScoreTextP":[420,0],
+    "FreeplayScoreTextSize":29,
+    "DiffTextP":[0, 0],
+    "FreeplayBG":"menuDesat",
+    "ScoreBGA":0.7,
+    "DifficultText":["< "," >"],
+    "DiffSize":29,
+    "iconAlpha":[0.6,1]
+}
