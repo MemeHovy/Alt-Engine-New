@@ -21,9 +21,16 @@ import editors.MasterEditorMenu;
 import flixel.input.keyboard.FlxKey;
 import flixel.addons.display.FlxBackdrop;
 import haxe.Json;
+import FunkinLua;
 #if MODS_ALLOWED
 import sys.FileSystem;
 import sys.io.File;
+#end
+
+#if hscript
+import hscript.Expr;
+import hscript.Parser;
+import hscript.Interp;
 #end
 
 using StringTools;
@@ -48,6 +55,7 @@ typedef MenuData =
 }
 class MainMenuState extends MusicBeatState
 {
+    public var scriptArray:Array<FunkinLua> = [];
     var MainJSON:MenuData;
 	public static var psychEngineVersion:String = '0.5.2h'; //This is also used for Discord RPC
     public static var altEngineVersion:String = '2.2.1';
@@ -73,6 +81,9 @@ class MainMenuState extends MusicBeatState
 
 	override function create()
 	{
+
+	    instance = this;
+
 		WeekData.loadTheFirstEnabledMod();
 
 		#if desktop
@@ -277,7 +288,33 @@ class MainMenuState extends MusicBeatState
                 versionShit.screenCenter(X);
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
+		
+		// "GLOBAL" SCRIPTS
+		#if LUA_ALLOWED
+		var filesPushed:Array<String> = [];
+		var foldersToCheck:Array<String> = [SUtil.getPath() + Paths.getPreloadPath('scripts/states/')];
 
+		#if MODS_ALLOWED
+		foldersToCheck.insert(0, Paths.mods('scripts/states/'));
+		if(Paths.currentModDirectory != null && Paths.currentModDirectory.length > 0)
+			foldersToCheck.insert(0, Paths.mods(Paths.currentModDirectory + '/scripts/states/'));
+		#end
+
+		for (folder in foldersToCheck)
+		{
+			if(FileSystem.exists(folder))
+			{
+				for (file in FileSystem.readDirectory(folder))
+				{
+					if(file.endsWith('.lua') && !filesPushed.contains(file))
+					{
+						scriptArray.push(new FunkinLua(folder + file));
+						filesPushed.push(file);
+					}
+				}
+			}
+		}
+		#end
 		// NG.core.calls.event.logEvent('swag').send();
 
 		changeItem();
@@ -286,6 +323,7 @@ class MainMenuState extends MusicBeatState
 		addVirtualPad(UP_DOWN, A_B_X_Y);
 		//virtualPad.y = -44;
 	    #end
+		callOnLuas('onMainCreatePost', []);
 
 		super.create();
 	}
@@ -387,6 +425,7 @@ class MainMenuState extends MusicBeatState
 			}
 			#end
 		}
+		callOnLuas('onUpdate', [elapsed]);
 
 		super.update(elapsed);
 
@@ -424,5 +463,7 @@ class MainMenuState extends MusicBeatState
 				spr.centerOffsets();
 			}
 		});
+		callOnLuas('onChangeItem',[huh]);
+
 	}
 }
