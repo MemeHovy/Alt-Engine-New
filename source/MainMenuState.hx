@@ -267,7 +267,7 @@ class MainMenuState extends MusicBeatState
 			//menuItem.setGraphicSize(Std.int(menuItem.width * 0.58));
 			menuItem.updateHitbox();
 
-        var bgScroll = new FlxBackdrop(Paths.image('wind'), true, true, -33, -32);
+        var bgScroll = new FlxBackdrop(Paths.image('wind'), true, true, -10, 10);
 		bgScroll.scrollFactor.set();
 		bgScroll.screenCenter();
 		bgScroll.velocity.set(MainJSON.speedWind[0] ,MainJSON.speedWind[1]);
