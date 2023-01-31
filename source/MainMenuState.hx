@@ -267,7 +267,7 @@ class MainMenuState extends MusicBeatState
 			//menuItem.setGraphicSize(Std.int(menuItem.width * 0.58));
 			menuItem.updateHitbox();
 
-        var bgScroll = new FlxBackdrop(Paths.image('wind'), true, true, -10, 10);
+        var bgScroll = new FlxBackdrop(Paths.image('wind'), true, true, -33, -32);
 		bgScroll.scrollFactor.set();
 		bgScroll.screenCenter();
 		bgScroll.velocity.set(MainJSON.speedWind[0] ,MainJSON.speedWind[1]);
@@ -464,6 +464,23 @@ class MainMenuState extends MusicBeatState
 			}
 		});
 		callOnLuas('onChangeItem',[huh]);
+	}
+	public var closeLuas:Array<FunkinLua> = [];
+	public function callOnLuas(event:String, args:Array<Dynamic>):Dynamic {
+		var returnVal:Dynamic = FunkinLua.Function_Continue;
+		#if LUA_ALLOWED
+		for (i in 0...luaArray.length) {
+			var ret:Dynamic = luaArray[i].call(event, args);
+			if(ret != FunkinLua.Function_Continue) {
+				returnVal = ret;
+			}
+		}
 
+		for (i in 0...closeLuas.length) {
+			luaArray.remove(closeLuas[i]);
+			closeLuas[i].stop();
+		}
+		#end
+		return returnVal;
 	}
 }
