@@ -70,7 +70,6 @@ class FreeplayState extends MusicBeatState
 	override function create()
 	{
                 CoolUtil.precacheMusic(PlayState.SONG.song);
-                CoolUtil.precacheMusic(vocals);
 		Paths.clearStoredMemory();
 		Paths.clearUnusedMemory();
 		
