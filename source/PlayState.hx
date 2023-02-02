@@ -934,6 +934,7 @@ class PlayState extends MusicBeatState
 		{
 		timeBar = new FlxBar(0, 705, RIGHT_TO_LEFT, 1280, 20, this,
 			'songPercent', 0, 1);
+		timeBar.createFilledBar(0xFFFFFFFF, 0xFF000000);
 		}
 		if(ClientPrefs.downScroll)
 		{
@@ -1070,8 +1071,9 @@ class PlayState extends MusicBeatState
 		add(iconP2);
 		reloadHealthBarColors();
 
-		scoreTxt = new FlxText(0, healthBarBG.y + 36, FlxG.width, "", 20);
+		scoreTxt = new FlxText(0, 19, FlxG.width, "", 20);
 		scoreTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		scoreTxt.screenCenter(X);
 		scoreTxt.scrollFactor.set();
 		scoreTxt.borderSize = 1.25;
 		scoreTxt.visible = !ClientPrefs.hideHud;
@@ -1084,10 +1086,7 @@ class PlayState extends MusicBeatState
 		judgementCounter.scrollFactor.set();
 		judgementCounter.screenCenter(Y);
 		judgementCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nMisses: ${songMisses}\nJudgement Counter by\n KadeDev';
-		if (ClientPrefs.judgementCounter == true || !ClientPrefs.hideHud)
-		{
-			add(judgementCounter);
-		}
+    	add(judgementCounter);
 		if (ClientPrefs.judgementCounterType == 'Percent')
 		{
 		    judgementCounter.text = 'Sick: ${Highscore.floorDecimal(sicksPercent * 100, 2)}%\nGood: ${Highscore.floorDecimal(goodsPercent * 100, 2)}%\nBad: ${Highscore.floorDecimal(badsPercent * 100, 2)}%\nShit: ${Highscore.floorDecimal(shitsPercent * 100, 2)}%\nJudgement percent text by\nFearester';
@@ -1102,6 +1101,7 @@ class PlayState extends MusicBeatState
 		add(botplayTxt);
 		if(ClientPrefs.downScroll) {
 			botplayTxt.y = 430;
+			scoreTxt.y = healthBarBG.y + 36;
 		}
 
 		strumLineNotes.cameras = [camHUD];
@@ -3991,29 +3991,7 @@ class PlayState extends MusicBeatState
 			});
 		}
 	}
-	function scoreMove(?move:Bool = false)
-	{
-		if(move == false)
-		{
-			if(scoreTween != null) {
-				scoreTween.cancel();
-			}
-			scoreTxt.y = 9000;
-			scoreTween = FlxTween.tween(scoreTxt, {y: 0}, 0.5, {
-				ease: FlxEase.elasticInOut,
-				onComplete: function(twn:FlxTween)
-				{
-					scoreTween = FlxTween.tween(iconP1, {y: 9000}, 0.5, {
-						ease: FlxEase.elasticInOut,
-						onComplete: function(twn:FlxTween)
-						{
-							scoreTween = null;
-						}
-					});
-				}
-			});
-		}
-	}
+
 	function opponentNoteHit(note:Note):Void
 	{
 		if (Paths.formatToSongPath(SONG.song) != 'tutorial')
@@ -4098,7 +4076,6 @@ class PlayState extends MusicBeatState
 				}
 				if(!note.isSustainNote)
 			    {
-			    scoreMove();
 				moveIcon();
 		    	}
 		    	
@@ -4120,10 +4097,11 @@ class PlayState extends MusicBeatState
 				if(combo > 9999) combo = 9999;
 			}
 			if(!note.isSustainNote && ClientPrefs.oldInput){
-			health += note.hitHealth * healthGain;
-			} else if(!ClientPrefs.oldInput){
-			health += note.hitHealth * healthGain;
+			health += note.hitHealth;
+			} else {
+			    health += note.hitHealth * healthGain;
 			}
+			
 			if(!note.noAnimation) {
 				var daAlt = '';
 				if(note.noteType == 'Alt Animation') daAlt = '-alt';
@@ -4419,6 +4397,20 @@ class PlayState extends MusicBeatState
 		lastStepHit = curStep;
 		setOnLuas('curStep', curStep);
 		callOnLuas('onStepHit', []);
+		
+		if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && curBeat % 2 == 0 && ClientPrefs.beatMode == 'Both camera' && ClientPrefs.beatType == '1/2')
+		{
+			FlxG.camera.zoom += 0.012;
+			camHUD.zoom += 0.017;
+		}
+		if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && curBeat % 2 == 0 && ClientPrefs.beatMode == 'HUD camera' && ClientPrefs.beatType == '1/2')
+		{
+			camHUD.zoom += 0.017;
+		}
+		if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && curBeat % 2 == 0 && ClientPrefs.beatMode == 'Game camera' && ClientPrefs.beatType == '1/2')
+		{
+            FlxG.camera.zoom += 0.012;
+        }
 	}
 
 	var lightningStrikeBeat:Int = 0;
@@ -4462,42 +4454,29 @@ class PlayState extends MusicBeatState
 		{
 			moveCameraSection(Std.int(curStep / 16));
 		}
-		if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && curBeat % 2 == 0 && ClientPrefs.beatMode == 'Both camera' && ClientPrefs.beatType == '1/2')
+		if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && curBeat % 2 == 0 && ClientPrefs.beatMode == 'Both camera' && ClientPrefs.beatType == '1/4')
 		{
 			FlxG.camera.zoom += 0.012;
 			camHUD.zoom += 0.017;
 		}
-		if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && curBeat % 2 == 0 && ClientPrefs.beatMode == 'HUD camera' && ClientPrefs.beatType == '1/2')
+		if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && curBeat % 2 == 0 && ClientPrefs.beatMode == 'HUD camera' && ClientPrefs.beatType == '1/4')
 		{
 			camHUD.zoom += 0.017;
 		}
-		if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && curBeat % 2 == 0 && ClientPrefs.beatMode == 'Game camera' && ClientPrefs.beatType == '1/2')
+		if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && curBeat % 2 == 0 && ClientPrefs.beatMode == 'Game camera' && ClientPrefs.beatType == '1/4')
 		{
 			FlxG.camera.zoom += 0.012;
 		}
-		if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && curBeat % 4 == 0 && ClientPrefs.beatMode == 'Both camera' && ClientPrefs.beatType == '1/4')
-		{
-			FlxG.camera.zoom += 0.012;
-			camHUD.zoom += 0.017;
-		}
-		if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && curBeat % 4 == 0 && ClientPrefs.beatMode == 'HUD camera' && ClientPrefs.beatType == '1/4')
-		{
-			camHUD.zoom += 0.017;
-		}
-		if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && curBeat % 4 == 0 && ClientPrefs.beatMode == 'Game camera' && ClientPrefs.beatType == '1/4')
-		{
-			FlxG.camera.zoom += 0.012;
-		}
-		if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && curBeat % 8 == 0 && ClientPrefs.beatMode == 'Both camera' && ClientPrefs.beatType == '1/16')
+		if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && curBeat % 4 == 0 && ClientPrefs.beatMode == 'Both camera' && ClientPrefs.beatType == '1/16')
 		{
 			FlxG.camera.zoom += 0.012;
 			camHUD.zoom += 0.017;
 		}
-		if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && curBeat % 8 == 0 && ClientPrefs.beatMode == 'HUD camera' && ClientPrefs.beatType == '1/16')
+		if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && curBeat % 4 == 0 && ClientPrefs.beatMode == 'HUD camera' && ClientPrefs.beatType == '1/16')
 		{
 			camHUD.zoom += 0.017;
 		}
-		if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && curBeat % 8 == 0 && ClientPrefs.beatMode == 'Game camera' && ClientPrefs.beatType == '1/16')
+		if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && curBeat % 4 == 0 && ClientPrefs.beatMode == 'Game camera' && ClientPrefs.beatType == '1/16')
 		{
 			FlxG.camera.zoom += 0.012;
 		}
