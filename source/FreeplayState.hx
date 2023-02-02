@@ -110,7 +110,7 @@ class FreeplayState extends MusicBeatState
 				{
 					colors = [146, 113, 253];
 				}
-				addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2]));
+				addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2]),bfsongCharacter);
 			}
 		}
 		WeekData.loadTheFirstEnabledMod();
