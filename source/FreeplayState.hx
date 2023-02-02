@@ -597,7 +597,7 @@ class SongMetadata
 	public var color:Int = -7179779;
 	public var folder:String = "";
 
-	public function new(song:String, week:Int, songCharacter:String, color:Int)
+	public function new(song:String, week:Int, songCharacter:String, color:Int, bfsongCharacter:String)
 	{
 		this.songName = song;
 		this.week = week;
