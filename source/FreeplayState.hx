@@ -48,9 +48,12 @@ class FreeplayState extends MusicBeatState
 	private static var curSelected:Int = 0;
 	var curDifficulty:Int = -1;
 	private static var lastDifficultyName:String = '';
-
+    public var songText:FlxText;
+	public var trueX:Float;
+    public var trueY:Float;
 	var scoreBG:FlxSprite;
 	var scoreText:FlxText;
+	var songName:FlxText;
 	var diffText:FlxText;
 	var lerpScore:Int = 0;
 	var lerpRating:Float = 0;
@@ -61,7 +64,8 @@ class FreeplayState extends MusicBeatState
 	private var grpSongs:FlxTypedGroup<Alphabet>;
 	private var curPlaying:Bool = false;
 
-	private var iconArray:Array<HealthIcon> = [];
+	private var iconOpponentArray:Array<HealthIcon> = [];
+	private var iconBoyfriendArray:Array<HealthIcon> = [];
 
 	var bg:FlxSprite;
 	var intendedColor:Int;
@@ -88,12 +92,14 @@ class FreeplayState extends MusicBeatState
 
 			var leWeek:WeekData = WeekData.weeksLoaded.get(WeekData.weeksList[i]);
 			var leSongs:Array<String> = [];
-			var leChars:Array<String> = [];
+			var leOpChars:Array<String> = [];
+           	var lebfChars:Array<String> = [];
 
 			for (j in 0...leWeek.songs.length)
 			{
 				leSongs.push(leWeek.songs[j][0]);
-				leChars.push(leWeek.songs[j][1]);
+				leOpChars.push(leWeek.songs[j][1]);
+				lebfChars.push(leWeek.songs[j][3]);
 			}
 
 			WeekData.setDirectoryFromWeek(leWeek);
@@ -130,31 +136,31 @@ class FreeplayState extends MusicBeatState
 
 		for (i in 0...songs.length)
 		{
-			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, songs[i].songName, true, false);
-			songText.isMenuItem = true;
-			songText.targetY = i;
-			grpSongs.add(songText);
-
-			if (songText.width > 980)
-			{
-				var textScale:Float = 980 / songText.width;
-				songText.scale.x = textScale;
-				for (letter in songText.lettersArray)
-				{
-					letter.x *= textScale;
-					letter.offset.x *= textScale;
-				}
-				//songText.updateHitbox();
-				//trace(songs[i].songName + ' new scale: ' + textScale);
-			}
+        songText = new FlxText(0, (70 * i) + 30, FlxG.width, songs[i].songName, 48);
+        songText.setFormat( VCR OSD MONO, 64, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+        songText.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.BLACK, 1, 1);
+        songText.antialiasing = true;
+        songText.updateHitbox();
+        songText.text = songs[i].songName;
+        add(songText);
 
 			Paths.currentModDirectory = songs[i].folder;
 			var icon:HealthIcon = new HealthIcon(songs[i].songCharacter);
 			icon.sprTracker = songText;
+			
+			var iconbf:HealthIcon = new HealthIcon(songs[i].bfsongCharacter);
+			iconbf.sprTracker = songText;
 
 			// using a FlxGroup is too much fuss!
-			iconArray.push(icon);
+			iconOpponentArray.push(icon);
+			iconBoyfriendArray.push(iconbf);
 			add(icon);
+			add(iconbf);
+			iconbf.x = 450;
+			icon.x = 390;
+			iconbf.y = 0;
+			icon.y = 0;
+			iconbf.flipX = true;
 
 			// songText.x += 40;
 			// DONT PUT X IN THE FIRST PARAMETER OF new ALPHABET() !!
@@ -252,7 +258,6 @@ class FreeplayState extends MusicBeatState
 		var leWeek:WeekData = WeekData.weeksLoaded.get(name);
 		return (!leWeek.startUnlocked && leWeek.weekBefore.length > 0 && (!StoryMenuState.weekCompleted.exists(leWeek.weekBefore) || !StoryMenuState.weekCompleted.get(leWeek.weekBefore)));
 	}
-
 	/*public function addWeek(songs:Array<String>, weekNum:Int, weekColor:Int, ?songCharacters:Array<String>)
 	{
 		if (songCharacters == null)
@@ -491,15 +496,25 @@ class FreeplayState extends MusicBeatState
 		#end
 
 		var bullShit:Int = 0;
+		
+        for (i in 0...iconBoyfriendArray.length)
+			{
+				iconBoyfriendArray[i].alpha = 0.6;
+				iconBoyfriendArray[i].animation.curAnim.curFrame = 0; 
 
-		for (i in 0...iconArray.length)
+			}
+	
+			iconBoyfriendArray[curSelected].alpha = 1;
+			iconBoyfriendArray[curSelected].animation.curAnim.curFrame = 2; 
+
+		for (i in 0...iconOpponentArray.length)
 		{
-			iconArray[i].alpha = 0.6;
-		    iconArray[i].animation.curAnim.curFrame = 0; 
+			iconOpponentArray[i].alpha = 0.6;
+		    iconOpponentArray[i].animation.curAnim.curFrame = 0; 
 		}
 
-        iconArray[curSelected].animation.curAnim.curFrame = 2; 
-		iconArray[curSelected].alpha = FreeplayJSON.iconAlpha[1];
+        iconOpponentArray[curSelected].animation.curAnim.curFrame = 2; 
+		iconOpponentArray[curSelected].alpha = FreeplayJSON.iconAlpha[1];
 
 		for (item in grpSongs.members)
 		{
@@ -577,6 +592,7 @@ class SongMetadata
 {
 	public var songName:String = "";
 	public var week:Int = 0;
+	public var bfsongCharacter:String = "";
 	public var songCharacter:String = "";
 	public var color:Int = -7179779;
 	public var folder:String = "";
@@ -587,6 +603,7 @@ class SongMetadata
 		this.week = week;
 		this.songCharacter = songCharacter;
 		this.color = color;
+		this.bfsongCharacter = bfsongCharacter;
 		this.folder = Paths.currentModDirectory;
 		if(this.folder == null) this.folder = '';
 	}
