@@ -705,6 +705,7 @@ class WeekEditorFreeplayState extends MusicBeatState
 		if(id == FlxUIInputText.CHANGE_EVENT && (sender is FlxUIInputText)) {
 			weekFile.songs[curSelected][1] = iconInputText.text;
 			iconArray[curSelected].changeIcon(iconInputText.text);
+			iconBoyfriendArray[curSelected].changeIcon(bfIconInputText.text);
 		} else if(id == FlxUINumericStepper.CHANGE_EVENT && (sender is FlxUINumericStepper)) {
 			if(sender == bgColorStepperR || sender == bgColorStepperG || sender == bgColorStepperB) {
 				updateBG();
@@ -752,7 +753,7 @@ class WeekEditorFreeplayState extends MusicBeatState
 
 		iconInputText = new FlxUIInputText(10, bgColorStepperR.y + 70, 100, '', 8);
 		iconInputText.focusGained = () -> FlxG.stage.window.textInputEnabled = true;
-                bfIconInputText = new FlxUIInputText(10, bgColorStepperR.y + 80, 100, '', 8);
+        bfIconInputText = new FlxUIInputText(100, bgColorStepperR.y + 70, 100, '', 8);
 		bfIconInputText.focusGained = () -> FlxG.stage.window.textInputEnabled = true;
 
 		var hideFreeplayCheckbox:FlxUICheckBox = new FlxUICheckBox(10, bfIconInputText.y + 30, null, null, "Hide Week from Freeplay?", 100);
@@ -764,7 +765,7 @@ class WeekEditorFreeplayState extends MusicBeatState
 		
 		tab_group.add(new FlxText(10, bgColorStepperR.y - 18, 0, 'Selected background Color R/G/B:'));
 		tab_group.add(new FlxText(10, iconInputText.y - 18, 0, 'Selected icon:'));
-		tab_group.add(new FlxText(10, bfIconInputText.y - 18, 0, 'Selected icon bf:'));
+		tab_group.add(new FlxText(100, bfIconInputText.y - 18, 0, 'Selected boyfriend icon:'));
 		tab_group.add(bgColorStepperR);
 		tab_group.add(bgColorStepperG);
 		tab_group.add(bgColorStepperB);
