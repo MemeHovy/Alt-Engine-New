@@ -637,7 +637,7 @@ class WeekEditorFreeplayState extends MusicBeatState
 
 			// using a FlxGroup is too much fuss!
 			iconArray.push(icon);
-			boyfriendIconArray.push(iconBf);
+			iconBoyfriendArray.push(iconBf);
 			add(icon);
 			add(iconBf);
 			iconBf.offset.x -= 20;
