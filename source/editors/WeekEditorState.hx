@@ -626,7 +626,7 @@ class WeekEditorFreeplayState extends MusicBeatState
 		for (i in 0...weekFile.songs.length)
 		{
 			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, weekFile.songs[i][0], true, false);
-			songText.isMenuItem = true;
+			songText.centerItem = true;
 			songText.targetY = i;
 			grpSongs.add(songText);
 
@@ -752,7 +752,7 @@ class WeekEditorFreeplayState extends MusicBeatState
 
 		iconInputText = new FlxUIInputText(10, bgColorStepperR.y + 70, 100, '', 8);
 		iconInputText.focusGained = () -> FlxG.stage.window.textInputEnabled = true;
-        bfIconInputText = new FlxUIInputText(100, bgColorStepperR.y + 140, 100, '', 8);
+                bfIconInputText = new FlxUIInputText(10, bgColorStepperR.y + 80, 100, '', 8);
 		bfIconInputText.focusGained = () -> FlxG.stage.window.textInputEnabled = true;
 
 		var hideFreeplayCheckbox:FlxUICheckBox = new FlxUICheckBox(10, bfIconInputText.y + 30, null, null, "Hide Week from Freeplay?", 100);
