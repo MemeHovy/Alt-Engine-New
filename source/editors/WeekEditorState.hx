@@ -609,6 +609,7 @@ class WeekEditorFreeplayState extends MusicBeatState
 	var bg:FlxSprite;
 	private var grpSongs:FlxTypedGroup<Alphabet>;
 	private var iconArray:Array<HealthIcon> = [];
+	private var boyfriendIconArray:Array<HealthIcon> = [];
 
 	var curSelected = 0;
 
@@ -631,10 +632,17 @@ class WeekEditorFreeplayState extends MusicBeatState
 
 			var icon:HealthIcon = new HealthIcon(weekFile.songs[i][1]);
 			icon.sprTracker = songText;
+			var iconBf:HealthIcon = new HealthIcon(weekFile.songs[i][2]);
+			iconBf.sprTracker = songText;
 
 			// using a FlxGroup is too much fuss!
 			iconArray.push(icon);
+			boyfriendIconArray.push(iconBf);
 			add(icon);
+			add(iconBf);
+			iconBf.offset.x -= 20;
+			icon.offset.x = songText.width + 180;
+			iconBf.flipX = true;
 
 			// songText.x += 40;
 			// DONT PUT X IN THE FIRST PARAMETER OF new ALPHABET() !!
@@ -643,7 +651,7 @@ class WeekEditorFreeplayState extends MusicBeatState
 
 		addEditorBox();
 		changeSelection();
-
+		
 		#if android
 		addVirtualPad(UP_DOWN, NONE);
 		#end
@@ -708,6 +716,7 @@ class WeekEditorFreeplayState extends MusicBeatState
 	var bgColorStepperG:FlxUINumericStepper;
 	var bgColorStepperB:FlxUINumericStepper;
 	var iconInputText:FlxUIInputText;
+	var bfIconInputText:FlxUIInputText;
 	function addFreeplayUI() {
 		var tab_group = new FlxUI(null, UI_box);
 		tab_group.name = "Freeplay";
@@ -743,8 +752,10 @@ class WeekEditorFreeplayState extends MusicBeatState
 
 		iconInputText = new FlxUIInputText(10, bgColorStepperR.y + 70, 100, '', 8);
 		iconInputText.focusGained = () -> FlxG.stage.window.textInputEnabled = true;
+        bfIconInputText = new FlxUIInputText(100, bgColorStepperR.y + 140, 100, '', 8);
+		bfIconInputText.focusGained = () -> FlxG.stage.window.textInputEnabled = true;
 
-		var hideFreeplayCheckbox:FlxUICheckBox = new FlxUICheckBox(10, iconInputText.y + 30, null, null, "Hide Week from Freeplay?", 100);
+		var hideFreeplayCheckbox:FlxUICheckBox = new FlxUICheckBox(10, bfIconInputText.y + 30, null, null, "Hide Week from Freeplay?", 100);
 		hideFreeplayCheckbox.checked = weekFile.hideFreeplay;
 		hideFreeplayCheckbox.callback = function()
 		{
@@ -753,12 +764,14 @@ class WeekEditorFreeplayState extends MusicBeatState
 		
 		tab_group.add(new FlxText(10, bgColorStepperR.y - 18, 0, 'Selected background Color R/G/B:'));
 		tab_group.add(new FlxText(10, iconInputText.y - 18, 0, 'Selected icon:'));
+		tab_group.add(new FlxText(10, bfIconInputText.y - 18, 0, 'Selected icon bf:'));
 		tab_group.add(bgColorStepperR);
 		tab_group.add(bgColorStepperG);
 		tab_group.add(bgColorStepperB);
 		tab_group.add(copyColor);
 		tab_group.add(pasteColor);
 		tab_group.add(iconInputText);
+		tab_group.add(bfIconInputText);
 		tab_group.add(hideFreeplayCheckbox);
 		UI_box.addGroup(tab_group);
 	}
@@ -784,9 +797,20 @@ class WeekEditorFreeplayState extends MusicBeatState
 		for (i in 0...iconArray.length)
 		{
 			iconArray[i].alpha = 0.6;
+			iconArray[i].animation.curAnim.curFrame = 0;
 		}
 
 		iconArray[curSelected].alpha = 1;
+		iconArray[curSelected].animation.curAnim.curFrame = 2;
+		
+        for (i in 0...iconBoyfriendArray.length)
+			{
+				iconBoyfriendArray[i].alpha = 0.6;
+				iconBoyfriendArray[i].animation.curAnim.curFrame = 0; 
+
+			}
+		iconBoyfriendArray[curSelected].alpha = 1;
+		iconBoyfriendArray[curSelected].animation.curAnim.curFrame = 2; 
 
 		for (item in grpSongs.members)
 		{
