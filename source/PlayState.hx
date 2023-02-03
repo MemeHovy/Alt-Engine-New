@@ -2565,19 +2565,19 @@ class PlayState extends MusicBeatState
 
 					if(ClientPrefs.timeBarType != 'Song Name') {
 						timeTxt.text = FlxStringUtil.formatTime(secondsTotal, false);
-						timeTxt.x = -165;
+						timeTxt.offset.x = -165;
 					}
 					if(ClientPrefs.timeBarType == 'Song Percentage') {
 						timeTxt.text = '(${Highscore.floorDecimal(songPercent * 100, 1)}%)';
-						timeTxt.x = -150;
+						timeTxt.offset.x = -150;
 					}
 					if(ClientPrefs.timeBarType == 'Time Length') {
 						timeTxt.text = '${FlxStringUtil.formatTime(secondsTotal, false)} - ${FlxStringUtil.formatTime(Math.floor(songLength / 1000), false)}';
-						timeTxt.x = -105;
+						timeTxt.offset.x = -105;
 					}
 					if(ClientPrefs.timeBarType == 'Time Length Percent') {
 						timeTxt.text = '(${Highscore.floorDecimal(songPercent * 100, 1)}%) - (${FlxStringUtil.formatTime(secondsTotal, false)} / ${FlxStringUtil.formatTime(Math.floor(songLength / 1000), false)})';
-						timeTxt.x = -20;
+						timeTxt.offset.x -= 20;
 					}
 				}
 			}
@@ -3556,18 +3556,6 @@ class PlayState extends MusicBeatState
 		rating.visible = (!ClientPrefs.hideHud && showRating);
 		rating.x += ClientPrefs.comboOffset[0];
 		rating.y -= ClientPrefs.comboOffset[1];
-
-		var comboSpr:FlxSprite = new FlxSprite().loadGraphic(Paths.image(pixelShitPart1 + 'combo' + pixelShitPart2));
-		comboSpr.cameras = [camHUD];
-		comboSpr.screenCenter();
-		comboSpr.x = coolText.x;
-		comboSpr.acceleration.y = 600;
-		comboSpr.velocity.y -= 150;
-		comboSpr.visible = (!ClientPrefs.hideHud && showCombo);
-		comboSpr.x += ClientPrefs.comboOffset[0];
-		comboSpr.y -= ClientPrefs.comboOffset[1];
-
-		comboSpr.velocity.x += FlxG.random.int(1, 10);
 		insert(members.indexOf(strumLineNotes), rating);
 
 		if (!ClientPrefs.comboStacking)
@@ -3580,16 +3568,11 @@ class PlayState extends MusicBeatState
 		{
 			rating.setGraphicSize(Std.int(rating.width * 0.7));
 			rating.antialiasing = ClientPrefs.globalAntialiasing;
-			comboSpr.setGraphicSize(Std.int(comboSpr.width * 0.7));
-			comboSpr.antialiasing = ClientPrefs.globalAntialiasing;
 		}
 		else
 		{
 			rating.setGraphicSize(Std.int(rating.width * daPixelZoom * 0.85));
-			comboSpr.setGraphicSize(Std.int(comboSpr.width * daPixelZoom * 0.85));
 		}
-
-		comboSpr.updateHitbox();
 		rating.updateHitbox();
 
 		var seperatedScore:Array<Int> = [];
@@ -3602,11 +3585,6 @@ class PlayState extends MusicBeatState
 		seperatedScore.push(combo % 10);
 
 		var daLoop:Int = 0;
-		if (!ClientPrefs.comboStacking)
-		{
-			if (lastCombo != null) lastCombo.kill();
-			lastCombo = comboSpr;
-		}
 		if (lastScore != null)
 		{
 			while (lastScore.length > 0)
@@ -3665,17 +3643,6 @@ class PlayState extends MusicBeatState
 		// add(coolText);
 
 		FlxTween.tween(rating, {alpha: 0}, 0.2 / playbackRate, {
-			startDelay: Conductor.crochet * 0.001 / playbackRate
-		});
-
-		FlxTween.tween(comboSpr, {alpha: 0}, 0.2 / playbackRate, {
-			onComplete: function(tween:FlxTween)
-			{
-				coolText.destroy();
-				comboSpr.destroy();
-
-				rating.destroy();
-			},
 			startDelay: Conductor.crochet * 0.001 / playbackRate
 		});
 	}
@@ -3867,11 +3834,9 @@ class PlayState extends MusicBeatState
 			}
 		});
 		combo = 0;
-        if(!daNote.isSustainNote && ClientPrefs.oldInput){
+		
 		health -= daNote.missHealth * healthLoss;
-		} else if(!ClientPrefs.oldInput){
-		health -= daNote.missHealth * healthLoss;
-		}
+		
 		if(instakillOnMiss)
 		{
 			vocals.volume = 0;
@@ -4096,12 +4061,9 @@ class PlayState extends MusicBeatState
 				popUpScore(note);
 				if(combo > 9999) combo = 9999;
 			}
-			if(!note.isSustainNote && ClientPrefs.oldInput){
-			health += note.hitHealth;
-			} else {
-			    health += note.hitHealth * healthGain;
-			}
-			
+
+			health += note.hitHealth * healthGain;
+
 			if(!note.noAnimation) {
 				var daAlt = '';
 				if(note.noteType == 'Alt Animation') daAlt = '-alt';
@@ -4397,20 +4359,7 @@ class PlayState extends MusicBeatState
 		lastStepHit = curStep;
 		setOnLuas('curStep', curStep);
 		callOnLuas('onStepHit', []);
-		
-		if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && curBeat % 2 == 0 && ClientPrefs.beatMode == 'Both camera' && ClientPrefs.beatType == '1/2')
-		{
-			FlxG.camera.zoom += 0.012;
-			camHUD.zoom += 0.017;
-		}
-		if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && curBeat % 2 == 0 && ClientPrefs.beatMode == 'HUD camera' && ClientPrefs.beatType == '1/2')
-		{
-			camHUD.zoom += 0.017;
-		}
-		if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && curBeat % 2 == 0 && ClientPrefs.beatMode == 'Game camera' && ClientPrefs.beatType == '1/2')
-		{
-            FlxG.camera.zoom += 0.012;
-        }
+
 	}
 
 	var lightningStrikeBeat:Int = 0;
