@@ -143,10 +143,8 @@ class FreeplayState extends MusicBeatState
 
 			Paths.currentModDirectory = songs[i].folder;
 			var icon:HealthIcon = new HealthIcon(songs[i].songCharacter);
-			icon.sprTracker = songText;
 			
 			var iconbf:HealthIcon = new HealthIcon(songs[i].bfsongCharacter);
-			iconbf.sprTracker = songText;
 
 			// using a FlxGroup is too much fuss!
 			iconOpponentArray.push(icon);
