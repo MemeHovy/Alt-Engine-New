@@ -609,7 +609,7 @@ class WeekEditorFreeplayState extends MusicBeatState
 	var bg:FlxSprite;
 	private var grpSongs:FlxTypedGroup<Alphabet>;
 	private var iconArray:Array<HealthIcon> = [];
-	private var boyfriendIconArray:Array<HealthIcon> = [];
+	private var iconBoyfriendArray:Array<HealthIcon> = [];
 
 	var curSelected = 0;
 
