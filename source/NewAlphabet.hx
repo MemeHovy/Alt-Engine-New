@@ -315,7 +315,7 @@ class AlphaCharacter extends FlxSprite
 		'~'  => {offsets: [0, 16]}
 	];
 
-	var parent:Alphabet;
+	var parent:NewAlphabet;
 	public var alignOffset:Float = 0; //Don't change this
 	public var letterOffset:Array<Float> = [0, 0];
 	public var spawnPos:FlxPoint = new FlxPoint();
