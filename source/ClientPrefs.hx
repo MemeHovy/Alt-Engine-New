@@ -7,33 +7,26 @@ import flixel.graphics.FlxGraphic;
 import Controls;
 
 class ClientPrefs {
-    public static var oldInput:Bool = true;
     public static var sysInfo:String = 'OG FPS';
 	public static var downScroll:Bool = false;
 	public static var middleScroll:Bool = false;
-	public static var opponentStrums:Bool = true;
 	public static var showFPS:Bool = true;
 	public static var flashing:Bool = true;
 	public static var globalAntialiasing:Bool = true;
 	public static var noteSplashes:Bool = true;
 	public static var lowQuality:Bool = false;
-	public static var shaders:Bool = true;
 	public static var framerate:Int = 60;
 	public static var cursing:Bool = true;
 	public static var violence:Bool = true;
 	public static var camZooms:Bool = true;
 	public static var hideHud:Bool = false;
-	public static var drainType:String = 'Note Hit';
 	public static var vocalVolume:Float = 1;
 	public static var instVolume:Float = 1;
 	public static var mainVolume:Float = 1;
-	public static var winIcon:Bool = false;
+	public static var winIcon:Bool = true;
 	public static var beatMode:String = 'Both camera';
 	public static var beatType:String = '1/16';
-	public static var mouseControls:Bool = #if android true #else false #end;
-	public static var judgementCounter:Bool = false;
 	public static var judgementCounterType:String = 'Default';
-	public static var healthDrain:Float = 0;
 	public static var noteOffset:Int = 0;
 	public static var arrowHSV:Array<Array<Int>> = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
 	public static var ghostTapping:Bool = true;
@@ -47,8 +40,6 @@ class ClientPrefs {
 	public static var hitsoundVolume:Float = 0;
 	public static var pauseMusic:String = 'Tea Time';
 	public static var vibration:Bool = false;
-	public static var checkForUpdates:Bool = true;
-	public static var saveReplay:Bool = false;
 	public static var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 
@@ -72,12 +63,9 @@ class ClientPrefs {
 
 	public static var comboOffset:Array<Int> = [0, 0, 0, 0];
 	public static var ratingOffset:Int = 0;
-        public static var greatWindow:Int = 30;
 	public static var sickWindow:Int = 45;
 	public static var goodWindow:Int = 90;
 	public static var badWindow:Int = 135;
-        public static var shitWindow:Int = 160;
-        public static var sadWindow:Int = 190;
 	public static var safeFrames:Float = 10;
 
 	//Every key has two binds, add your key bind down here and then add your control on options/ControlsSubState.hx and Controls.hx
@@ -114,36 +102,28 @@ class ClientPrefs {
 
 	public static function saveSettings() {
 	    FlxG.save.data.screenRes = screenRes;
-                FlxG.save.data.oldInput = oldInput;
-                FlxG.save.data.drainType = drainType;
 		FlxG.save.data.downScroll = downScroll;
 		FlxG.save.data.sysInfo = sysInfo;
 		FlxG.save.data.middleScroll = middleScroll;
-		FlxG.save.data.opponentStrums = opponentStrums;
 		FlxG.save.data.showFPS = showFPS;
 		FlxG.save.data.flashing = flashing;
 		FlxG.save.data.globalAntialiasing = globalAntialiasing;
 		FlxG.save.data.noteSplashes = noteSplashes;
 		FlxG.save.data.lowQuality = lowQuality;
-		FlxG.save.data.shaders = shaders;
-		FlxG.save.data.saveReplay = saveReplay;
 		FlxG.save.data.framerate = framerate;
 		//FlxG.save.data.cursing = cursing;
 		//FlxG.save.data.violence = violence;
 		FlxG.save.data.camZooms = camZooms;
 		FlxG.save.data.noteOffset = noteOffset;
 		FlxG.save.data.hideHud = hideHud;
-		FlxG.save.data.drainType = drainType;
 		FlxG.save.data.vocalVolume = vocalVolume;
 		FlxG.save.data.instVolume = instVolume;
 		FlxG.save.data.mainVolume = mainVolume;
 		FlxG.save.data.winIcon = winIcon;
-		FlxG.save.data.mouseControls = mouseControls;
 		FlxG.save.data.judgementCounter = judgementCounter;
 		FlxG.save.data.judgementCounterType = judgementCounterType;
 		FlxG.save.data.beatMode = beatMode;
 		FlxG.save.data.beatType = beatType;
-		FlxG.save.data.healthDrain = healthDrain;
 		FlxG.save.data.arrowHSV = arrowHSV;
 		FlxG.save.data.ghostTapping = ghostTapping;
 		FlxG.save.data.timeBarType = timeBarType;
@@ -163,7 +143,6 @@ class ClientPrefs {
 		FlxG.save.data.hitsoundVolume = hitsoundVolume;
 		FlxG.save.data.pauseMusic = pauseMusic;
 		FlxG.save.data.vibration = vibration;
-		FlxG.save.data.checkForUpdates = checkForUpdates;
 	
 		FlxG.save.flush();
 
@@ -175,23 +154,14 @@ class ClientPrefs {
 	}
 
 	public static function loadPrefs() {
-                if(FlxG.save.data.drainType != null) {
-			drainType = FlxG.save.data.drainType;
-                }
 		if(FlxG.save.data.downScroll != null) {
 			downScroll = FlxG.save.data.downScroll;
-		}
-		if(FlxG.save.data.mouseControls != null) {
-			mouseControls = FlxG.save.data.mouseControls;
 		}
 		if(FlxG.save.data.middleScroll != null) {
 			middleScroll = FlxG.save.data.middleScroll;
 		}
 		if(FlxG.save.data.screenRes != null) {
 			screenRes = FlxG.save.data.screenRes;
-		}
-		if(FlxG.save.data.opponentStrums != null) {
-			opponentStrums = FlxG.save.data.opponentStrums;
 		}
 		if(FlxG.save.data.sysInfo != null) {
 			sysInfo = FlxG.save.data.sysInfo;
@@ -205,9 +175,6 @@ class ClientPrefs {
 		if(FlxG.save.data.flashing != null) {
 			flashing = FlxG.save.data.flashing;
 		}
-                if(FlxG.save.data.oldInput != null) {
-			oldInput = FlxG.save.data.oldInput;
-		}
 		if(FlxG.save.data.globalAntialiasing != null) {
 			globalAntialiasing = FlxG.save.data.globalAntialiasing;
 		}
@@ -216,12 +183,6 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.lowQuality != null) {
 			lowQuality = FlxG.save.data.lowQuality;
-		}
-		if(FlxG.save.data.saveReplay != null) {
-			saveReplay = FlxG.save.data.saveReplay;
-		}
-		if(FlxG.save.data.shaders != null) {
-			shaders = FlxG.save.data.shaders;
 		}
 		if(FlxG.save.data.framerate != null) {
 			framerate = FlxG.save.data.framerate;
@@ -245,9 +206,6 @@ class ClientPrefs {
 		if(FlxG.save.data.hideHud != null) {
 			hideHud = FlxG.save.data.hideHud;
 		}
-		if(FlxG.save.data.drainType != null) {
-			drainType = FlxG.save.data.drainType;
-		}
 		if(FlxG.save.data.vocalVolume != null) {
 			vocalVolume = FlxG.save.data.vocalVolume;
 		}
@@ -260,14 +218,8 @@ class ClientPrefs {
 		if(FlxG.save.data.winIcon != null) {
 			winIcon = FlxG.save.data.winIcon;
 		}
-        if(FlxG.save.data.judgementCounter != null) {
-			judgementCounter = FlxG.save.data.judgementCounter;
-		}
 		if(FlxG.save.data.judgementCounterType != null) {
 			judgementCounterType = FlxG.save.data.judgementCounterType;
-		}
-		if(FlxG.save.data.healthDrain != null) {
-			healthDrain = FlxG.save.data.healthDrain;
 		}
 		if(FlxG.save.data.beatMode != null) {
 			beatMode = FlxG.save.data.beatMode;
@@ -346,10 +298,6 @@ class ClientPrefs {
 		if (FlxG.save.data.mute != null)
 		{
 			FlxG.sound.muted = FlxG.save.data.mute;
-		}
-		if (FlxG.save.data.checkForUpdates != null)
-		{
-			checkForUpdates = FlxG.save.data.checkForUpdates;
 		}
 
 		var save:FlxSave = new FlxSave();
