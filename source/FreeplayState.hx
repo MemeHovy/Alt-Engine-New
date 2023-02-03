@@ -151,10 +151,8 @@ class FreeplayState extends MusicBeatState
 			iconBoyfriendArray.push(iconbf);
 			add(icon);
 			add(iconbf);
-			iconbf.x = 450;
-			icon.x = 390;
-			iconbf.y = 0;
-			icon.y = 0;
+			iconbf.offset.x -= 20;
+			icon.offset.x = songText.width + 180;
 			iconbf.flipX = true;
 
 			// songText.x += 40;
