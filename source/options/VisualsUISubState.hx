@@ -63,22 +63,6 @@ class VisualsUISubState extends BaseOptionsMenu
 			'Default',
 			['Default', 'Percentage']);
 		addOption(option);
-		
-		var option:Option = new Option('Judgement Text Visible',
-			"Show Judgement Text?!",
-			'judgementCounter',
-			'bool',
-			true);
-		addOption(option);
-
-		var option:Option = new Option('Flashing Lights',
-			"Uncheck this if you're sensitive to flashing lights!",
-			'flashing',
-			'bool',
-			true);
-		addOption(option);
-		
-		
 
 		var option:Option = new Option('Camera Zooms',
 			"If unchecked, the camera won't zoom in on a beat hit.",
@@ -110,7 +94,7 @@ class VisualsUISubState extends BaseOptionsMenu
 			'If unchecked, hides FPS Counter.',
 			'showFPS',
 			'bool',
-			#if android false #else true #end);
+			true);
 		addOption(option);
 		option.onChange = onChangeFPSCounter;
 		
@@ -122,15 +106,7 @@ class VisualsUISubState extends BaseOptionsMenu
 			['None', 'Breakfast', 'Tea Time']);
 		addOption(option);
 		option.onChange = onChangePauseMusic;
-		
-		var option:Option = new Option('Drain Type:',
-			"Change Drain Type",
-			'drainType',
-			'string',
-			'Note Hit',
-			['None', 'Note Hit', 'Always']);
-		addOption(option);
-		
+
 		var option:Option = new Option('FPS Type:',
 			"Change FPS Type",
 			'sysInfo',
@@ -144,7 +120,7 @@ class VisualsUISubState extends BaseOptionsMenu
 			'beatType',
 			'string',
 			'1/16',
-			['1/2', '1/4', '1/16']);
+			['1/4', '1/16']);
 		addOption(option);
 		
 		var option:Option = new Option('Beat Mode:',
