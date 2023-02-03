@@ -120,7 +120,6 @@ class ClientPrefs {
 		FlxG.save.data.instVolume = instVolume;
 		FlxG.save.data.mainVolume = mainVolume;
 		FlxG.save.data.winIcon = winIcon;
-		FlxG.save.data.judgementCounter = judgementCounter;
 		FlxG.save.data.judgementCounterType = judgementCounterType;
 		FlxG.save.data.beatMode = beatMode;
 		FlxG.save.data.beatType = beatType;
