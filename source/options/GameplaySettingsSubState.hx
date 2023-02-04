@@ -59,13 +59,6 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			false);
 		addOption(option);
 
-		var option:Option = new Option('Opponent Notes',
-			'If unchecked, opponent notes get hidden.',
-			'opponentStrums',
-			'bool',
-			true);
-		addOption(option);
-
 		var option:Option = new Option('Ghost Tapping',
 			"If checked, you won't get misses from pressing keys\nwhile there are no notes able to be hit.",
 			'ghostTapping',
@@ -146,24 +139,6 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		option.minValue = 2;
 		option.maxValue = 10;
 		option.changeValue = 0.1;
-		addOption(option);
-
-                var option:Option = new Option('Health Drain',
-			'Add Draining health when opponent hit in note.',
-			'healthDrain',
-			'float',
-			0);
-		option.scrollSpeed = 1.6;
-		option.minValue = 0;
-		option.maxValue = 5;
-		option.changeValue = 0.1;
-		addOption(option);
-		
-		var option:Option = new Option('Health Input', //Name
-			'If checked, health not add sustain notes.', //Description
-			'oldInput', //Save data variable name
-			'bool', //Variable type
-			true); //Default value
 		addOption(option);
 
 		super();
