@@ -234,6 +234,8 @@ class PlayState extends MusicBeatState
 	var wiggleShit:WiggleEffect = new WiggleEffect();
 	var bgGhouls:BGSprite;
 
+    var HighScore:Int = 0;
+    var HighRating:Float = 0;
     
     public var songScore:Int = 0;
 	public var lastsongScore:Int = 0;
@@ -901,7 +903,7 @@ class PlayState extends MusicBeatState
 		strumLine.scrollFactor.set();
 
 		var showTime:Bool = (ClientPrefs.timeBarType != 'Disabled');
-		timeTxt = new FlxText(0, 680 , 400, "", 28);
+		timeTxt = new FlxText(0, 705 , 400, "", 28);
 		timeTxt.setFormat(Paths.font("vcr.ttf"), 28, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		timeTxt.scrollFactor.set();
 		timeTxt.alpha = 0;
@@ -916,18 +918,6 @@ class PlayState extends MusicBeatState
 		}
 		updateTime = showTime;
 
-		timeBarBG = new AttachedSprite('timeBar');
-		timeBarBG.x = timeTxt.x;
-		timeBarBG.y = timeTxt.y + (timeTxt.height / 4);
-        timeBarBG.screenCenter(X);
-		timeBarBG.scrollFactor.set();
-		timeBarBG.alpha = 0;
-		timeBarBG.visible = showTime;
-		timeBarBG.color = FlxColor.BLACK;
-		timeBarBG.xAdd = -4;
-		timeBarBG.yAdd = -4;
-		// add(timeBarBG);
-
 		timeBar = new FlxBar(0, 705, LEFT_TO_RIGHT, 1280, 20, this,
 			'songPercent', 0, 1);
 		if(ClientPrefs.timeBarType == 'Repeat Bar')
@@ -939,7 +929,8 @@ class PlayState extends MusicBeatState
 		if(ClientPrefs.downScroll)
 		{
 		    timeBar.y = 0;
-		    timeTxt.screenCenter(X);
+		    botplayTxt.y = 705;
+		    timeTxt.y = 0;
 		}
 		timeBar.scrollFactor.set();
 		timeBar.screenCenter(X);
@@ -958,7 +949,7 @@ class PlayState extends MusicBeatState
 		if(ClientPrefs.timeBarType == 'Song Name')
 		{
 			timeTxt.size = 24;
-			timeTxt.y += 3;
+			timeTxt.y -= 3;
 		}
 
 		var splash:NoteSplash = new NoteSplash(100, 100, 0);
@@ -1085,11 +1076,11 @@ class PlayState extends MusicBeatState
 		judgementCounter.borderQuality = 2;
 		judgementCounter.scrollFactor.set();
 		judgementCounter.screenCenter(Y);
-		judgementCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nMisses: ${songMisses}\nJudgement Counter by\n KadeDev';
+		judgementCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nMisses: ${songMisses}';
     	add(judgementCounter);
 		if (ClientPrefs.judgementCounterType == 'Percent')
 		{
-		    judgementCounter.text = 'Sick: ${Highscore.floorDecimal(sicksPercent * 100, 2)}%\nGood: ${Highscore.floorDecimal(goodsPercent * 100, 2)}%\nBad: ${Highscore.floorDecimal(badsPercent * 100, 2)}%\nShit: ${Highscore.floorDecimal(shitsPercent * 100, 2)}%\nJudgement percent text by\nFearester';
+		    judgementCounter.text = 'Sick: ${Highscore.floorDecimal(sicksPercent * 100, 2)}%\nGood: ${Highscore.floorDecimal(goodsPercent * 100, 2)}%\nBad: ${Highscore.floorDecimal(badsPercent * 100, 2)}%\nShit: ${Highscore.floorDecimal(shitsPercent * 100, 2)}%';
 		}
 
 		botplayTxt = new FlxText(0, 0 , FlxG.width, "AUTO PLAY", 28);
@@ -1781,20 +1772,24 @@ class PlayState extends MusicBeatState
 		badsPercent = (bads / noteHit);
 		shitsPercent = (shits / noteHit);
 		
-	    judgementCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nMisses: ${songMisses}\njudgement text by kadeDev.';
+		if (HighScore > songScore){
+		    HighScore = songScore;
+		}
+		
+	    judgementCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nMisses: ${songMisses}';
+	    
         if (ClientPrefs.judgementCounterType == "Percentage")
 		{
 		    judgementCounter.text = 'Sick: ${Highscore.floorDecimal(sicksPercent * 100, 2)}%\n'
 			    + 'Good: ${Highscore.floorDecimal(goodsPercent * 100, 2)}%\n'
 			    + 'Bad: ${Highscore.floorDecimal(badsPercent * 100, 2)}%\n'
-			    + 'Shit: ${Highscore.floorDecimal(shitsPercent * 100, 2)}%\n'
-			    + 'Judgement percent text by Fearester';
+			    + 'Shit: ${Highscore.floorDecimal(shitsPercent * 100, 2)}%\n';
 		}
 		
 		scoreTxt.text = 'Score: ' + songScore
-		+ ' | Misses: ' + songMisses
+		+ ' / ' + HighScore +' | Misses: ' + songMisses
 		+ ' | Rating: ' + ratingName
-		+ (ratingName != '[0%]' ? ' (${Highscore.floorDecimal(ratingPercent * 100, 2)}%) - $ratingFC' : '');
+		+ (ratingName != '[0%]' ? ' (${Highscore.floorDecimal(ratingPercent * 100, 2)}%) - $ratingFC' : '' + '[ ' + HighRating + ' ]');
 
 		if(ClientPrefs.scoreZoom && !miss && !cpuControlled)
 		{
@@ -2438,7 +2433,7 @@ class PlayState extends MusicBeatState
 		if(ratingName == '?') {
 			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName;
 		} else {
-			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName + ' (' + Highscore.floorDecimal(ratingPercent * 100, 2) + '%)' + ' - ' + ratingFC;//peeps wanted no integer rating
+			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName + ' (' + Highscore.floorDecimal(ratingPercent * 100, 2) + '%)' + ' - ' + HighRating + ' | ' + ratingFC;//peeps wanted no integer rating
 		}
 
 		if(botplayTxt.visible) {
@@ -2565,19 +2560,15 @@ class PlayState extends MusicBeatState
 
 					if(ClientPrefs.timeBarType != 'Song Name') {
 						timeTxt.text = FlxStringUtil.formatTime(secondsTotal, false);
-						timeTxt.x = -165;
 					}
 					if(ClientPrefs.timeBarType == 'Song Percentage') {
 						timeTxt.text = '(${Highscore.floorDecimal(songPercent * 100, 1)}%)';
-						timeTxt.x = -150;
 					}
 					if(ClientPrefs.timeBarType == 'Time Length') {
 						timeTxt.text = '${FlxStringUtil.formatTime(secondsTotal, false)} - ${FlxStringUtil.formatTime(Math.floor(songLength / 1000), false)}';
-						timeTxt.x = -105;
 					}
 					if(ClientPrefs.timeBarType == 'Time Length Percent') {
 						timeTxt.text = '(${Highscore.floorDecimal(songPercent * 100, 1)}%) - (${FlxStringUtil.formatTime(secondsTotal, false)} / ${FlxStringUtil.formatTime(Math.floor(songLength / 1000), false)})';
-						timeTxt.x -= 20;
 					}
 				}
 			}
@@ -4563,6 +4554,10 @@ class PlayState extends MusicBeatState
 			{
 				// Rating Percent
 				ratingPercent = Math.min(1, Math.max(0, totalNotesHit / totalPlayed));
+				if(ratingPercent > HighRating)
+				{
+				    HighRating = ratingPercent;
+				}
 				//trace((totalNotesHit / totalPlayed) + ', Total: ' + totalPlayed + ', notes hit: ' + totalNotesHit);
 
 				// Rating Name
