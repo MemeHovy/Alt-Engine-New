@@ -1092,7 +1092,7 @@ class PlayState extends MusicBeatState
 		    judgementCounter.text = 'Sick: ${Highscore.floorDecimal(sicksPercent * 100, 2)}%\nGood: ${Highscore.floorDecimal(goodsPercent * 100, 2)}%\nBad: ${Highscore.floorDecimal(badsPercent * 100, 2)}%\nShit: ${Highscore.floorDecimal(shitsPercent * 100, 2)}%\nJudgement percent text by\nFearester';
 		}
 
-		botplayTxt = new FlxText(0, 19 , FlxG.width, "AUTO PLAY", 28);
+		botplayTxt = new FlxText(0, 0 , FlxG.width, "AUTO PLAY", 28);
 		botplayTxt.screenCenter(X);
 		botplayTxt.setFormat(Paths.font("vcr.ttf"), 28, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		botplayTxt.scrollFactor.set();
@@ -2565,19 +2565,19 @@ class PlayState extends MusicBeatState
 
 					if(ClientPrefs.timeBarType != 'Song Name') {
 						timeTxt.text = FlxStringUtil.formatTime(secondsTotal, false);
-						timeTxt.offset.x = -165;
+						timeTxt.x = -165;
 					}
 					if(ClientPrefs.timeBarType == 'Song Percentage') {
 						timeTxt.text = '(${Highscore.floorDecimal(songPercent * 100, 1)}%)';
-						timeTxt.offset.x = -150;
+						timeTxt.x = -150;
 					}
 					if(ClientPrefs.timeBarType == 'Time Length') {
 						timeTxt.text = '${FlxStringUtil.formatTime(secondsTotal, false)} - ${FlxStringUtil.formatTime(Math.floor(songLength / 1000), false)}';
-						timeTxt.offset.x = -105;
+						timeTxt.x = -105;
 					}
 					if(ClientPrefs.timeBarType == 'Time Length Percent') {
 						timeTxt.text = '(${Highscore.floorDecimal(songPercent * 100, 1)}%) - (${FlxStringUtil.formatTime(secondsTotal, false)} / ${FlxStringUtil.formatTime(Math.floor(songLength / 1000), false)})';
-						timeTxt.offset.x -= 20;
+						timeTxt.x -= 20;
 					}
 				}
 			}
