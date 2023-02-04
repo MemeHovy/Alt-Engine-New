@@ -163,7 +163,6 @@ class PlayState extends MusicBeatState
 	public var healthBar:FlxBar;
 	var songPercent:Float = 0;
 
-	private var timeBarBG:AttachedSprite;
 	public var timeBar:FlxBar;
 	
 	public var noteHit:Int = 0;
@@ -940,7 +939,6 @@ class PlayState extends MusicBeatState
 		timeBar.visible = showTime;
 		add(timeBar);
 		add(timeTxt);
-		timeBarBG.sprTracker = timeBar;
 
 		strumLineNotes = new FlxTypedGroup<StrumNote>();
 		add(strumLineNotes);
@@ -3303,7 +3301,6 @@ class PlayState extends MusicBeatState
                 #if android
                 androidc.visible = false;
                 #end		
-		timeBarBG.visible = false;
 		timeBar.visible = false;
 		timeTxt.visible = false;
 		canPause = false;
