@@ -753,7 +753,7 @@ class WeekEditorFreeplayState extends MusicBeatState
 
 		iconInputText = new FlxUIInputText(10, bgColorStepperR.y + 70, 100, '', 8);
 		iconInputText.focusGained = () -> FlxG.stage.window.textInputEnabled = true;
-        bfIconInputText = new FlxUIInputText(100, bgColorStepperR.y + 70, 100, '', 8);
+                bfIconInputText = new FlxUIInputText(120, bgColorStepperR.y + 70, 100, '', 8);
 		bfIconInputText.focusGained = () -> FlxG.stage.window.textInputEnabled = true;
 
 		var hideFreeplayCheckbox:FlxUICheckBox = new FlxUICheckBox(10, bfIconInputText.y + 30, null, null, "Hide Week from Freeplay?", 100);
@@ -765,7 +765,7 @@ class WeekEditorFreeplayState extends MusicBeatState
 		
 		tab_group.add(new FlxText(10, bgColorStepperR.y - 18, 0, 'Selected background Color R/G/B:'));
 		tab_group.add(new FlxText(10, iconInputText.y - 18, 0, 'Selected icon:'));
-		tab_group.add(new FlxText(100, bfIconInputText.y - 18, 0, 'Selected boyfriend icon:'));
+		tab_group.add(new FlxText(120, bfIconInputText.y - 18, 0, 'Selected boyfriend icon:'));
 		tab_group.add(bgColorStepperR);
 		tab_group.add(bgColorStepperG);
 		tab_group.add(bgColorStepperB);
@@ -829,6 +829,7 @@ class WeekEditorFreeplayState extends MusicBeatState
 		}
 		trace(weekFile.songs[curSelected]);
 		iconInputText.text = weekFile.songs[curSelected][1];
+                bfIconInputText.text = weekFile.songs[curSelected][3];
 		bgColorStepperR.value = Math.round(weekFile.songs[curSelected][2][0]);
 		bgColorStepperG.value = Math.round(weekFile.songs[curSelected][2][1]);
 		bgColorStepperB.value = Math.round(weekFile.songs[curSelected][2][2]);
@@ -852,7 +853,13 @@ class WeekEditorFreeplayState extends MusicBeatState
 			if(FlxG.keys.justPressed.ENTER) {
 				iconInputText.hasFocus = false;
 			}
-		} else {
+                else if(bfIconInputText.hasFocus) {
+			FlxG.sound.muteKeys = [];
+			FlxG.sound.volumeDownKeys = [];
+			FlxG.sound.volumeUpKeys = [];
+			if(FlxG.keys.justPressed.ENTER) {
+				bfIconInputText.hasFocus = false;
+	        } else {
 			FlxG.sound.muteKeys = TitleState.muteKeys;
 			FlxG.sound.volumeDownKeys = TitleState.volumeDownKeys;
 			FlxG.sound.volumeUpKeys = TitleState.volumeUpKeys;
