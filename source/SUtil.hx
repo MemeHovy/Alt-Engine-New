@@ -282,7 +282,7 @@ class SUtil
 					FileSystem.createDirectory(SUtil.getPath() + 'actLogs');
 
 				File.saveContent(SUtil.getPath()
-					+ 'historyLogs/'
+					+ 'actLogs/'
 					+ Lib.application.meta.get('file')
 					+ '.ht',
 					Date.now().toString().replace(' ', '/').replace(':', ":") + action
