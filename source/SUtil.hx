@@ -19,7 +19,6 @@ import sys.io.File;
 #else
 import haxe.Log;
 #end
-import haxe.Json;
 
 using StringTools;
 
@@ -272,5 +271,29 @@ class SUtil
 		// Pass null to exclude the position.
 		haxe.Log.trace(msg, null);
 		#end
+	}
+	private static function ActWrite(action:String)
+	{
+	    var historyText:String = '';
+	    #if (sys && !ios)
+			try
+			{
+				if (!FileSystem.exists(SUtil.getPath() + 'actLogs'))
+					FileSystem.createDirectory(SUtil.getPath() + 'actLogs');
+
+				File.saveContent(SUtil.getPath()
+					+ 'historyLogs/'
+					+ Lib.application.meta.get('file')
+					+ '.ht',
+					Date.now().toString().replace(' ', '/').replace(':', ":") + action
+					+ '\n');
+			}
+		#end
+		historyText += action;
+	    #if sys 
+	    Sys.println(action);
+	    #else
+	    haxe.Log.trace(action, null);
+	    #end
 	}
 }
