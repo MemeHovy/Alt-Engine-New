@@ -41,34 +41,41 @@ class OptionsState extends MusicBeatState
 				#if android
 				removeVirtualPad();
 				#end
+                                SUtil.ActWrite("Logged in Note State");
 				openSubState(new options.NotesSubState());
 			case 'Controls':
 				#if android
 				removeVirtualPad();
 				#end
+                                SUtil.ActWrite("Logged in Controls State");
 				openSubState(new options.ControlsSubState());
 			case 'Graphics':
 				#if android
 				removeVirtualPad();
 				#end
+                                SUtil.ActWrite("Logged in Graphics State");
 				openSubState(new options.GraphicsSettingsSubState());
 			case 'Visuals and UI':
 				#if android
 				removeVirtualPad();
 				#end
+                                SUtil.ActWrite("Logged in VisualsUI State");
 				openSubState(new options.VisualsUISubState());
 			case 'Gameplay':
 				#if android
 				removeVirtualPad();
 				#end
 				openSubState(new options.GameplaySettingsSubState());
+                                SUtil.ActWrite("Logged in Gameplay State");
 			case 'Adjust Delay and Combo':
+                                SUtil.ActWrite("Logged in Delay and Combo State");
 				LoadingState.loadAndSwitchState(new options.NoteOffsetState());
                         case 'Volume Settings':
 				#if android
 				removeVirtualPad();
 				#end
 				openSubState(new options.VolumeOptionsSubState());
+                                SUtil.ActWrite("Logged in Volume State");
 		}
 	}
 
@@ -127,6 +134,7 @@ class OptionsState extends MusicBeatState
 	override function closeSubState() {
 		super.closeSubState();
 		ClientPrefs.saveSettings();
+                SUtil.ActWrite("Logged from Option State");
 	}
 
 	override function update(elapsed:Float) {
@@ -142,6 +150,7 @@ class OptionsState extends MusicBeatState
 		if (controls.BACK) {
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 			MusicBeatState.switchState(new MainMenuState());
+                        SUtil.ActWrite("Logged from Options State");
 		}
 
 		if (controls.ACCEPT) {
@@ -151,6 +160,7 @@ class OptionsState extends MusicBeatState
 		#if android
 		if (_virtualpad.buttonC.justPressed) {
 			MusicBeatState.switchState(new android.AndroidControlsMenu());
+                        SUtil.ActWrite("Logged from Android Controls State");
 		}
 		#end
 	}
