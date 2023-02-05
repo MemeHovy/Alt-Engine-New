@@ -39,7 +39,6 @@ import openfl.Assets;
 using StringTools;
 typedef TitleData =
 {
-	
 	titlex:Float,
 	titley:Float,
 	startx:Float,
@@ -83,6 +82,9 @@ class TitleState extends MusicBeatState
 
 	override public function create():Void
 	{
+	
+	SUtil.ActWrite("Log In Game...");
+	
 		#if android
 		FlxG.android.preventDefaultKeys = [BACK];
 		#end
@@ -218,6 +220,8 @@ class TitleState extends MusicBeatState
 			// FlxG.sound.list.add(music);
 			// music.play();
 
+            SUtil.ActWrite("Logged in game.");
+            
 			if(FlxG.sound.music == null) {
 				FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
 
