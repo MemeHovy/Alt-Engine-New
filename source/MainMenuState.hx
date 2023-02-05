@@ -283,7 +283,7 @@ class MainMenuState extends MusicBeatState
 			{
 				selectedSomethin = true;
 				FlxG.sound.play(Paths.sound('cancelMenu'));
-				SUtil.ActWrite("Logged to TitleState")
+				SUtil.ActWrite("Logged to TitleState");
 				MusicBeatState.switchState(new TitleState());
 			}
 
@@ -291,7 +291,7 @@ class MainMenuState extends MusicBeatState
 			{
 				if (optionShit[curSelected] == 'donate')
 				{
-					SUtil.ActWrite("Going to donate")
+					SUtil.ActWrite("Going to donate");
 					CoolUtil.browserLoad('https://ninja-muffin24.itch.io/funkin');
 				}
 				else
@@ -322,21 +322,21 @@ class MainMenuState extends MusicBeatState
 								switch (daChoice)
 								{
 									case 'story_mode':
-										SUtil.ActWrite("Logged to StoryMenuState")
+										SUtil.ActWrite("Logged to StoryMenuState");
 										MusicBeatState.switchState(new StoryMenuState());
 									case 'freeplay':
-										SUtil.ActWrite("Logged to FreeplayState")
+										SUtil.ActWrite("Logged to FreeplayState");
 										MusicBeatState.switchState(new FreeplayState());
 									#if MODS_ALLOWED
 									case 'mods':
-										SUtil.ActWrite("Logged to ModsMenuState")
+										SUtil.ActWrite("Logged to ModsMenuState");
 										MusicBeatState.switchState(new ModsMenuState());
 									#end
 									case 'credits':
-										SUtil.ActWrite("Logged to CreditsState")
+										SUtil.ActWrite("Logged to CreditsState");
 										MusicBeatState.switchState(new CreditsState());
 									case 'options':
-										SUtil.ActWrite("Logged to OptionsState")
+										SUtil.ActWrite("Logged to OptionsState");
 										LoadingState.loadAndSwitchState(new options.OptionsState());
 								}
 							});
