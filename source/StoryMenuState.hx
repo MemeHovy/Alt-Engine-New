@@ -267,6 +267,7 @@ class StoryMenuState extends MusicBeatState
 		{
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 			movedBack = true;
+			SUtil.ActWrite("Logged to MainMenuState");
 			MusicBeatState.switchState(new MainMenuState());
 		}
 
