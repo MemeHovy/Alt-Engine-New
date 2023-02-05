@@ -425,7 +425,7 @@ class TitleState extends MusicBeatState
 
 				new FlxTimer().start(1, function(tmr:FlxTimer)
 				{
-
+                        SUtil.ActWrite("Logged in MainMenuState");
 						MusicBeatState.switchState(new MainMenuState());
 
 					closedState = true;
