@@ -44,7 +44,7 @@ class CreditsState extends MusicBeatState
 		DiscordClient.changePresence("In the Menus", null);
 		#end
 		
-		SUtil.ActWrite("Logged in Credits State...")
+		SUtil.ActWrite("Logged in Credits State...");
 
 		persistentUpdate = true;
 		bg = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
