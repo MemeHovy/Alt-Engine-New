@@ -38,6 +38,7 @@ class MasterEditorMenu extends MusicBeatState
 
 	override function create()
 	{
+                SUtil.ActWrite("Logged in Master Editor");
 		FlxG.camera.bgColor = FlxColor.BLACK;
 		#if desktop
 		// Updating Discord Rich Presence
@@ -113,11 +114,13 @@ class MasterEditorMenu extends MusicBeatState
 
 		if (controls.BACK)
 		{
+                        SUtil.ActWrite("Logout in Master Editor");
 			MusicBeatState.switchState(new MainMenuState());
 		}
 
 		if (controls.ACCEPT)
 		{
+                        SUtil.ActWrite("Log in " + options[curSelected]);
 			switch(options[curSelected]) {
 				case 'Character Editor':
 					LoadingState.loadAndSwitchState(new CharacterEditorState(Character.DEFAULT_CHARACTER, false));
