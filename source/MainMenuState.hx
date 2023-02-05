@@ -139,7 +139,7 @@ class MainMenuState extends MusicBeatState
 		}
 		menuItems.add(menuItem);
 		var scr:Float = (optionShit.length - 4) * 0.135;
-		if(optionShit.length < 6) scr = 0;
+		if(optionShit.length < 5) scr = 0;
 		menuItem.scrollFactor.set(0,scr);
 		menuItem.antialiasing = ClientPrefs.globalAntialiasing;
 		//menuItem.setGraphicSize(Std.int(menuItem.width * 0.58));
@@ -159,7 +159,7 @@ class MainMenuState extends MusicBeatState
 		}
 		menuItems.add(menuItem);
 		var scr:Float = (optionShit.length - 4) * 0.135;
-		if(optionShit.length < 6) scr = 0;
+		if(optionShit.length < 5) scr = 0;
 		menuItem.scrollFactor.set(0,scr);
 		menuItem.antialiasing = ClientPrefs.globalAntialiasing;
 		//menuItem.setGraphicSize(Std.int(menuItem.width * 0.58));
@@ -179,7 +179,7 @@ class MainMenuState extends MusicBeatState
 		}
 		menuItems.add(menuItem);
 		var scr:Float = (optionShit.length - 4) * 0.135;
-		if(optionShit.length < 6) scr = 0;
+		if(optionShit.length < 5) scr = 0;
 		menuItem.scrollFactor.set(0,scr);
 		menuItem.antialiasing = ClientPrefs.globalAntialiasing;
 		//menuItem.setGraphicSize(Std.int(menuItem.width * 0.58));
@@ -199,7 +199,7 @@ class MainMenuState extends MusicBeatState
 		}
 		menuItems.add(menuItem);
 		var scr:Float = (optionShit.length - 4) * 0.135;
-		if(optionShit.length < 6) scr = 0;
+		if(optionShit.length < 5) scr = 0;
 		menuItem.scrollFactor.set(0,scr);
 		menuItem.antialiasing = ClientPrefs.globalAntialiasing;
 		//menuItem.setGraphicSize(Std.int(menuItem.width * 0.58));
@@ -219,7 +219,7 @@ class MainMenuState extends MusicBeatState
 		}
 		menuItems.add(menuItem);
 		var scr:Float = (optionShit.length - 4) * 0.135;
-		if(optionShit.length < 6) scr = 0;
+		if(optionShit.length < 5) scr = 0;
 		menuItem.scrollFactor.set(0,scr);
 		menuItem.antialiasing = ClientPrefs.globalAntialiasing;
 		//menuItem.setGraphicSize(Std.int(menuItem.width * 0.58));
@@ -240,7 +240,7 @@ class MainMenuState extends MusicBeatState
 		}
 		menuItems.add(menuItem);
 		var scr:Float = (optionShit.length - 4) * 0.135;
-		if(optionShit.length < 6) scr = 0;
+		if(optionShit.length < 5) scr = 0;
 		menuItem.scrollFactor.set(0,scr);
 		menuItem.antialiasing = ClientPrefs.globalAntialiasing;
 		//menuItem.setGraphicSize(Std.int(menuItem.width * 0.58));
