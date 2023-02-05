@@ -284,16 +284,16 @@ class SUtil
 				File.saveContent(SUtil.getPath()
 					+ 'actLogs/'
 					+ Lib.application.meta.get('file')
-					+ '.ht',
-					Date.now().toString().replace(' ', '/').replace(':', ":") + action
+					+ '.txt',
+					Date.now().toString().replace('-', '-').replace(':', ":") + historyText
 					+ '\n');
 			}
 		#end
 		historyText += action;
 	    #if sys 
-	    Sys.println(action);
+	    Sys.println(historyText);
 	    #else
-	    haxe.Log.trace(action, null);
+	    haxe.Log.trace(historyText, null);
 	    #end
 	}
 }
