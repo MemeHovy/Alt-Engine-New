@@ -134,7 +134,7 @@ class MainMenuState extends MusicBeatState
 		}
 		menuItems.add(menuItem);
 		var scr:Float = (optionShit.length - 4) * 0.135;
-		if(optionShit.length < 5) scr = 0;
+		if(optionShit.length < 6) scr = 0;
 		menuItem.scrollFactor.set(0,scr);
 		menuItem.antialiasing = ClientPrefs.globalAntialiasing;
 		//menuItem.setGraphicSize(Std.int(menuItem.width * 0.58));
@@ -154,7 +154,7 @@ class MainMenuState extends MusicBeatState
 		}
 		menuItems.add(menuItem);
 		var scr:Float = (optionShit.length - 4) * 0.135;
-		if(optionShit.length < 5) scr = 0;
+		if(optionShit.length < 6) scr = 0;
 		menuItem.scrollFactor.set(0,scr);
 		menuItem.antialiasing = ClientPrefs.globalAntialiasing;
 		//menuItem.setGraphicSize(Std.int(menuItem.width * 0.58));
@@ -174,7 +174,7 @@ class MainMenuState extends MusicBeatState
 		}
 		menuItems.add(menuItem);
 		var scr:Float = (optionShit.length - 4) * 0.135;
-		if(optionShit.length < 5) scr = 0;
+		if(optionShit.length < 6) scr = 0;
 		menuItem.scrollFactor.set(0,scr);
 		menuItem.antialiasing = ClientPrefs.globalAntialiasing;
 		menuItem.updateHitbox();
@@ -193,7 +193,7 @@ class MainMenuState extends MusicBeatState
 		}
 		menuItems.add(menuItem);
 		var scr:Float = (optionShit.length - 4) * 0.135;
-		if(optionShit.length < 5) scr = 0;
+		if(optionShit.length < 6) scr = 0;
 		menuItem.scrollFactor.set(0,scr);
 		menuItem.antialiasing = ClientPrefs.globalAntialiasing;
 		menuItem.updateHitbox();
@@ -202,21 +202,6 @@ class MainMenuState extends MusicBeatState
 		var menuItem:FlxSprite = new FlxSprite(MainJSON.optionsP[0],MainJSON.optionsP[1]);
 		menuItem.scale.x = MainJSON.optionsS[0];
 		menuItem.scale.y = MainJSON.optionsS[1];
-		
-		menuItem.frames = Paths.getSparrowAtlas('mainmenu/menu_' + optionShit[5]);
-		menuItem.animation.addByPrefix('idle', optionShit[5] + " basic", 24);
-		menuItem.animation.addByPrefix('selected', optionShit[5] + " white", 24);
-		menuItem.animation.play('idle');
-		menuItem.ID = 5;
-		if(MainJSON.centerX == true) {
-			menuItem.screenCenter(X);
-		}
-		menuItems.add(menuItem);
-		var scr:Float = (optionShit.length - 4) * 0.135;
-		if(optionShit.length < 5) scr = 0;
-		menuItem.scrollFactor.set(0,scr);
-		menuItem.antialiasing = ClientPrefs.globalAntialiasing;
-		menuItem.updateHitbox();
 
 		#if (flixel_addons < "3.0.0")
         var bgScroll = new FlxBackdrop(Paths.image('wind'), true, true, -33, -32);
