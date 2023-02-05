@@ -200,6 +200,7 @@ class ChartingState extends MusicBeatState
 	public static var vortex:Bool = false;
 	override function create()
 	{
+	    SUtil.ActWrite("Logged in Chart Editor");
 		if (PlayState.SONG != null)
 			_song = PlayState.SONG;
 		else
@@ -1674,6 +1675,8 @@ class ChartingState extends MusicBeatState
 			
 			if (FlxG.keys.justPressed.BACKSPACE #if android || _virtualpad.buttonB.justPressed #end) {
 				//if(onMasterEditor) {
+					SUtil.ActWrite("Logged in Master Editor");
+
 					MusicBeatState.switchState(new editors.MasterEditorMenu());
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
 				//}
@@ -2858,7 +2861,8 @@ class ChartingState extends MusicBeatState
 		_file.removeEventListener(Event.CANCEL, onSaveCancel);
 		_file.removeEventListener(IOErrorEvent.IO_ERROR, onSaveError);
 		_file = null;
-		FlxG.log.notice("Successfully saved LEVEL DATA.");
+	    SUtil.ActWrite("Data Saved Successfully");
+		FlxG.log.notice("Successfully Saved level data.");
 	}
 
 	/**
@@ -2881,6 +2885,7 @@ class ChartingState extends MusicBeatState
 		_file.removeEventListener(Event.CANCEL, onSaveCancel);
 		_file.removeEventListener(IOErrorEvent.IO_ERROR, onSaveError);
 		_file = null;
+	    SUtil.ActWrite("Save Error!!!");
 		FlxG.log.error("Problem saving Level data");
 	}
 }
