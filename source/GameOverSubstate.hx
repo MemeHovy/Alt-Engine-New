@@ -103,13 +103,14 @@ class GameOverSubstate extends MusicBeatSubstate
 			PlayState.deathCounter = 0;
 			PlayState.seenCutscene = false;
 
-			if (PlayState.isStoryMode)
+			if (PlayState.isStoryMode){
 				SUtil.ActWrite("Logged to StoryMenuState");
 				MusicBeatState.switchState(new StoryMenuState());
-			else
+			}
+			else{
 				SUtil.ActWrite("Logged to FreeplayState");
 				MusicBeatState.switchState(new FreeplayState());
-
+			}
 			FlxG.sound.playMusic(Paths.music('freakyMenu'));
 			PlayState.instance.callOnLuas('onGameOverConfirm', [false]);
 		}
