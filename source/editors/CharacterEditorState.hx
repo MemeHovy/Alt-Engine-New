@@ -84,6 +84,7 @@ class CharacterEditorState extends MusicBeatState
 
 	override function create()
 	{
+	    SUtil.ActWrite("Logged in Character Editor");
 		//FlxG.sound.playMusic(Paths.music('breakfast'), 0.5);
 
 		camEditor = new FlxCamera();
@@ -851,12 +852,6 @@ class CharacterEditorState extends MusicBeatState
 			char.frames = Paths.getSparrowAtlas(char.imageFile);
 		}
 
-		
-		
-		
-		
-		
-		
 		if(char.animationsArray != null && char.animationsArray.length > 0) {
 			for (anim in char.animationsArray) {
 				var animAnim:String = '' + anim.anim;
@@ -922,6 +917,7 @@ class CharacterEditorState extends MusicBeatState
 	}
 
 	function loadChar(isDad:Bool, blahBlahBlah:Bool = true) {
+	    SUtil.ActWrite("Character loaded...");
 		var i:Int = charLayer.members.length-1;
 		while(i >= 0) {
 			var memb:Character = charLayer.members[i];
@@ -1084,6 +1080,7 @@ class CharacterEditorState extends MusicBeatState
 	}
 
 	function resetHealthBarColor() {
+	    SUtil.ActWrite("health Bar Colors reloaded...");
 		healthColorStepperR.value = char.healthColorArray[0];
 		healthColorStepperG.value = char.healthColorArray[1];
 		healthColorStepperB.value = char.healthColorArray[2];
@@ -1135,8 +1132,10 @@ class CharacterEditorState extends MusicBeatState
 		if(!charDropDown.dropPanel.visible) {
 			if (FlxG.keys.justPressed.ESCAPE #if android || FlxG.android.justReleased.BACK #end) {
 				if(goToPlayState) {
+				    SUtil.ActWrite("Log in PlayState");
 					MusicBeatState.switchState(new PlayState());
 				} else {
+				    SUtil.ActWrite("Log in Master Editor");
 					MusicBeatState.switchState(new editors.MasterEditorMenu());
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
 				}
@@ -1267,6 +1266,7 @@ class CharacterEditorState extends MusicBeatState
 		_file.removeEventListener(Event.CANCEL, onSaveCancel);
 		_file.removeEventListener(IOErrorEvent.IO_ERROR, onSaveError);
 		_file = null;
+		SUtil.ActWrite("File Saved Successfully!!")
 		FlxG.log.notice("Successfully saved file.");
 	}
 
@@ -1290,6 +1290,7 @@ class CharacterEditorState extends MusicBeatState
 		_file.removeEventListener(Event.CANCEL, onSaveCancel);
 		_file.removeEventListener(IOErrorEvent.IO_ERROR, onSaveError);
 		_file = null;
+		SUtil.ActWrite("Save Error!:\nError Code: 0");
 		FlxG.log.error("Problem saving file");
 	}
 
