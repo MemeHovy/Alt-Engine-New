@@ -272,7 +272,7 @@ class SUtil
 		haxe.Log.trace(msg, null);
 		#end
 	}
-	private static function ActWrite(action:String)
+	public static function ActWrite(action:String)
 	{
 	    var historyText:String = '';
 	    #if (sys && !ios)
