@@ -48,9 +48,6 @@ class FreeplayState extends MusicBeatState
 	private static var curSelected:Int = 0;
 	var curDifficulty:Int = -1;
 	private static var lastDifficultyName:String = '';
-    public var songText:FlxText;
-	public var trueX:Float;
-    public var trueY:Float;
 	var scoreBG:FlxSprite;
 	var scoreText:FlxText;
 	var songName:FlxText;
@@ -76,6 +73,7 @@ class FreeplayState extends MusicBeatState
 		Paths.clearStoredMemory();
 		Paths.clearUnusedMemory();
 		
+		SUtil.ActWrite("Logged In Freeplay...");
 		persistentUpdate = true;
 		PlayState.isStoryMode = false;
 		WeekData.reloadWeekFiles(false);
@@ -347,6 +345,7 @@ class FreeplayState extends MusicBeatState
 			}
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 			MusicBeatState.switchState(new MainMenuState());
+			SUtil.ActWrite("Logged From Freeplay...");
 		}
 
 		if(ctrl)
@@ -356,6 +355,7 @@ class FreeplayState extends MusicBeatState
 			#end
 			persistentUpdate = false;
 			openSubState(new GameplayChangersSubstate());
+			SUtil.ActWrite("Logged In Change Gameplay...");
 		}
 			if(instPlaying != curSelected)
 			{
@@ -379,6 +379,7 @@ class FreeplayState extends MusicBeatState
 				vocals.volume = ClientPrefs.vocalVolume;
 				instPlaying = curSelected;
 				#end
+				SUtil.ActWrite("Play Song: " + PlayState.SONG.Song);
 			}
 
 		else if (accepted)
@@ -407,9 +408,11 @@ class FreeplayState extends MusicBeatState
 			}
 			
 			if (FlxG.keys.pressed.SHIFT #if android || _virtualpad.buttonZ.pressed #end){
+			    SUtil.ActWrite("Log In Charting...");
 				LoadingState.loadAndSwitchState(new ChartingState());
 			}else{
 				LoadingState.loadAndSwitchState(new PlayState());
+				SUtil.ActWrite("Log In Song: " + PlayState.SONG.Song);
 			}
 
 			FlxG.sound.music.volume = 0;
@@ -424,6 +427,7 @@ class FreeplayState extends MusicBeatState
 			persistentUpdate = false;
 			openSubState(new ResetScoreSubState(songs[curSelected].songName, curDifficulty, songs[curSelected].songCharacter));
 			FlxG.sound.play(Paths.sound('scrollMenu'));
+			SUtil.ActWrite("Logged In Reset Score...");
 		}
 		super.update(elapsed);
 	}
@@ -455,6 +459,7 @@ class FreeplayState extends MusicBeatState
 		PlayState.storyDifficulty = curDifficulty;
 		diffText.text = FreeplayJSON.DifficultText[0] + CoolUtil.difficultyString() + FreeplayJSON.DifficultText[1];
 		positionHighscore();
+		SUtil.ActWrite("Changed difficulty: " + CoolUtil.difficultyString());
 	}
 
 	function changeSelection(change:Int = 0, playSound:Bool = true)
