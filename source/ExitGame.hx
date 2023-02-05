@@ -46,6 +46,7 @@ class ExitGame extends MusicBeatState
                 //trace(menuText.y);
                 ClientPrefs.saveSettings;
                 System.exit(1);
+                SUtil.ActWrite("Exit Game...");
 			case 'No':
                 FlxG.sound.play(Paths.sound('cancelMenu'));
 				MusicBeatState.switchState(new MainMenuState());
@@ -59,7 +60,7 @@ class ExitGame extends MusicBeatState
 		#if desktop
 		DiscordClient.changePresence("Game Closing Menu", null);
 		#end
-
+        SUtil.ActWrite("Logged in Exit State...");
         var bg:FlxSprite = new FlxSprite(-80).loadGraphic(Paths.image('menuBG'));
 		bg.scrollFactor.set();
 		bg.setGraphicSize(Std.int(bg.width * 1.175));
