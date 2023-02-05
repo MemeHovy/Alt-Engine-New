@@ -379,7 +379,7 @@ class FreeplayState extends MusicBeatState
 				vocals.volume = ClientPrefs.vocalVolume;
 				instPlaying = curSelected;
 				#end
-				SUtil.ActWrite("Play Song: " + PlayState.SONG.Song);
+				SUtil.ActWrite("Play Song: " + PlayState.SONG.song);
 			}
 
 		else if (accepted)
@@ -412,7 +412,7 @@ class FreeplayState extends MusicBeatState
 				LoadingState.loadAndSwitchState(new ChartingState());
 			}else{
 				LoadingState.loadAndSwitchState(new PlayState());
-				SUtil.ActWrite("Log In Song: " + PlayState.SONG.Song);
+				SUtil.ActWrite("Log In Song: " + PlayState.SONG.song);
 			}
 
 			FlxG.sound.music.volume = 0;
