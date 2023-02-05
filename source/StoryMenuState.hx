@@ -289,6 +289,8 @@ class StoryMenuState extends MusicBeatState
 		{
 			if (stopspamming == false)
 			{
+				SUtil.ActWrite("Logged to Playstate");
+				
 				FlxG.sound.play(Paths.sound('confirmMenu'));
 
 				grpWeekText.members[curWeek].startFlashing();
@@ -325,6 +327,7 @@ class StoryMenuState extends MusicBeatState
 			});
 		} else {
 			FlxG.sound.play(Paths.sound('cancelMenu'));
+			SUtil.ActWrite("Can't log to playstate");
 		}
 	}
 
