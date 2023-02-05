@@ -33,13 +33,11 @@ typedef MenuData =
     freeplayP:Array<Int>,
     modsP:Array<Int>,
     creditsP:Array<Int>,
-    donateP:Array<Int>,
     optionsP:Array<Int>,
     storyS:Array<Float>,
     freeplayS:Array<Float>,
     modsS:Array<Float>,
     creditsS:Array<Float>,
-    donateS:Array<Float>,
     optionsS:Array<Float>,
     speedWind:Array<Int>,
     visibleBG:Bool,
@@ -49,8 +47,8 @@ typedef MenuData =
 class MainMenuState extends MusicBeatState
 {
     var MainJSON:MenuData;
-	public static var psychEngineVersion:String = '0.5.2h'; //This is also used for Discord RPC
-    public static var altEngineVersion:String = '2.2.1';
+	public static final psychEngineVersion:String = '0.5.2h'; //This is also used for Discord RPC
+    public static final altEngineVersion:String = '2.2.1';
 	public static var curSelected:Int = 0;
 
 	var menuItems:FlxTypedGroup<FlxSprite>;
@@ -72,7 +70,6 @@ class MainMenuState extends MusicBeatState
 
 	override function create()
 	{
-
 		WeekData.loadTheFirstEnabledMod();
 
 		#if desktop
@@ -118,8 +115,6 @@ class MainMenuState extends MusicBeatState
 		magenta.antialiasing = ClientPrefs.globalAntialiasing;
 		magenta.color = 0xFFfd719b;
 		add(magenta);
-		
-		// magenta.scrollFactor.set();
 
 		menuItems = new FlxTypedGroup<FlxSprite>();
 		add(menuItems);
@@ -182,7 +177,6 @@ class MainMenuState extends MusicBeatState
 		if(optionShit.length < 6) scr = 0;
 		menuItem.scrollFactor.set(0,scr);
 		menuItem.antialiasing = ClientPrefs.globalAntialiasing;
-		//menuItem.setGraphicSize(Std.int(menuItem.width * 0.58));
 		menuItem.updateHitbox();
 
 		//credits
@@ -202,27 +196,6 @@ class MainMenuState extends MusicBeatState
 		if(optionShit.length < 6) scr = 0;
 		menuItem.scrollFactor.set(0,scr);
 		menuItem.antialiasing = ClientPrefs.globalAntialiasing;
-		//menuItem.setGraphicSize(Std.int(menuItem.width * 0.58));
-		menuItem.updateHitbox();
-
-		//donate
-		var menuItem:FlxSprite = new FlxSprite(MainJSON.donateP[0],MainJSON.donateP[1]);
-		menuItem.scale.x = MainJSON.donateS[0];
-		menuItem.scale.y = MainJSON.donateS[1];
-		menuItem.frames = Paths.getSparrowAtlas('mainmenu/menu_' + optionShit[4]);
-		menuItem.animation.addByPrefix('idle', optionShit[4] + " basic", 24);
-		menuItem.animation.addByPrefix('selected', optionShit[4] + " white", 24);
-		menuItem.animation.play('idle');
-		menuItem.ID = 4;
-		if(MainJSON.centerX == true) {
-			menuItem.screenCenter(X);
-		}
-		menuItems.add(menuItem);
-		var scr:Float = (optionShit.length - 4) * 0.135;
-		if(optionShit.length < 6) scr = 0;
-		menuItem.scrollFactor.set(0,scr);
-		menuItem.antialiasing = ClientPrefs.globalAntialiasing;
-		//menuItem.setGraphicSize(Std.int(menuItem.width * 0.58));
 		menuItem.updateHitbox();
 
 		//options
@@ -243,7 +216,6 @@ class MainMenuState extends MusicBeatState
 		if(optionShit.length < 6) scr = 0;
 		menuItem.scrollFactor.set(0,scr);
 		menuItem.antialiasing = ClientPrefs.globalAntialiasing;
-		//menuItem.setGraphicSize(Std.int(menuItem.width * 0.58));
 		menuItem.updateHitbox();
 
 		#if (flixel_addons < "3.0.0")
