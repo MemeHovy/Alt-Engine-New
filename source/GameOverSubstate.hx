@@ -104,8 +104,10 @@ class GameOverSubstate extends MusicBeatSubstate
 			PlayState.seenCutscene = false;
 
 			if (PlayState.isStoryMode)
+				SUtil.ActWrite("Logged to StoryMenuState");
 				MusicBeatState.switchState(new StoryMenuState());
 			else
+				SUtil.ActWrite("Logged to FreeplayState");
 				MusicBeatState.switchState(new FreeplayState());
 
 			FlxG.sound.playMusic(Paths.music('freakyMenu'));
@@ -161,6 +163,7 @@ class GameOverSubstate extends MusicBeatSubstate
 			{
 				FlxG.camera.fade(FlxColor.BLACK, 2, false, function()
 				{
+					SUtil.ActWrite("Logged to PlayState");
 					MusicBeatState.resetState();
 				});
 			});
