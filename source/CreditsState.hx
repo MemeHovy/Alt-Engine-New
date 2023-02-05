@@ -43,6 +43,8 @@ class CreditsState extends MusicBeatState
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("In the Menus", null);
 		#end
+		
+		SUtil.ActWrite("Logged in Credits State...")
 
 		persistentUpdate = true;
 		bg = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
@@ -214,10 +216,12 @@ class CreditsState extends MusicBeatState
 			}
 
 			if(controls.ACCEPT) {
+                                SUtil.ActWrite("Exit from app");
 				CoolUtil.browserLoad(creditsStuff[curSelected][3]);
 			}
 			if (controls.BACK)
 			{
+			    SUtil.ActWrite("Exit from Credits");
 				if(colorTween != null) {
 					colorTween.cancel();
 				}
