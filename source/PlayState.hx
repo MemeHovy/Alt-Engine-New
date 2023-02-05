@@ -296,6 +296,9 @@ class PlayState extends MusicBeatState
 	
 	override public function create()
 	{
+	    
+	    SUtil.ActWrite("Logged in Song: " + PlayState.SONG.song);
+	    
 		Paths.clearStoredMemory();
 		Paths.clearUnusedMemory();
 
@@ -1270,6 +1273,7 @@ class PlayState extends MusicBeatState
 		FlxAnimationController.globalSpeed = value;
 		trace('Anim speed: ' + FlxAnimationController.globalSpeed);
 		Conductor.safeZoneOffset = (ClientPrefs.safeFrames / 60) * 1000 * value;
+		SUtil.ActWrite("Playback Rate Changed: " + playbackRate);
 		setOnLuas('playbackRate', playbackRate);
 		return value;
 	}
@@ -1407,6 +1411,7 @@ class PlayState extends MusicBeatState
 		}
 		#end
 		startAndEnd();
+		SUtil.ActWrite("Video played: " + fileName);
 	}
 
 	function startAndEnd()
@@ -1415,6 +1420,8 @@ class PlayState extends MusicBeatState
 			endSong();
 		else
 			startCountdown();
+		SUtil.ActWrite("Started Countdown...");
+
 	}
 
 	var dialogueCount:Int = 0;
@@ -1450,8 +1457,11 @@ class PlayState extends MusicBeatState
 			FlxG.log.warn('Your dialogue file is badly formatted!');
 			if(endingSong) {
 				endSong();
+		SUtil.ActWrite("End Song...");
 			} else {
 				startCountdown();
+				SUtil.ActWrite("Started Countdown...");
+
 			}
 		}
 	}
@@ -1556,6 +1566,7 @@ class PlayState extends MusicBeatState
 	{
 		if(startedCountdown) {
 			callOnLuas('onStartCountdown', []);
+			SUtil.ActWrite("Starting Countdown...");
 			return;
 		}
 
@@ -1766,7 +1777,7 @@ class PlayState extends MusicBeatState
 		scoreTxt.text = 'Score: ' + songScore
 		+ ' / ' + HighScore +' | Misses: ' + songMisses
 		+ ' | Rating: ' + ratingName
-		+ (ratingName != '[0%]' ? ' (${Highscore.floorDecimal(ratingPercent * 100, 2)}%) - $ratingFC' : '' + '[ ' + HighRating + ' ]');
+		+ (ratingName != '[0%]' ? ' (${Highscore.floorDecimal(ratingPercent * 100, 2)}%) - $ratingFC' : '' + '[ ${Highscore.floorDecimal(HighRating * 100, 2)}% ]');
 
 		if(ClientPrefs.scoreZoom && !miss && !cpuControlled)
 		{
@@ -1809,10 +1820,13 @@ class PlayState extends MusicBeatState
 	function startNextDialogue() {
 		dialogueCount++;
 		callOnLuas('onNextDialogue', [dialogueCount]);
+		SUtil.ActWrite("Next Dialogue");
+
 	}
 
 	function skipDialogue() {
 		callOnLuas('onSkipDialogue', [dialogueCount]);
+		SUtil.ActWrite("Dialogue skipped...");
 	}
 
 	var previousFrameTime:Int = 0;
@@ -1821,6 +1835,7 @@ class PlayState extends MusicBeatState
 
 	function startSong():Void
 	{
+	    SUtil.ActWrite("Song Started...");
 		startingSong = false;
 
 		previousFrameTime = FlxG.game.ticks;
@@ -2262,6 +2277,8 @@ class PlayState extends MusicBeatState
 			vocals.pitch = playbackRate;
 		}
 		vocals.play();
+		SUtil.ActWrite("Vocals resynced...");
+
 	}
 
 	public var paused:Bool = false;
@@ -2406,9 +2423,9 @@ class PlayState extends MusicBeatState
 		super.update(elapsed);
 
 		if(ratingName == '?') {
-			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName;
+			scoreTxt.text = 'Score: ' + songScore + '/' + Highscore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName;
 		} else {
-			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName + ' (' + Highscore.floorDecimal(ratingPercent * 100, 2) + '%)' + ' - ' + HighRating + ' | ' + ratingFC;//peeps wanted no integer rating
+			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName + ' (' + Highscore.floorDecimal(ratingPercent * 100, 2) + '%)' + ' / ' + Highscore.floorDecimal(HighRating * 100, 2) + '% | ' + ratingFC;//peeps wanted no integer rating
 		}
 
 		if(botplayTxt.visible) {
@@ -2437,6 +2454,7 @@ class PlayState extends MusicBeatState
 					vocals.pause();
 				}
 				openSubState(new PauseSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
+				SUtil.ActWrite("Paused game...");
 				//}
 		
 				#if desktop
@@ -2749,6 +2767,7 @@ class PlayState extends MusicBeatState
 
 	public var isDead:Bool = false; //Don't mess with this on Lua!!!
 	function doDeathCheck(?skipHealthCheck:Bool = false) {
+	    SUtil.ActWrite("Game Over...");
 		if (((skipHealthCheck && instakillOnMiss) || health <= 0) && !practiceMode && !isDead)
 		{
 			var ret:Dynamic = callOnLuas('onGameOver', []);
@@ -3172,6 +3191,7 @@ class PlayState extends MusicBeatState
 			camFollow.x += gf.cameraPosition[0] + girlfriendCameraOffset[0];
 			camFollow.y += gf.cameraPosition[1] + girlfriendCameraOffset[1];
 			tweenCamIn();
+		    SUtil.ActWrite("Move camera to gf...");
 			callOnLuas('onMoveCamera', ['gf']);
 			return;
 		}
@@ -3179,11 +3199,13 @@ class PlayState extends MusicBeatState
 		if (!SONG.notes[id].mustHitSection)
 		{
 			moveCamera(true);
+		    SUtil.ActWrite("Move camera to dad...");
 			callOnLuas('onMoveCamera', ['dad']);
 		}
 		else
 		{
 			moveCamera(false);
+			SUtil.ActWrite("Move camera to bf...");
 			callOnLuas('onMoveCamera', ['boyfriend']);
 		}
 	}
@@ -3238,6 +3260,7 @@ class PlayState extends MusicBeatState
 	}
 	public function finishSong(?ignoreNoteOffset:Bool = false):Void
 	{
+	    SUtil.ActWrite("Finished song...");
 		var finishCallback:Void->Void = endSong; //In case you want to change it in a specific song.
 
 		updateTime = false;
@@ -3257,6 +3280,8 @@ class PlayState extends MusicBeatState
 	public var transitioning = false;
 	public function endSong():Void
 	{
+	    SUtil.ActWrite("Ended song...");
+
 		//Should kill you if you tried to cheat
 		if(!startingSong) {
 			notes.forEach(function(daNote:Note) {
@@ -3350,7 +3375,8 @@ class PlayState extends MusicBeatState
 					trace('LOADING NEXT SONG');
 					trace(Paths.formatToSongPath(PlayState.storyPlaylist[0]) + difficulty);
 
-	
+	                SUtil.ActWrite("Loading next song...");
+
 					var winterHorrorlandNext = (Paths.formatToSongPath(SONG.song) == "eggnog");
 					{
 						var blackShit:FlxSprite = new FlxSprite(-FlxG.width * FlxG.camera.zoom,
