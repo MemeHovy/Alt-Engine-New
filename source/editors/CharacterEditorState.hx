@@ -1266,7 +1266,7 @@ class CharacterEditorState extends MusicBeatState
 		_file.removeEventListener(Event.CANCEL, onSaveCancel);
 		_file.removeEventListener(IOErrorEvent.IO_ERROR, onSaveError);
 		_file = null;
-		SUtil.ActWrite("File Saved Successfully!!")
+		SUtil.ActWrite("File Saved Successfully!!");
 		FlxG.log.notice("Successfully saved file.");
 	}
 
