@@ -198,11 +198,26 @@ class MainMenuState extends MusicBeatState
 		menuItem.antialiasing = ClientPrefs.globalAntialiasing;
 		menuItem.updateHitbox();
 
-		//options
+	        //options
 		var menuItem:FlxSprite = new FlxSprite(MainJSON.optionsP[0],MainJSON.optionsP[1]);
 		menuItem.scale.x = MainJSON.optionsS[0];
 		menuItem.scale.y = MainJSON.optionsS[1];
-
+		menuItem.frames = Paths.getSparrowAtlas('mainmenu/menu_' + optionShit[4]);
+		menuItem.animation.addByPrefix('idle', optionShit[4] + " basic", 24);
+		menuItem.animation.addByPrefix('selected', optionShit[4] + " white", 24);
+		menuItem.animation.play('idle');
+		menuItem.ID = 4;
+                        // menuItem.screenCenter(X);
+            if(MainJSON.centerX == true) {
+                menuItem.screenCenter(X);
+            }
+			menuItems.add(menuItem);
+			var scr:Float = (optionShit.length - 4) * 0.135;
+			if(optionShit.length < 6) scr = 0;
+			menuItem.scrollFactor.set(0,scr);
+			menuItem.antialiasing = ClientPrefs.globalAntialiasing;
+			//menuItem.setGraphicSize(Std.int(menuItem.width * 0.58));
+			menuItem.updateHitbox();
 		#if (flixel_addons < "3.0.0")
         var bgScroll = new FlxBackdrop(Paths.image('wind'), true, true, -33, -32);
 		#else
@@ -213,7 +228,7 @@ class MainMenuState extends MusicBeatState
 		bgScroll.velocity.set(MainJSON.speedWind[0] ,MainJSON.speedWind[1]);
 		bgScroll.antialiasing = ClientPrefs.globalAntialiasing;
 		if(MainJSON.visibleBG){
-			add(bgScroll);
+		add(bgScroll);
      	}
      	
 		FlxG.camera.follow(camFollowPos, null, 1);
