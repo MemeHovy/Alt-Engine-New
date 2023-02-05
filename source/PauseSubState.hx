@@ -223,15 +223,19 @@ class PauseSubState extends MusicBeatSubstate
 			{
 				case "Resume":
 					close();
+					SUtil.ActWrite("Logged back to PlayState");
 				case 'Change Difficulty':
 					menuItems = difficultyChoices;
 					regenMenu();
+					SUtil.ActWrite("Changing DIfficult");
 				case 'Toggle Practice Mode':
 					PlayState.instance.practiceMode = !PlayState.instance.practiceMode;
 					PlayState.changedDifficulty = true;
 					practiceText.visible = PlayState.instance.practiceMode;
+					SUtil.ActWrite("Toogled Practice Mode");
 				case "Restart Song":
 					restartSong();
+					SUtil.ActWrite("Restarted Song");
 				case "Leave Charting Mode":
 					restartSong();
 					PlayState.chartingMode = false;
@@ -251,6 +255,7 @@ class PauseSubState extends MusicBeatSubstate
 						close();
 					}
 				case "End Song":
+					SUtil.ActWrite("Ending Song");
 					close();
 					PlayState.instance.finishSong(true);
 				case 'Toggle Botplay':
@@ -259,16 +264,20 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.instance.botplayTxt.visible = PlayState.instance.cpuControlled;
 					PlayState.instance.botplayTxt.alpha = 1;
 					PlayState.instance.botplaySine = 0;
+					SUtil.ActWrite("Toogled BotPlay");
                                 case 'Chart Editor':
 		                        MusicBeatState.switchState(new editors.ChartingState());
 		                        PlayState.chartingMode = true;
+					SUtil.ActWrite("Going to Chart Editor");
 				case "Exit to menu":
 					PlayState.deathCounter = 0;
 					PlayState.seenCutscene = false;
 					if(PlayState.isStoryMode) {
 						MusicBeatState.switchState(new StoryMenuState());
+						SUtil.ActWrite("Logged to StoryMenuState");
 					} else {
 						MusicBeatState.switchState(new FreeplayState());
+						SUtil.ActWrite("Logged to FreeplayState");
 					}
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
 					PlayState.changedDifficulty = false;
