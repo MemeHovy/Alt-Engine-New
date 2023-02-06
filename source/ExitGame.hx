@@ -41,14 +41,14 @@ class ExitGame extends MusicBeatState
 	function openSelectedSubstate(label:String) {
 		switch(label) {
 			case 'Yes':
-                //trace('david loh');
-                //trace(menuText.x);
-                //trace(menuText.y);
-                ClientPrefs.saveSettings;
-                System.exit(1);
-                SUtil.ActWrite("Exit Game...");
+				//trace('david loh');
+				//trace(menuText.x);
+				//trace(menuText.y);
+				ClientPrefs.saveSettings();
+				System.exit(1);
+				SUtil.ActWrite("Exit Game...");
 			case 'No':
-                FlxG.sound.play(Paths.sound('cancelMenu'));
+				FlxG.sound.play(Paths.sound('cancelMenu'));
 				MusicBeatState.switchState(new MainMenuState());
 		}
 	}
