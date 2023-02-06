@@ -134,21 +134,10 @@ class FreeplayState extends MusicBeatState
 
 		for (i in 0...songs.length)
 		{
-                        if (ClientPrefs.oldAlphabet){
+                   
                         var songText:Alphabet = new Alphabet(0, (70 * i) + 30, songs[i].songName, true, false);
                         songText.centerItem = true;
-			songText.targetY = i;
-                        } else {
-                        var songText:NewAlphabet = new NewAlphabet(90, 320, songs[i].songName, true);
-			songText.isMenuItem = true;
-			songText.targetY = i - curSelected;
-			
-			var maxWidth = 980;
-			if (songText.width > maxWidth)
-			{
-				songText.scaleX = maxWidth / songText.width;
-			}
-                        }
+			songText.targetY = i;      
 			grpSongs.add(songText);
 
 			Paths.currentModDirectory = songs[i].folder;
