@@ -103,7 +103,7 @@ class ClientPrefs {
 
 	public static function saveSettings() {
 	    FlxG.save.data.screenRes = screenRes;
-                FlxG.save.data.oldAplhabet = oldAplhabet;
+                FlxG.save.data.oldAlphabet = oldAlphabet;
 		FlxG.save.data.downScroll = downScroll;
 		FlxG.save.data.sysInfo = sysInfo;
 		FlxG.save.data.middleScroll = middleScroll;
