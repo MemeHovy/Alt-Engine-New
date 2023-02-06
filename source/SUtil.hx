@@ -274,7 +274,6 @@ class SUtil
 	}
 	public static function ActWrite(action:String)
 	{
-	    var historyText:String = '';
 	    #if (sys && !ios)
 			try
 			{
@@ -285,15 +284,14 @@ class SUtil
 					+ 'actLogs/'
 					+ Lib.application.meta.get('file')
 					+ '.txt',
-					Date.now().toString().replace('-', '-').replace(':', ":") + historyText
+					Date.now().toString().replace('-', '-').replace(':', ":") + '[ ' + historyText + ' ]'
 					+ '\n');
 			}
 		#end
-		historyText += action;
 	    #if sys 
-	    Sys.println(historyText);
+	    Sys.println(action);
 	    #else
-	    haxe.Log.trace(historyText, null);
+	    haxe.Log.trace(action, null);
 	    #end
 	}
 }
