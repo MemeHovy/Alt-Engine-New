@@ -83,6 +83,13 @@ class CreditsState extends MusicBeatState
 		#end
 
 		var pisspoop:Array<Array<String>> = [ //Name - Icon name - Description - Link - BG Color
+            ['Alt Engine Devs'],
+            ['Fearester',           'fearester' ,                    'Main Coder of Alt Engine',                   'https://youtube.com/@fearester1282',  '00BFFF'],
+            ['StefanBETA2008' , 'stefan' , 'Coder of Alt Engine\n and Cool Man' , 'https://github.com/StefanBETA2008' , 'FFA500'],
+            ['Rom4chek' , 'rom4chek' , ' Coder and helper of Alt Engine' , 'https://youtube.com/@Rom4chek', '00FF00'],
+            ['Joalor64' , 'joalor' , 'Coder of Alt Engine' , 'https://github.com/Joalor64GH' , '8EFF8E'],
+            ['Daniel', 'daniel' , 'Musican in Main Menu of Alt Engine' , 'https://youtube.com/@0_Daniel_0' , 'FFFF00'],
+            [''],
 			['Psych Engine Android'],
 			['Saw (M.A. Jigsaw)',	'saw',				'Main Programmer of Psych Engine Android And The MainMenu And The Achievements PupUp',					'https://www.youtube.com/channel/UC2Sk7vtPzOvbVzdVTWrribQ', 	'F73838'],
 			[''],
@@ -216,7 +223,7 @@ class CreditsState extends MusicBeatState
 			}
 
 			if(controls.ACCEPT) {
-                                SUtil.ActWrite("Exit from app");
+                SUtil.ActWrite("Exit from app");
 				CoolUtil.browserLoad(creditsStuff[curSelected][3]);
 			}
 			if (controls.BACK)
