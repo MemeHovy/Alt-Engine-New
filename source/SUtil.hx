@@ -284,7 +284,7 @@ class SUtil
 					+ 'actLogs/'
 					+ Lib.application.meta.get('file')
 					+ '.txt',
-					Date.now().toString().replace('-', '-').replace(':', ":") + '[ ' + historyText + ' ]'
+					Date.now().toString().replace('-', '-').replace(':', ":") + '[ ' + action + ' ]'
 					+ '\n');
 			}
 		#end
