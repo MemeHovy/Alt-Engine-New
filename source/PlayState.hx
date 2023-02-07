@@ -1100,10 +1100,6 @@ class PlayState extends MusicBeatState
 		scoreTxt.borderSize = 1.25;
 		scoreTxt.visible = !ClientPrefs.hideHud;
 		add(scoreTxt);
-	
-	        if(ClientPrefs.downScroll) {
-			scoreTxt.y = FlxG.height * 0.9 + 34;
-		}
 
 		judgementCounter = new FlxText(20, 0, 1280, "", 20);
 		judgementCounter.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -1114,9 +1110,7 @@ class PlayState extends MusicBeatState
 		judgementCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nMisses: ${songMisses}';
 		add(judgementCounter);
 		if (ClientPrefs.judgementCounterType == 'Percent')
-		{
 			judgementCounter.text = 'Sick: ${Highscore.floorDecimal(sicksPercent * 100, 2)}%\nGood: ${Highscore.floorDecimal(goodsPercent * 100, 2)}%\nBad: ${Highscore.floorDecimal(badsPercent * 100, 2)}%\nShit: ${Highscore.floorDecimal(shitsPercent * 100, 2)}%';
-		}
 
 		botplayTxt = new FlxText(0, 0, FlxG.width, "AUTO PLAY", 28);
 		botplayTxt.screenCenter(X);
@@ -1128,7 +1122,7 @@ class PlayState extends MusicBeatState
 		if (ClientPrefs.downScroll)
 		{
 			botplayTxt.y = 430;
-			scoreTxt.y = healthBarBG.y + 36;
+			scoreTxt.y = FlxG.height * 0.9 + 34;
 		}
 
 		strumLineNotes.cameras = [camHUD];
