@@ -1100,6 +1100,10 @@ class PlayState extends MusicBeatState
 		scoreTxt.borderSize = 1.25;
 		scoreTxt.visible = !ClientPrefs.hideHud;
 		add(scoreTxt);
+	
+	        if(ClientPrefs.downScroll) {
+			scoreTxt.y = FlxG.height * 0.9 + 34;
+		}
 
 		judgementCounter = new FlxText(20, 0, 1280, "", 20);
 		judgementCounter.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
