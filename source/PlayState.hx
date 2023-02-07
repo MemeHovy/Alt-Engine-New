@@ -3889,7 +3889,7 @@ class PlayState extends MusicBeatState
 			{
 				RateTween = null;
 			}
-		    })
+		    });
 		}
 		else
 		{
@@ -3900,7 +3900,7 @@ class PlayState extends MusicBeatState
 			{
 				RateTween = null;
 			}
-		    })
+		    });
 		}
 		rating.updateHitbox();
 
