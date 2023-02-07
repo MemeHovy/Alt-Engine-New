@@ -4312,31 +4312,32 @@ class PlayState extends MusicBeatState
 			{
 				scoreTween.cancel();
 			}
-			scoreTxt.y = -100;
+			scoreTxt.y = 820;
 			if(ClientPrefs.downScroll)
 				scoreTween = FlxTween.tween(scoreTxt, {y: FlxG.height * 0.9 + 34}, 0.7 / playbackRate, {
 				ease: FlxEase.linear,
 				onComplete: function(twn:FlxTween)
 				{
-					scoreTween = FlxTween.tween(scoreTxt, {y: 820}, (Conductor.crochet / 1000 / playbackRate), {
+					scoreTween = FlxTween.tween(scoreTxt, {y: 820}, (0.5 / playbackRate), {
 						ease: FlxEase.linear,
 						onComplete: function(twn:FlxTween)
 						{
-							iconZoomTween = null;
+							scoreTween = null;
 						}
 					});
 				}
 			});
 			else {
+			scoreTxt.y = -100;
 			scoreTween = FlxTween.tween(scoreTxt, {y: 19}, 0.7 / playbackRate, {
 				ease: FlxEase.linear,
 				onComplete: function(twn:FlxTween)
 				{
-					scoreTween = FlxTween.tween(scoreTxt, {y: -100}, (Conductor.crochet / 1000 / playbackRate), {
+					scoreTween = FlxTween.tween(scoreTxt, {y: -100}, 0.7 / playbackRate, {
 						ease: FlxEase.linear,
 						onComplete: function(twn:FlxTween)
 						{
-							iconZoomTween = null;
+							scoreTween = null;
 						}
 					});
 				}
@@ -4390,7 +4391,6 @@ class PlayState extends MusicBeatState
 		}
 		if (!note.isSustainNote)
 			moveIcon(true);
-			moveText(false);
 
 		if (SONG.needsVoices)
 			vocals.volume = ClientPrefs.vocalVolume;
