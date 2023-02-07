@@ -5010,7 +5010,7 @@ class PlayState extends MusicBeatState
 
 		if (hscript != null){
 			final e:Dynamic = hscript.executeFunc(name, args);
-			final f:Bool = call == HscriptClass.Function_Continue;
+			final f:Bool = e == HscriptClass.Function_Continue;
 			if (!f && e != null){
 				val = e;
 			}
