@@ -305,6 +305,7 @@ class PlayState extends MusicBeatState
 	public static var lastScore:Array<FlxSprite> = [];
 
 	#if hscript
+	public var hscriptArray:Array<HscriptClass>;
 	public var hscript:HscriptClass;
 	#end
 
@@ -2627,14 +2628,6 @@ class PlayState extends MusicBeatState
 				persistentDraw = true;
 				paused = true;
 
-				// 1 / 1000 chance for Gitaroo Man easter egg
-				/*if (FlxG.random.bool(0.1))
-				{
-					// gitaroo man easter egg
-					cancelMusicFadeTween();
-					MusicBeatState.switchState(new GitarooPause());
-				}
-				else { */
 				if (FlxG.sound.music != null)
 				{
 					FlxG.sound.music.pause();
@@ -2642,7 +2635,6 @@ class PlayState extends MusicBeatState
 				}
 				openSubState(new PauseSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 				SUtil.ActWrite("Paused game...");
-				// }
 
 				#if desktop
 				DiscordClient.changePresence(detailsPausedText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
@@ -2654,9 +2646,6 @@ class PlayState extends MusicBeatState
 		{
 			openChartEditor();
 		}
-
-		// FlxG.watch.addQuick('VOL', vocals.amplitudeLeft);
-		// FlxG.watch.addQuick('VOLRight', vocals.amplitudeRight);
 
 		shownHealth = FlxMath.lerp(shownHealth, health, CoolUtil.boundTo(elapsed * 7, 0, 1));
 
@@ -4974,7 +4963,6 @@ class PlayState extends MusicBeatState
 				{
 					HighRating = ratingPercent;
 				}
-				// trace((totalNotesHit / totalPlayed) + ', Total: ' + totalPlayed + ', notes hit: ' + totalNotesHit);
 
 				// Rating Name
 				if (ratingPercent >= 1)
@@ -5015,4 +5003,20 @@ class PlayState extends MusicBeatState
 
 	var curLight:Int = 0;
 	var curLightEvent:Int = 0;
+
+	inline public function setHscript(name:String, args:Array<Dynamic>):Dynamic
+	{
+		var val:Dynamic = null;
+
+		if (hscript != null){
+			final e:Dynamic = hscript.executeFunc(name, args);
+			final f:Bool = call == HscriptClass.Function_Continue;
+			if (!f && e != null){
+				val = e;
+			}
+		}
+		else return null;
+
+		return val;
+	}
 }
