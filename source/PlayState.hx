@@ -1093,7 +1093,7 @@ class PlayState extends MusicBeatState
 		add(iconP2);
 		reloadHealthBarColors();
 
-		scoreTxt = new FlxText(0, 19, FlxG.width, "", 20);
+		scoreTxt = new FlxText(0, -100, FlxG.width, "", 20);
 		scoreTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		scoreTxt.screenCenter(X);
 		scoreTxt.scrollFactor.set();
@@ -4304,6 +4304,52 @@ class PlayState extends MusicBeatState
 			});
 		}
 	}
+	function moveText(?move:Bool = true)
+	{
+		if (move == true)
+		{
+			if (scoreTween != null)
+			{
+				scoreTween.cancel();
+			}
+			scoreTxt.y = -100;
+			if(ClientPrefs.downScroll)
+				scoreTween = FlxTween.tween(scoreTxt, {y: FlxG.height * 0.9 + 34}, 0.7 / playbackRate, {
+				ease: FlxEase.linear,
+				onComplete: function(twn:FlxTween)
+				{
+					scoreTween = FlxTween.tween(scoreTxt, {y: 820}, (Conductor.crochet / 1000 / playbackRate), {
+						ease: FlxEase.linear,
+						onComplete: function(twn:FlxTween)
+						{
+							iconZoomTween = null;
+						}
+					});
+				}
+			});
+			else {
+			scoreTween = FlxTween.tween(scoreTxt, {y: 19}, 0.7 / playbackRate, {
+				ease: FlxEase.linear,
+				onComplete: function(twn:FlxTween)
+				{
+					scoreTween = FlxTween.tween(scoreTxt, {y: -100}, (Conductor.crochet / 1000 / playbackRate), {
+						ease: FlxEase.linear,
+						onComplete: function(twn:FlxTween)
+						{
+							iconZoomTween = null;
+						}
+					});
+				}
+			});
+	    }
+	} else {
+	    scoreTxt.y = 19;
+	    if(ClientPrefs.downScroll)
+	    {
+	        scoreTxt.y = FlxG.height * 0.9 + 34;
+	    }
+	}
+}
 
 	function opponentNoteHit(note:Note):Void
 	{
@@ -4344,6 +4390,7 @@ class PlayState extends MusicBeatState
 		}
 		if (!note.isSustainNote)
 			moveIcon(true);
+			moveText(false);
 
 		if (SONG.needsVoices)
 			vocals.volume = ClientPrefs.vocalVolume;
@@ -4415,6 +4462,7 @@ class PlayState extends MusicBeatState
 						
 			if (!note.isSustainNote)
 			        moveIcon();
+			        moveText();
 
 			if (!note.isSustainNote)
 			{
