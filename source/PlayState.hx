@@ -939,7 +939,7 @@ class PlayState extends MusicBeatState
 		strumLine.scrollFactor.set();
 
 		var showTime:Bool = (ClientPrefs.timeBarType != 'Disabled');
-		timeTxt = new FlxText(-300, 705, 400, "", 28);
+		timeTxt = new FlxText(0, 750, 400, "", 28);
 		timeTxt.setFormat(Paths.font("vcr.ttf"), 28, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		timeTxt.scrollFactor.set();
 		timeTxt.alpha = 0;
@@ -3854,6 +3854,8 @@ class PlayState extends MusicBeatState
 
 		var pixelShitPart1:String = "";
 		var pixelShitPart2:String = '';
+		
+		var ratingScale:Float = 
 
 		if (PlayState.isPixelStage)
 		{
@@ -3867,14 +3869,6 @@ class PlayState extends MusicBeatState
 		rating.x = coolText.x - 40;
 		rating.y -= 60;
 		rating.acceleration.x = -550 * playbackRate * playbackRate;
-		rating.scale.x = 1.075;
-		rating.scale.y = 1.075;
-		RateTween = FlxTween.tween(rating.scale, {x: 1, y: 1}, 0.2 / playbackRate, {
-			onComplete: function(twn:FlxTween)
-			{
-				RateTween = null;
-			}
-		});
 		rating.visible = (!ClientPrefs.hideHud && showRating);
 		rating.x += ClientPrefs.comboOffset[0];
 		rating.y -= ClientPrefs.comboOffset[1];
@@ -3889,12 +3883,26 @@ class PlayState extends MusicBeatState
 
 		if (!PlayState.isPixelStage)
 		{
-			rating.setGraphicSize(Std.int(rating.width * 0.7));
+			rating.setGraphicSize(Std.int(rating.width * 1));
 			rating.antialiasing = ClientPrefs.globalAntialiasing;
+			
+			RateTween = FlxTween.tween(rating.scale, {x: 0.7, y: 0.7}, 0.5 / playbackRate, {
+			onComplete: function(twn:FlxTween)
+			{
+				RateTween = null;
+			}
+		    })
 		}
 		else
 		{
-			rating.setGraphicSize(Std.int(rating.width * daPixelZoom * 0.85));
+			rating.setGraphicSize(Std.int(rating.width * daPixelZoom * 1));
+			
+			RateTween = FlxTween.tween(rating.scale, {x: 0.85, y: 0.85}, 0.5 / playbackRate, {
+			onComplete: function(twn:FlxTween)
+			{
+				RateTween = null;
+			}
+		    })
 		}
 		rating.updateHitbox();
 
