@@ -3854,8 +3854,6 @@ class PlayState extends MusicBeatState
 
 		var pixelShitPart1:String = "";
 		var pixelShitPart2:String = '';
-		
-		var ratingScale:Float = 
 
 		if (PlayState.isPixelStage)
 		{
