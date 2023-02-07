@@ -3881,7 +3881,7 @@ class PlayState extends MusicBeatState
 
 		if (!PlayState.isPixelStage)
 		{
-			rating.setGraphicSize(Std.int(rating.width * 1));
+			rating.setGraphicSize(Std.int(rating.width * 0.6));
 			rating.antialiasing = ClientPrefs.globalAntialiasing;
 			
 			RateTween = FlxTween.tween(rating.scale, {x: 0.7, y: 0.7}, 0.5 / playbackRate, {
@@ -3893,9 +3893,9 @@ class PlayState extends MusicBeatState
 		}
 		else
 		{
-			rating.setGraphicSize(Std.int(rating.width * daPixelZoom * 1));
+			rating.setGraphicSize(Std.int(rating.width * daPixelZoom * 0.70));
 			
-			RateTween = FlxTween.tween(rating.scale, {x: 0.85, y: 0.85}, 0.5 / playbackRate, {
+			RateTween = FlxTween.tween(rating.scale, {x: daPixelZoom * 0.85, y: daPixelZoom * 0.85}, 0.5 / playbackRate, {
 			onComplete: function(twn:FlxTween)
 			{
 				RateTween = null;
