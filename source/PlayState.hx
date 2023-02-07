@@ -4398,10 +4398,6 @@ class PlayState extends MusicBeatState
 							boyfriend.specialAnim = true;
 						}
 				}
-				if (!note.isSustainNote)
-				{
-					moveIcon();
-				}
 
 				note.wasGoodHit = true;
 				if (!note.isSustainNote)
@@ -4412,6 +4408,9 @@ class PlayState extends MusicBeatState
 				}
 				return;
 			}
+						
+			if (!note.isSustainNote)
+			        moveIcon();
 
 			if (!note.isSustainNote)
 			{
