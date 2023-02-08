@@ -965,7 +965,6 @@ class PlayState extends MusicBeatState
 		{
 			timeBar.y = 0;
 			botplayTxt.y = 705;
-			timeTxt.y = 0;
 		}
 		timeBar.scrollFactor.set();
 		timeBar.screenCenter(X);
