@@ -714,10 +714,6 @@ class PlayState extends MusicBeatState
 				GameOverSubstate.endSoundName = 'gameOverEnd-pixel';
 				GameOverSubstate.characterName = 'bf-pixel-dead';
 
-				/*if(!ClientPrefs.lowQuality) { //Does this even do something?
-					var waveEffectBG = new FlxWaveEffect(FlxWaveMode.ALL, 2, -1, 3, 2);
-					var waveEffectFG = new FlxWaveEffect(FlxWaveMode.ALL, 2, -1, 5, 2);
-				}*/
 				var posX = 400;
 				var posY = 200;
 				if (!ClientPrefs.lowQuality)
@@ -744,9 +740,7 @@ class PlayState extends MusicBeatState
 		}
 
 		if (isPixelStage)
-		{
 			introSoundsSuffix = '-pixel';
-		}
 
 		add(gfGroup); // Needed for blammed lights
 
@@ -916,15 +910,12 @@ class PlayState extends MusicBeatState
 
 		var file:String = Paths.json(songName + '/dialogue'); // Checks for json/Psych Engine dialogue
 		if (OpenFlAssets.exists(file))
-		{
 			dialogueJson = DialogueBoxPsych.parseDialogue(SUtil.getPath() + file);
-		}
 
 		var file:String = Paths.txt(songName + '/' + songName + 'Dialogue'); // Checks for vanilla/Senpai dialogue
 		if (OpenFlAssets.exists(file))
-		{
 			dialogue = CoolUtil.coolTextFile(SUtil.getPath() + file);
-		}
+
 		var doof:DialogueBox = new DialogueBox(false, dialogue);
 		doof.scrollFactor.set();
 		doof.finishThing = startCountdown;
@@ -950,9 +941,8 @@ class PlayState extends MusicBeatState
 			timeTxt.y = FlxG.height - 44;
 
 		if (ClientPrefs.timeBarType == 'Song Name')
-		{
 			timeTxt.text = SONG.song;
-		}
+
 		updateTime = showTime;
 
 		timeBar = new FlxBar(0, 705, LEFT_TO_RIGHT, 1280, 20, this, 'songPercent', 0, 1);
@@ -1034,6 +1024,10 @@ class PlayState extends MusicBeatState
 		eventPushedMap.clear();
 		eventPushedMap = null;
 
+		#if hscript
+		setHscript('create', []);
+		#end
+
 		camFollow = new FlxPoint();
 		camFollowPos = new FlxObject(0, 0, 1, 1);
 
@@ -1056,7 +1050,6 @@ class PlayState extends MusicBeatState
 
 		FlxG.worldBounds.set(0, 0, FlxG.width, FlxG.height);
 
-		FlxG.fixedTimestep = false;
 		moveCameraSection(0);
 
 		healthBarBG = new AttachedSprite('healthBar');
@@ -1257,13 +1250,9 @@ class PlayState extends MusicBeatState
 		CoolUtil.precacheSound('missnote3');
 
 		if (PauseSubState.songName != null)
-		{
 			CoolUtil.precacheMusic(PauseSubState.songName);
-		}
 		else if (ClientPrefs.pauseMusic != 'None')
-		{
 			CoolUtil.precacheMusic(Paths.formatToSongPath(ClientPrefs.pauseMusic));
-		}
 
 		#if desktop
 		// Updating Discord Rich Presence.
@@ -1312,7 +1301,7 @@ class PlayState extends MusicBeatState
 		return value;
 	}
 
-	function set_playbackRate(value:Float):Float
+	inline function set_playbackRate(value:Float):Float
 	{
 		if (generatedMusic)
 		{
@@ -2444,6 +2433,10 @@ class PlayState extends MusicBeatState
 	override public function update(elapsed:Float)
 	{
 		callOnLuas('onUpdate', [elapsed]);
+
+		#if hscript
+		setHscript('update', [elasped]);
+		#end
 
 		switch (curStage)
 		{
