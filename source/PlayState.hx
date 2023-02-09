@@ -4728,7 +4728,19 @@ class PlayState extends MusicBeatState
 		}
 
 		for (e in [iconP1, iconP2])
+		{
+		if(ClientPrefs.iconBop == 'Alt')
+		{
 			e.scale.set(1, 1);
+		}
+		if(ClientPrefs.iconBop == 'OG')
+		{
+		   	iconP1.setGraphicSize(Std.int(iconP1.width + 30));
+			iconP2.setGraphicSize(Std.int(iconP2.width + 30));
+			iconP1.updateHitbox();
+	    	iconP2.updateHitbox();
+		}
+		}
 
 		if (gf != null
 			&& curBeat % Math.round(gfSpeed * gf.danceEveryNumBeats) == 0
