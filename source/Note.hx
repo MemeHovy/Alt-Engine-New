@@ -89,6 +89,15 @@ class Note extends FlxSprite
 		return value;
 	}
 
+	inline public function resizeByRatio(ratio:Float) //haha funny twitter shit
+	{
+		if(isSustainNote && !animation.curAnim.name.endsWith('tail'))
+		{
+			scale.y *= ratio;
+			updateHitbox();
+		}
+	}
+
 	private function set_noteType(value:String):String {
 		noteSplashTexture = PlayState.SONG.splashSkin;
 		colorSwap.hue = ClientPrefs.arrowHSV[noteData % 4][0] / 360;

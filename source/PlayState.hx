@@ -309,6 +309,8 @@ class PlayState extends MusicBeatState
 	public var hscript:HscriptClass;
 	#end
 
+	public var maxHealth:Float = 2;
+
 	override public function create()
 	{
 		SUtil.ActWrite("Logged in Song: " + PlayState.SONG.song);
@@ -1064,7 +1066,7 @@ class PlayState extends MusicBeatState
 			healthBarBG.y = 0.11 * FlxG.height;
 
 		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), this,
-			'shownHealth', 0, 2);
+			'shownHealth', 0, maxHealth);
 		healthBar.scrollFactor.set();
 		// healthBar
 		healthBar.visible = !ClientPrefs.hideHud;
@@ -1204,8 +1206,7 @@ class PlayState extends MusicBeatState
 
 					FlxTween.tween(blackScreen, {alpha: 0}, 0.7, {
 						ease: FlxEase.linear,
-						onComplete: function(twn:FlxTween)
-						{
+						onComplete: function(twn:FlxTween){
 							remove(blackScreen);
 						}
 					});
@@ -1220,8 +1221,7 @@ class PlayState extends MusicBeatState
 						remove(blackScreen);
 						FlxTween.tween(FlxG.camera, {zoom: defaultCamZoom}, 2.5, {
 							ease: FlxEase.quadInOut,
-							onComplete: function(twn:FlxTween)
-							{
+							onComplete: function(twn:FlxTween){
 								startCountdown();
 							}
 						});
@@ -1237,9 +1237,8 @@ class PlayState extends MusicBeatState
 			seenCutscene = true;
 		}
 		else
-		{
 			startCountdown();
-		}
+
 		RecalculateRating();
 
 		// PRECACHING MISS SOUNDS BECAUSE I THINK THEY CAN LAG PEOPLE AND FUCK THEM UP IDK HOW HAXE WORKS
@@ -1268,6 +1267,10 @@ class PlayState extends MusicBeatState
 		Conductor.safeZoneOffset = (ClientPrefs.safeFrames / 60) * 1000;
 		callOnLuas('onCreatePost', []);
 
+		#if hscript
+		setHscript('createPost', []);
+		#end
+
 		super.create();
 
 		Paths.clearUnusedMemory();
@@ -1278,23 +1281,8 @@ class PlayState extends MusicBeatState
 	{
 		if (generatedMusic)
 		{
-			var ratio:Float = value / songSpeed; // funny word huh
-			for (note in notes)
-			{
-				if (note.isSustainNote && !note.animation.curAnim.name.endsWith('end'))
-				{
-					note.scale.y *= ratio;
-					note.updateHitbox();
-				}
-			}
-			for (note in unspawnNotes)
-			{
-				if (note.isSustainNote && !note.animation.curAnim.name.endsWith('end'))
-				{
-					note.scale.y *= ratio;
-					note.updateHitbox();
-				}
-			}
+			for (note in notes) note.resizeByRatio(value / songSpeed);
+			for (note in unspawnNotes) note.resizeByRatio(value / songSpeed);
 		}
 		songSpeed = value;
 		noteKillOffset = 350 / songSpeed;
@@ -1398,18 +1386,14 @@ class PlayState extends MusicBeatState
 		{
 			luaFile = SUtil.getPath() + Paths.getPreloadPath(luaFile);
 			if (FileSystem.exists(luaFile))
-			{
 				doPush = true;
-			}
 		}
 
 		if (doPush)
 		{
 			for (lua in luaArray)
-			{
 				if (lua.scriptName == luaFile)
 					return;
-			}
 			luaArray.push(new FunkinLua(luaFile));
 		}
 		#end
@@ -1432,12 +1416,6 @@ class PlayState extends MusicBeatState
 		#if VIDEOS_ALLOWED
 		var foundFile:Bool = false;
 		var fileName:String = #if MODS_ALLOWED Paths.modFolders('videos/' + name + '.' + Paths.VIDEO_EXT); #else ''; #end
-		#if sys
-		if (FileSystem.exists(fileName))
-		{
-			foundFile = true;
-		}
-		#end
 
 		if (!foundFile)
 		{
@@ -1588,9 +1566,7 @@ class PlayState extends MusicBeatState
 						{
 							senpaiEvil.alpha += 0.15;
 							if (senpaiEvil.alpha < 1)
-							{
 								swagTimer.reset();
-							}
 							else
 							{
 								senpaiEvil.animation.play('idle');
@@ -1612,9 +1588,7 @@ class PlayState extends MusicBeatState
 						});
 					}
 					else
-					{
 						add(dialogueBox);
-					}
 				}
 				else
 					startCountdown();
@@ -1690,23 +1664,19 @@ class PlayState extends MusicBeatState
 					&& gf.animation.curAnim.name != null
 					&& !gf.animation.curAnim.name.startsWith("sing")
 					&& !gf.stunned)
-				{
 					gf.dance();
-				}
+
 				if (tmr.loopsLeft % boyfriend.danceEveryNumBeats == 0
 					&& boyfriend.animation.curAnim != null
 					&& !boyfriend.animation.curAnim.name.startsWith('sing')
 					&& !boyfriend.stunned)
-				{
 					boyfriend.dance();
-				}
+
 				if (tmr.loopsLeft % dad.danceEveryNumBeats == 0
 					&& dad.animation.curAnim != null
 					&& !dad.animation.curAnim.name.startsWith('sing')
 					&& !dad.stunned)
-				{
 					dad.dance();
-				}
 
 				var introAssets:Map<String, Array<String>> = new Map<String, Array<String>>();
 				introAssets.set('default', ['ready', 'set', 'go']);
@@ -1801,9 +1771,7 @@ class PlayState extends MusicBeatState
 					note.copyAlpha = false;
 					note.alpha = 1 * note.multAlpha;
 					if (ClientPrefs.middleScroll && !note.mustPress)
-					{
 						note.alpha *= 0.5;
-					}
 				});
 				callOnLuas('onCountdownTick', [swagCounter]);
 
@@ -1883,15 +1851,13 @@ class PlayState extends MusicBeatState
 		if (ClientPrefs.scoreZoom && !miss && !cpuControlled)
 		{
 			if (scoreTxtTween != null)
-			{
 				scoreTxtTween.cancel();
-			}
+
 			scoreTxt.scale.x = 1.075;
 			scoreTxt.scale.y = 1.075;
 			scoreTxt.alpha = 1;
-			scoreTxtTween = FlxTween.tween(scoreTxt.scale, {x: 1, y: 1}, 0.2, {
-				onComplete: function(twn:FlxTween)
-				{
+			scoreTxtTween = FlxTween.tween(scoreTxt.scale, {x: 1, y: 1}, 0.9, {
+				onComplete: function(twn:FlxTween){
 					scoreTxtTween = null;
 				}
 			});
@@ -2622,7 +2588,7 @@ class PlayState extends MusicBeatState
 		iconP2.scale.set(mult, mult);
 		iconP2.updateHitbox();
 
-		var iconOffset:Int = 26;
+		final iconOffset:Int = 26;
 
 		iconP1.x = healthBar.x
 			+ (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01))
@@ -2633,8 +2599,8 @@ class PlayState extends MusicBeatState
 			- (150 * iconP2.scale.x) / 2
 			- iconOffset * 2;
 
-		if (health > 2)
-			health = 2;
+		if (health > maxHealth)
+			health = maxHealth;
 
 		if (healthBar.percent < 20)
 			iconP1.animation.curAnim.curFrame = 1;
@@ -2717,11 +2683,8 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if (camZooming)
-		{
-			FlxG.camera.zoom = FlxMath.lerp(defaultCamZoom, FlxG.camera.zoom, CoolUtil.boundTo(1 - (elapsed * 3.125 * playbackRate), 0, 1));
-			camHUD.zoom = FlxMath.lerp(1, camHUD.zoom, CoolUtil.boundTo(1 - (elapsed * 3.125 * playbackRate), 0, 1));
-		}
+		FlxG.camera.zoom = FlxMath.lerp(defaultCamZoom, FlxG.camera.zoom, CoolUtil.boundTo(1 - (elapsed * 3.125 * playbackRate), 0, 1));
+		camHUD.zoom = FlxMath.lerp(1, camHUD.zoom, CoolUtil.boundTo(1 - (elapsed * 3.125 * playbackRate), 0, 1));
 
 		FlxG.watch.addQuick("beatShit", curBeat);
 		FlxG.watch.addQuick("stepShit", curStep);
@@ -2818,9 +2781,7 @@ class PlayState extends MusicBeatState
 				}
 
 				if (!daNote.mustPress && daNote.wasGoodHit && !daNote.hitByOpponent && !daNote.ignoreNote)
-				{
 					opponentNoteHit(daNote);
-				}
 
 				if (daNote.mustPress && cpuControlled)
 				{
