@@ -7,7 +7,7 @@ import flixel.graphics.FlxGraphic;
 import Controls;
 
 class ClientPrefs {
-        public static var oldAlphabet:Bool = true;
+        public static var iconBop:String = 'Alt';
     public static var sysInfo:String = 'OG FPS';
 	public static var downScroll:Bool = false;
 	public static var middleScroll:Bool = false;
@@ -103,7 +103,7 @@ class ClientPrefs {
 
 	public static function saveSettings() {
 	    FlxG.save.data.screenRes = screenRes;
-                FlxG.save.data.oldAlphabet = oldAlphabet;
+                FlxG.save.data.iconBop = iconBop;
 		FlxG.save.data.downScroll = downScroll;
 		FlxG.save.data.sysInfo = sysInfo;
 		FlxG.save.data.middleScroll = middleScroll;
@@ -273,8 +273,8 @@ class ClientPrefs {
 		if(FlxG.save.data.controllerMode != null) {
 			controllerMode = FlxG.save.data.controllerMode;
 		}
-                if(FlxG.save.data.oldAlphabet != null) {
-			oldAlphabet = FlxG.save.data.oldAlphabet;
+                if(FlxG.save.data.iconBop != null) {
+			iconBop = FlxG.save.data.iconBop;
 		}
 		if(FlxG.save.data.hitsoundVolume != null) {
 			hitsoundVolume = FlxG.save.data.hitsoundVolume;
