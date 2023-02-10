@@ -2604,14 +2604,14 @@ class PlayState extends MusicBeatState
 
 		if (healthBar.percent < 20)
 			iconP1.animation.curAnim.curFrame = 1;
-		else if (healthBar.percent > 80 && ClientPrefs.winIcon == true)
+		else if (healthBar.percent > 80 && ClientPrefs.winIcon == true && iconP1.hasWinIcon)
 			iconP1.animation.curAnim.curFrame = 2;
 		else
 			iconP1.animation.curAnim.curFrame = 0;
 
 		if (healthBar.percent > 80)
 			iconP2.animation.curAnim.curFrame = 1;
-		else if (healthBar.percent < 20 && ClientPrefs.winIcon == true)
+		else if (healthBar.percent < 20 && ClientPrefs.winIcon == true && iconP2.hasWinIcon)
 			iconP2.animation.curAnim.curFrame = 2;
 		else
 			iconP2.animation.curAnim.curFrame = 0;
@@ -4729,17 +4729,14 @@ class PlayState extends MusicBeatState
 
 		for (e in [iconP1, iconP2])
 		{
-		if(ClientPrefs.iconBop == 'Alt')
-		{
-			e.scale.set(1, 1);
-		}
-		if(ClientPrefs.iconBop == 'OG')
-		{
-		   	iconP1.setGraphicSize(Std.int(iconP1.width + 30));
-			iconP2.setGraphicSize(Std.int(iconP2.width + 30));
-			iconP1.updateHitbox();
-	    	iconP2.updateHitbox();
-		}
+			if(ClientPrefs.iconBop == 'Alt')
+				e.scale.set(1, 1);
+
+			if(ClientPrefs.iconBop == 'OG')
+			{
+				e.setGraphicSize(Std.int(e.width + 30));
+				e.updateHitbox();
+			}
 		}
 
 		if (gf != null
