@@ -305,7 +305,6 @@ class PlayState extends MusicBeatState
 	public static var lastScore:Array<FlxSprite> = [];
 
 	#if hscript
-	public var hscriptArray:Array<HscriptClass>;
 	public var hscript:HscriptClass;
 	#end
 
@@ -807,33 +806,6 @@ class PlayState extends MusicBeatState
 			}
 		}
 		#end
-		
-		// "GLOBAL" HSCRIPTS
-		#if hscript
-		var filesPushed:Array<String> = [];
-		var foldersToCheck:Array<String> = [SUtil.getPath() + Paths.getPreloadPath('scripts/')];
-
-		#if MODS_ALLOWED
-		foldersToCheck.insert(0, Paths.mods('scripts/'));
-		if (Paths.currentModDirectory != null && Paths.currentModDirectory.length > 0)
-			foldersToCheck.insert(0, Paths.mods(Paths.currentModDirectory + '/scripts/'));
-		#end
-
-		for (folder in foldersToCheck)
-		{
-			if (FileSystem.exists(folder))
-			{
-				for (file in FileSystem.readDirectory(folder))
-				{
-					if (file.endsWith('.hx') && !filesPushed.contains(file))
-					{
-						hscriptArray.push(new HscriptClass(folder + file));
-						filesPushed.push(file);
-					}
-				}
-			}
-		}
-		#end
 
 		// STAGE SCRIPTS
 		#if (MODS_ALLOWED && LUA_ALLOWED)
@@ -855,28 +827,6 @@ class PlayState extends MusicBeatState
 
 		if (doPush)
 			luaArray.push(new FunkinLua(luaFile));
-		#end
-		
-		// STAGE HSCRIPTS
-		#if (MODS_ALLOWED && hscript)
-		var Push:Bool = false;
-		var hxFile:String = 'stages/' + curStage + '.hx';
-		if (FileSystem.exists(Paths.modFolders(hxFile)))
-		{
-			hxFile = Paths.modFolders(hxFile);
-			Push = true;
-		}
-		else
-		{
-			hxFile = SUtil.getPath() + Paths.getPreloadPath(hxFile);
-			if (FileSystem.exists(hxFile))
-			{
-				Push = true;
-			}
-		}
-
-		if (Push)
-			hscriptArray.push(new HscriptClass(hxFile));
 		#end
 
 		if (!modchartSprites.exists('blammedLightsBlack'))
@@ -1330,10 +1280,6 @@ class PlayState extends MusicBeatState
 
 		Conductor.safeZoneOffset = (ClientPrefs.safeFrames / 60) * 1000;
 		callOnLuas('onCreatePost', []);
-		
-		#if hscript
-		setHscript('create', []);
-		#end
 
 		super.create();
 
@@ -2501,10 +2447,6 @@ class PlayState extends MusicBeatState
 	{
 		callOnLuas('onUpdate', [elapsed]);
 
-		#if hscript
-		setHscript('update', [elapsed]);
-		#end
-		
 		switch (curStage)
 		{
 			case 'schoolEvil':
@@ -5073,20 +5015,4 @@ class PlayState extends MusicBeatState
 
 	var curLight:Int = 0;
 	var curLightEvent:Int = 0;
-	
-	public function setHscript(name:String, args:Array<Dynamic>):Dynamic
-	{
-		var val:Dynamic = null;
-
-		if (hscript != null){
-			final e:Dynamic = hscript.executeFunc(name, args);
-			final f:Bool = e == HscriptClass.Function_Continue;
-			if (!f && e != null){
-				val = e;
-			}
-		}
-		else return null;
-
-		return val;
-	}
 }
