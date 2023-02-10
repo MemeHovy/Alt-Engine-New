@@ -99,7 +99,7 @@ class OptionsState extends MusicBeatState
 		DiscordClient.changePresence("Options Menu", null);
 		#end
 
-		if (FlxG.sound.music == null)
+		if (FlxG.sound.music != null && !FlxG.sound.music.playing)
 			FlxG.sound.playMusic(Paths.music('title'), 1);
 
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuDesat'));

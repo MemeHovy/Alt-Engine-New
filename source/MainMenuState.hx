@@ -72,7 +72,7 @@ class MainMenuState extends MusicBeatState
 	{
 		WeekData.loadTheFirstEnabledMod();
 
-		if (FlxG.sound.music == null)
+		if (FlxG.sound.music != null && !FlxG.sound.music.playing)
 			FlxG.sound.playMusic(Paths.music('freakyMenu'), 1);
 
 		#if desktop
@@ -140,7 +140,6 @@ class MainMenuState extends MusicBeatState
 		if(optionShit.length < 6) scr = 0;
 		menuItem.scrollFactor.set(0,scr);
 		menuItem.antialiasing = ClientPrefs.globalAntialiasing;
-		//menuItem.setGraphicSize(Std.int(menuItem.width * 0.58));
 		menuItem.updateHitbox();
 
 		//freeplay
@@ -160,7 +159,6 @@ class MainMenuState extends MusicBeatState
 		if(optionShit.length < 6) scr = 0;
 		menuItem.scrollFactor.set(0,scr);
 		menuItem.antialiasing = ClientPrefs.globalAntialiasing;
-		//menuItem.setGraphicSize(Std.int(menuItem.width * 0.58));
 		menuItem.updateHitbox();
 
 		//mods
@@ -218,7 +216,6 @@ class MainMenuState extends MusicBeatState
 		if(optionShit.length < 6) scr = 0;
 		menuItem.scrollFactor.set(0,scr);
 		menuItem.antialiasing = ClientPrefs.globalAntialiasing;
-		//menuItem.setGraphicSize(Std.int(menuItem.width * 0.58));
 		menuItem.updateHitbox();
 		#if (flixel_addons < "3.0.0")
         var bgScroll = new FlxBackdrop(Paths.image('wind'), true, true, -33, -32);
@@ -230,7 +227,7 @@ class MainMenuState extends MusicBeatState
 		bgScroll.velocity.set(MainJSON.speedWind[0] ,MainJSON.speedWind[1]);
 		bgScroll.antialiasing = ClientPrefs.globalAntialiasing;
 		if(MainJSON.visibleBG){
-		add(bgScroll);
+			add(bgScroll);
      	}
      	
 		FlxG.camera.follow(camFollowPos, null, 1);
