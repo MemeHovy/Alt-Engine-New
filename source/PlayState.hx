@@ -293,6 +293,13 @@ class PlayState extends MusicBeatState
 	public var hscriptArray:Array<HscriptClass>;
 	public var hscript:HscriptClass;
 	#end
+	
+	// stores the last judgement object
+	public static var lastRating:FlxSprite;
+	// stores the last combo sprite object
+	public static var lastCombo:FlxSprite;
+	// stores the last combo score objects in an array
+	public static var lastScore:Array<FlxSprite> = [];
 
     public var maxHealth:Float = 2;
     
