@@ -144,9 +144,9 @@ class VisualsUISubState extends BaseOptionsMenu
 			'bool',
 			true);
 		addOption(option);
-        var option:Option = new Option('Old Alphabet',
-			"If unchecked, Old Alphabet has been enabled.",
-			'oldAlphabet',
+        var option:Option = new Option('Icon bop',
+			"Change icon bop .",
+			'iconBop',
 			'string',
                         'OG', 
 			['OG','Alt']);
