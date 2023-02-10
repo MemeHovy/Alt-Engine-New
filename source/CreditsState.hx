@@ -101,7 +101,7 @@ class CreditsState extends MusicBeatState
 			[
 				'Rom4chek',
 				'rom4chek',
-				' Coder and helper of Alt Engine',
+				'Coder and helper of Alt Engine',
 				'https://youtube.com/@Rom4chek',
 				'00FF00'
 			],
