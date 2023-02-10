@@ -4134,6 +4134,8 @@ class PlayState extends MusicBeatState
 
 	function moveIcon(?isDad:Bool = false)
 	{
+		if (ClientPrefs.iconBop == 'OG') return;
+
 		if (isDad == false)
 		{
 			if (iconZoomTween != null)
