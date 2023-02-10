@@ -30,64 +30,77 @@ using StringTools;
 
 class OptionsState extends MusicBeatState
 {
-	var options:Array<String> = ['Note Colors', 'Controls', 'Adjust Delay and Combo', 'Graphics', 'Visuals and UI', 'Gameplay', 'Volume Settings'];
+	var options:Array<String> = [
+		'Note Colors',
+		'Controls',
+		'Adjust Delay and Combo',
+		'Graphics',
+		'Visuals and UI',
+		'Gameplay',
+		'Volume Settings'
+	];
 	private var grpOptions:FlxTypedGroup<Alphabet>;
+
 	private static var curSelected:Int = 0;
 	public static var menuBG:FlxSprite;
 
-	function openSelectedSubstate(label:String) {
-		switch(label) {
+	function openSelectedSubstate(label:String)
+	{
+		switch (label)
+		{
 			case 'Note Colors':
 				#if android
 				removeVirtualPad();
 				#end
-                                SUtil.ActWrite("Logged in Note State");
+				SUtil.ActWrite("Logged in Note State");
 				openSubState(new options.NotesSubState());
 			case 'Controls':
 				#if android
 				removeVirtualPad();
 				#end
-                                SUtil.ActWrite("Logged in Controls State");
+				SUtil.ActWrite("Logged in Controls State");
 				openSubState(new options.ControlsSubState());
 			case 'Graphics':
 				#if android
 				removeVirtualPad();
 				#end
-                                SUtil.ActWrite("Logged in Graphics State");
+				SUtil.ActWrite("Logged in Graphics State");
 				openSubState(new options.GraphicsSettingsSubState());
 			case 'Visuals and UI':
 				#if android
 				removeVirtualPad();
 				#end
-                                SUtil.ActWrite("Logged in VisualsUI State");
+				SUtil.ActWrite("Logged in VisualsUI State");
 				openSubState(new options.VisualsUISubState());
 			case 'Gameplay':
 				#if android
 				removeVirtualPad();
 				#end
 				openSubState(new options.GameplaySettingsSubState());
-                                SUtil.ActWrite("Logged in Gameplay State");
+				SUtil.ActWrite("Logged in Gameplay State");
 			case 'Adjust Delay and Combo':
-                                SUtil.ActWrite("Logged in Delay and Combo State");
+				SUtil.ActWrite("Logged in Delay and Combo State");
 				LoadingState.loadAndSwitchState(new options.NoteOffsetState());
-                        case 'Volume Settings':
+			case 'Volume Settings':
 				#if android
 				removeVirtualPad();
 				#end
 				openSubState(new options.VolumeOptionsSubState());
-                                SUtil.ActWrite("Logged in Volume State");
+				SUtil.ActWrite("Logged in Volume State");
 		}
 	}
 
 	var selectorLeft:Alphabet;
 	var selectorRight:Alphabet;
 
-	override function create() {
+	override function create()
+	{
 		#if desktop
 		DiscordClient.changePresence("Options Menu", null);
 		#end
-                
-    FlxG.sound.playMusic(Paths.music('title'), 1);
+
+		if (FlxG.sound.music == null)
+			FlxG.sound.playMusic(Paths.music('title'), 1);
 
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
 		bg.color = 0xFFea71fd;
@@ -131,41 +144,52 @@ class OptionsState extends MusicBeatState
 		super.create();
 	}
 
-	override function closeSubState() {
+	override function closeSubState()
+	{
 		super.closeSubState();
 		ClientPrefs.saveSettings();
-                SUtil.ActWrite("Logged from Option State");
+		SUtil.ActWrite("Logged from Option State");
 	}
 
-	override function update(elapsed:Float) {
+	override function update(elapsed:Float)
+	{
 		super.update(elapsed);
 
-		if (controls.UI_UP_P) {
+		if (controls.UI_UP_P)
+		{
 			changeSelection(-1);
 		}
-		if (controls.UI_DOWN_P) {
+		if (controls.UI_DOWN_P)
+		{
 			changeSelection(1);
 		}
 
-		if (controls.BACK) {
+		if (controls.BACK)
+		{
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 			MusicBeatState.switchState(new MainMenuState());
-                        SUtil.ActWrite("Logged from Options State");
+			SUtil.ActWrite("Logged from Options State");
+
+			if (FlxG.sound.music != null)
+				FlxG.sound.music.stop();
 		}
 
-		if (controls.ACCEPT) {
+		if (controls.ACCEPT)
+		{
 			openSelectedSubstate(options[curSelected]);
 		}
 
 		#if android
-		if (_virtualpad.buttonC.justPressed) {
+		if (_virtualpad.buttonC.justPressed)
+		{
 			MusicBeatState.switchState(new android.AndroidControlsMenu());
-                        SUtil.ActWrite("Logged from Android Controls State");
+			SUtil.ActWrite("Logged from Android Controls State");
 		}
 		#end
 	}
-	
-	function changeSelection(change:Int = 0) {
+
+	function changeSelection(change:Int = 0)
+	{
 		curSelected += change;
 		if (curSelected < 0)
 			curSelected = options.length - 1;
@@ -174,12 +198,14 @@ class OptionsState extends MusicBeatState
 
 		var bullShit:Int = 0;
 
-		for (item in grpOptions.members) {
+		for (item in grpOptions.members)
+		{
 			item.targetY = bullShit - curSelected;
 			bullShit++;
 
 			item.alpha = 0.6;
-			if (item.targetY == 0) {
+			if (item.targetY == 0)
+			{
 				item.alpha = 1;
 				selectorLeft.x = item.x - 63;
 				selectorLeft.y = item.y;
