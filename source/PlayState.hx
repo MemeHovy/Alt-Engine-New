@@ -296,10 +296,10 @@ class PlayState extends MusicBeatState
 	public var hscriptArray:Array<HscriptClass>;
 	public var hscript:HscriptClass;
 	#end
-	
+
+	// fearester, you just fucking reverted the changes I worked all night on, what the fuck
 	override public function create()
 	{
-	    
 	    SUtil.ActWrite("Logged in Song: " + PlayState.SONG.song);
 	    
 		Paths.clearStoredMemory();
@@ -347,7 +347,7 @@ class PlayState extends MusicBeatState
 		persistentDraw = true;
 
 		if (SONG == null)
-			SONG = Song.loadFromJson('tutorial');
+			SONG = Song.loadFromJson('test');
 
 		Conductor.mapBPMChanges(SONG);
 		Conductor.changeBPM(SONG.bpm);
@@ -357,13 +357,9 @@ class PlayState extends MusicBeatState
 
 		// String that contains the mode defined here so it isn't necessary to call changePresence for each mode
 		if (isStoryMode)
-		{
 			detailsText = "Story Mode: " + WeekData.getCurrentWeek().weekName;
-		}
 		else
-		{
 			detailsText = "Freeplay";
-		}
 
 		// String for when the game is paused
 		detailsPausedText = "Paused - " + detailsText;
@@ -3895,23 +3891,13 @@ class PlayState extends MusicBeatState
 			combo = 0;
 
 			if(!practiceMode) songScore -= 10;
-			if(!endingSong) {
+
+			if(!endingSong)
 				songMisses++;
-			}
 			totalPlayed++;
 			RecalculateRating();
 
 			FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), FlxG.random.float(0.1, 0.2));
-			// FlxG.sound.play(Paths.sound('missnote1'), 1, false);
-			// FlxG.log.add('played imss note');
-
-			/*boyfriend.stunned = true;
-
-			// get stunned for 1/60 of a second, makes you able to
-			new FlxTimer().start(1 / 60, function(tmr:FlxTimer)
-			{
-				boyfriend.stunned = false;
-			});*/
 
 			if(boyfriend.hasMissAnimations) {
 				boyfriend.playAnim(singAnimations[Std.int(Math.abs(direction))] + 'miss', true);
@@ -3995,10 +3981,10 @@ class PlayState extends MusicBeatState
 				char.holdTimer = 0;
 			}
 		}
-		    if(!note.isSustainNote)
-			{
-				moveIcon(true);
-			}
+		if(!note.isSustainNote)
+		{
+			moveIcon(true);
+		}
 		if (SONG.needsVoices)
 			vocals.volume = ClientPrefs.vocalVolume;
 
@@ -4026,9 +4012,7 @@ class PlayState extends MusicBeatState
 		if (!note.wasGoodHit)
 		{
 			if (ClientPrefs.hitsoundVolume > 0 && !note.hitsoundDisabled)
-			{
 				FlxG.sound.play(Paths.sound('hitsound'), ClientPrefs.hitsoundVolume);
-			}
 
 			if(cpuControlled && (note.ignoreNote || note.hitCausesMiss)) return;
 
@@ -4046,9 +4030,7 @@ class PlayState extends MusicBeatState
 						}
 				}
 				if(!note.isSustainNote)
-			    {
-				moveIcon();
-		    	}
+					moveIcon();
 		    	
 				note.wasGoodHit = true;
 				if (!note.isSustainNote)
