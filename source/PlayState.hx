@@ -918,10 +918,11 @@ class PlayState extends MusicBeatState
 		timeTxt = new FlxText(500, FlxG.height * 0.9 + 34, 400, "", 28);
 		timeTxt.setFormat(Paths.font("vcr.ttf"), 28, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		timeTxt.scrollFactor.set();
+		timeTxt.screenCenter(X);
 		timeTxt.alpha = 0;
 		timeTxt.borderSize = 2;
 		timeTxt.visible = showTime;
-		if(ClientPrefs.downScroll) timeTxt.y = FlxG.height - 44;
+		if(ClientPrefs.downScroll) timeTxt.y = 0;
 
 		if(ClientPrefs.timeBarType == 'Song Name')
 		{
@@ -1098,8 +1099,8 @@ class PlayState extends MusicBeatState
 		botplayTxt.visible = cpuControlled;
 		add(botplayTxt);
 		if(ClientPrefs.downScroll) {
-			botplayTxt.y = 430;
-			scoreTxt.y = healthBarBG.y + 36;
+			botplayTxt.y = 705;
+			scoreTxt.y = FlxG.height * 0.9 + 34;
 		}
 
 		strumLineNotes.cameras = [camHUD];
@@ -1786,9 +1787,9 @@ class PlayState extends MusicBeatState
 			if(scoreTxtTween != null) {
 				scoreTxtTween.cancel();
 			}
-			scoreTxt.y = -100;
+			scoreTxt.y = 19;
 			scoreTxt.alpha = 1;
-			scoreTxtTween = FlxTween.tween(scoreTxt, {y: 19}, 0.6, {
+			scoreTxtTween = FlxTween.tween(scoreTxt, {y: -100}, 0.9, {
 				onComplete: function(twn:FlxTween) {
 					scoreTxtTween = null;
 				}
@@ -2402,7 +2403,7 @@ class PlayState extends MusicBeatState
 		if(ratingName == '?') {
 			scoreTxt.text = 'Score: ' + songScore + '/' + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName;
 		} else {
-			scoreTxt.text = 'Score: ' + songScore + '[ ' + Highscore + ' ]' + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName + ' (' + Highscore.floorDecimal(ratingPercent * 100, 2) + '%)' + ' / ' + Highscore.floorDecimal(HighRating * 100, 2) + '% | ' + ratingFC; //peeps wanted no integer rating
+			scoreTxt.text = 'Score: ' + songScore + ' | [ ' + Highscore + ' ]' + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName + ' (' + Highscore.floorDecimal(ratingPercent * 100, 2) + '%)' + ' / ' + Highscore.floorDecimal(HighRating * 100, 2) + '% | ' + ratingFC; //peeps wanted no integer rating
 		}
 
 		if(botplayTxt.visible) {
@@ -2436,11 +2437,11 @@ class PlayState extends MusicBeatState
 
 		shownHealth = FlxMath.lerp(shownHealth, health, CoolUtil.boundTo(elapsed * 7, 0, 1));
 
-		var mult:Float = FlxMath.lerp(1, iconP1.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
+		var mult:Float = FlxMath.lerp(1, iconP1.scale.x, CoolUtil.boundTo(1 - (elapsed * 25), 0, 1));
 		iconP1.scale.set(mult, mult);
 		iconP1.updateHitbox();
 
-		var mult:Float = FlxMath.lerp(1, iconP2.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
+		var mult:Float = FlxMath.lerp(1, iconP2.scale.x, CoolUtil.boundTo(1 - (elapsed * 25), 0, 1));
 		iconP2.scale.set(mult, mult);
 		iconP2.updateHitbox();
 
@@ -3445,9 +3446,9 @@ class PlayState extends MusicBeatState
 			if(scoreTxtTween != null) {
 				scoreTxtTween.cancel();
 			}
-			scoreTxt.y = -100;
+			scoreTxt.y = 19;
 			scoreTxt.alpha = 1;
-			scoreTxtTween = FlxTween.tween(scoreTxt, {y: 19}, 0.6, {
+			scoreTxtTween = FlxTween.tween(scoreTxt, {y: -100}, 0.9, {
 				onComplete: function(twn:FlxTween) {
 					scoreTxtTween = null;
 				}
@@ -4332,8 +4333,17 @@ class PlayState extends MusicBeatState
 			FlxG.camera.zoom += 0.012;
 		}
 
-		iconP1.scale.set(1, 1);
-		iconP2.scale.set(1, 1);
+        for(i in [iconP1 , iconP2])
+        {
+		i.scale.set(1, 1);
+		if(ClientPrefs.iconBop == 'OG')
+		{
+		    i.scale.set(1.2,1.2);
+		    i.setGraphicSize(Std.int(iconP1.width + 30));
+		    i.updateHitbox();
+		}
+    }
+    	
 		
 		if (gf != null && curBeat % Math.round(gfSpeed * gf.danceEveryNumBeats) == 0 && !gf.stunned && gf.animation.curAnim.name != null && !gf.animation.curAnim.name.startsWith("sing") && !gf.stunned)
 		{
@@ -4468,6 +4478,10 @@ class PlayState extends MusicBeatState
 				if(ratingPercent > HighRating)
 				{
 				    HighRating = ratingPercent;
+				}
+				if(songScore > HighScore)
+				{
+				HighScore = songScore;
 				}
 				//trace((totalNotesHit / totalPlayed) + ', Total: ' + totalPlayed + ', notes hit: ' + totalNotesHit);
 
