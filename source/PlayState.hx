@@ -2402,7 +2402,7 @@ class PlayState extends MusicBeatState
 		if(ratingName == '?') {
 			scoreTxt.text = 'Score: ' + songScore + '/' + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName;
 		} else {
-			scoreTxt.text = 'Score: ' + songScore + '[ ' + Highscore + ' ] + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName + ' (' + Highscore.floorDecimal(ratingPercent * 100, 2) + '%)' + ' / ' + Highscore.floorDecimal(HighRating * 100, 2) + '% | ' + ratingFC;//peeps wanted no integer rating
+			scoreTxt.text = 'Score: ' + songScore + '[ ' + Highscore + ' ]' + ' | Misses: ' + songMisses + ' | Rating: ' + ratingName + ' (' + Highscore.floorDecimal(ratingPercent * 100, 2) + '%)' + ' / ' + Highscore.floorDecimal(HighRating * 100, 2) + '% | ' + ratingFC; //peeps wanted no integer rating
 		}
 
 		if(botplayTxt.visible) {
