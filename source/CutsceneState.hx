@@ -52,47 +52,14 @@ class CutsceneState extends MusicBeatState // PlayState is alreadly laggy enough
 			{
 				switch (StringTools.replace(songName.toLowerCase(), '-', ' '))
 				{
-					case 'tiny mad old':
-						switch(PlayState.variant){
-							case 0:
-								videoplay = 'EndCutscene-Noob';
-								focus = false;
-								skippable = true;
-							case 1:
-								videoplay = 'EndCutscene-ProShit';
-								focus = false;
-								skippable = true;
-							case 2:
-								videoplay = 'EndCutscene-Pro';
-								focus = false;
-								skippable = true;
-						}
+					//here u should case song to play cut before song start
 				}
 			}
 			else
 			{
 			switch (StringTools.replace(songName.toLowerCase(), '-', ' '))
 			{
-				case 'all star old':
-					trace("huh");
-					videoplay = 'AllStar-Cutscene';
-					focus = false;
-					skippable = true;
-				case 'tiny mad old':
-					switch(PlayState.variant){
-				    	case 0:
-				        	videoplay = 'TinyMad-Cutscene-Noob';
-							focus = false;
-							skippable = true;
-				    	case 1:
-					    	videoplay = 'TinyMad-Cutscene-ProShit';
-							focus = false;
-							skippable = true;
-				    	case 2:
-					    	videoplay = 'TinyMad-Cutscene-Pro';
-							focus = false;
-							skippable = true;
-					}
+				//here u should case song to play cut after song end
 			}
 		}
 
