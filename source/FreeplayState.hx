@@ -401,7 +401,10 @@ class FreeplayState extends MusicBeatState
 			    SUtil.ActWrite("Log In Charting...");
 				LoadingState.loadAndSwitchState(new ChartingState());
 			}else{
-				LoadingState.loadAndSwitchState(new PlayState());
+				MusicBeatState.switchState(new CutsceneState(songLowercase, false, function()
+				{
+					LoadingState.loadAndSwitchState(new PlayState());
+				},false));
 				SUtil.ActWrite("Log In Song: " + PlayState.SONG.song);
 			}
 
