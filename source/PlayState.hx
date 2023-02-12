@@ -3288,30 +3288,8 @@ class PlayState extends MusicBeatState
 				
 				var cutsceneYes:Bool = false;
 
-		    	        var daSong:String = Paths.formatToSongPath(curSong);
-		    	       switch (daSong)
-		     	       {
-			    	//here if u want u can do cutscene variant and place cutsceneYes true if it ends to mainmenu cuz yes
-					       
-			        //like this:
-					       
-				/*case 'all-star-old': if u need to play it before new song
-				    	if (storyDifficulty == 0)
-					    	variant = 0;
-				    	else if (ratingPercent < 0.8)
-					    	variant = 1;
-				    	else
-					    	variant = 2;
-
-				case 'tiny-mad-old': //when ends song go to main instead of new song
-						cutsceneYes = true;
-						if (storyDifficulty == 0)
-							variant = 0;
-						else if (ratingPercent < 0.7)
-							variant = 1;
-						else
-							variant = 2;
-		            	}*/
+		    	var daSong:String = Paths.formatToSongPath(curSong);
+		    }
 
 				if (storyPlaylist.length <= 0)
 				{
