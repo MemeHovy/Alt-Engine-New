@@ -12,8 +12,6 @@ class HealthIcon extends FlxSprite
 	private var isPlayer:Bool = false;
 	private var char:String = '';
 
-	public var hasWinIcon:Bool = false;
-
 	public function new(char:String = 'bf', isPlayer:Bool = false)
 	{
 		super();
@@ -36,7 +34,7 @@ class HealthIcon extends FlxSprite
 		else changeIcon('bf');
 	}
   
-	private var iconOffsets:Array<Float> = [0, 0, 0];
+        private var iconOffsets:Array<Float> = [0, 0, 0];
 
 	public function changeIcon(char:String) {
 		if(this.char != char) {
@@ -46,26 +44,14 @@ class HealthIcon extends FlxSprite
 			var file:Dynamic = Paths.image(name);
 
 			loadGraphic(file); //Load stupidly first for getting the file size
-			switch (width){
-				case 300:
-					loadGraphic(file, true, Math.floor(width / 2), Math.floor(height)); //Then load it fr
-					iconOffsets[0] = (width - 150) / 2;
-					iconOffsets[1] = (width - 150) / 2;
+			loadGraphic(file, true, Math.floor(width / 3), Math.floor(height)); //Then load it fr
+			iconOffsets[0] = (width - 150) / 3;
+			iconOffsets[1] = (width - 150) / 3;
+			iconOffsets[2] = (width - 150) / 3;
+			updateHitbox();
 
-					animation.add(char, [0, 1], 0, false, isPlayer);
-					animation.play(char);
-					hasWinIcon = false;
-				case 450:
-					loadGraphic(file, true, Math.floor(width / 3), Math.floor(height)); //Then load it fr
-					iconOffsets[0] = (width - 150) / 3;
-					iconOffsets[1] = (width - 150) / 3;
-					iconOffsets[2] = (width - 150) / 3;
-					updateHitbox();
-		
-					animation.add(char, [0, 1, 2], 0, false, isPlayer);
-					animation.play(char);
-					hasWinIcon = true;
-			}
+			animation.add(char, [0, 1, 2], 0, false, isPlayer);
+			animation.play(char);
 			this.char = char;
 
 			if(char.endsWith('-pixel')) {
