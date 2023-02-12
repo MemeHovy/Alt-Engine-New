@@ -3285,6 +3285,33 @@ class PlayState extends MusicBeatState
 				campaignMisses += songMisses;
 
 				storyPlaylist.remove(storyPlaylist[0]);
+				
+				var cutsceneYes:Bool = false;
+
+		    	        var daSong:String = Paths.formatToSongPath(curSong);
+		    	       switch (daSong)
+		     	       {
+			    	//here if u want u can do cutscene variant and place cutsceneYes true if it ends to mainmenu cuz yes
+					       
+			        //like this:
+					       
+				/*case 'all-star-old': if u need to play it before new song
+				    	if (storyDifficulty == 0)
+					    	variant = 0;
+				    	else if (ratingPercent < 0.8)
+					    	variant = 1;
+				    	else
+					    	variant = 2;
+
+				case 'tiny-mad-old': //when ends song go to main instead of new song
+						cutsceneYes = true;
+						if (storyDifficulty == 0)
+							variant = 0;
+						else if (ratingPercent < 0.7)
+							variant = 1;
+						else
+							variant = 2;
+		            	}*/
 
 				if (storyPlaylist.length <= 0)
 				{
@@ -3294,8 +3321,15 @@ class PlayState extends MusicBeatState
 					if(FlxTransitionableState.skipNextTransIn) {
 						CustomFadeTransition.nextCamera = null;
 					}
-					MusicBeatState.switchState(new StoryMenuState());
-
+					if (cutsceneYes){
+						FlxTransitionableState.skipNextTransIn = true;
+						FlxTransitionableState.skipNextTransOut = false;
+					}
+					LoadingState.loadAndSwitchState(new CutsceneState(SONG.song, true, function()
+					{
+						MusicBeatState.switchState(new StoryMenuState());
+						FlxG.sound.playMusic(Paths.music('freakyMenu'));
+					}));	
 					// if ()
 					if(!ClientPrefs.getGameplaySetting('practice', false) && !ClientPrefs.getGameplaySetting('botplay', false)) {
 						StoryMenuState.weekCompleted.set(WeekData.weeksList[storyWeek], true);
@@ -3340,11 +3374,17 @@ class PlayState extends MusicBeatState
 					if(winterHorrorlandNext) {
 						new FlxTimer().start(1.5, function(tmr:FlxTimer) {
 							cancelMusicFadeTween();
-							LoadingState.loadAndSwitchState(new PlayState());
-						});
+					                LoadingState.loadAndSwitchState(new CutsceneState(PlayState.storyPlaylist[0].toLowerCase(), false, function()
+						        {
+							LoadingState.loadAndSwitchState(new PlayState(), true);
+						        }), true);
+						  });
 					} else {
 						cancelMusicFadeTween();
-						LoadingState.loadAndSwitchState(new PlayState());
+					        LoadingState.loadAndSwitchState(new CutsceneState(PlayState.storyPlaylist[0].toLowerCase(), false, function()
+						{
+							LoadingState.loadAndSwitchState(new PlayState(), true);
+						}), true);
 					}
 				}
 			}
