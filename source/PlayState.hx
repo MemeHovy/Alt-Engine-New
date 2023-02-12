@@ -1764,9 +1764,6 @@ class PlayState extends MusicBeatState
 		badsPercent = FlxMath.lerp(0 , (bads / noteHit), CoolUtil.boundTo(elapsing * 9, 0, 1));
 		shitsPercent = FlxMath.lerp(0 , (shits / noteHit), CoolUtil.boundTo(elapsing * 9, 0, 1));
 		
-		if (HighScore > songScore)
-		    HighScore = songScore;
-		
 	    judgementCounter.text = 'Sicks: ${sicks}\nGoods: ${goods}\nBads: ${bads}\nShits: ${shits}\nMisses: ${songMisses}';
 	    
         if (ClientPrefs.judgementCounterType == "Percentage")
@@ -2437,11 +2434,11 @@ class PlayState extends MusicBeatState
 
 		shownHealth = FlxMath.lerp(shownHealth, health, CoolUtil.boundTo(elapsed * 7, 0, 1));
 
-		var mult:Float = FlxMath.lerp(1, iconP1.scale.x, CoolUtil.boundTo(1 - (elapsed * 25), 0, 1));
+		var mult:Float = FlxMath.lerp(1, iconP1.scale.x, CoolUtil.boundTo(1 - (elapsed * 45), 0, 1));
 		iconP1.scale.set(mult, mult);
 		iconP1.updateHitbox();
 
-		var mult:Float = FlxMath.lerp(1, iconP2.scale.x, CoolUtil.boundTo(1 - (elapsed * 25), 0, 1));
+		var mult:Float = FlxMath.lerp(1, iconP2.scale.x, CoolUtil.boundTo(1 - (elapsed * 45), 0, 1));
 		iconP2.scale.set(mult, mult);
 		iconP2.updateHitbox();
 
@@ -3942,10 +3939,6 @@ class PlayState extends MusicBeatState
 							boyfriend.specialAnim = true;
 						}
 				}
-				if(!note.isSustainNote)
-			    {
-				moveIcon();
-		    	}
 		    	
 				note.wasGoodHit = true;
 				if (!note.isSustainNote)
@@ -3956,7 +3949,10 @@ class PlayState extends MusicBeatState
 				}
 				return;
 			}
-
+			if(!note.isSustainNote)
+			{
+				moveIcon();
+		    }
 			if (!note.isSustainNote)
 			{
 				combo += 1;
@@ -4339,11 +4335,10 @@ class PlayState extends MusicBeatState
 		if(ClientPrefs.iconBop == 'OG')
 		{
 		    i.scale.set(1.2,1.2);
-		    i.setGraphicSize(Std.int(iconP1.width + 30));
+		    i.setGraphicSize(Std.int(iconP1.width + 50));
 		    i.updateHitbox();
 		}
     }
-    	
 		
 		if (gf != null && curBeat % Math.round(gfSpeed * gf.danceEveryNumBeats) == 0 && !gf.stunned && gf.animation.curAnim.name != null && !gf.animation.curAnim.name.startsWith("sing") && !gf.stunned)
 		{
