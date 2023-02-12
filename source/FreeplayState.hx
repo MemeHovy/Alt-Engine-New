@@ -230,6 +230,7 @@ class FreeplayState extends MusicBeatState
 
 		#if android
 		addVirtualPad(FULL, A_B_C_X_Y_Z);
+		addPadCamera();
 		#end
 
 		super.create();
@@ -576,12 +577,14 @@ class FreeplayState extends MusicBeatState
 		diffText.y = FreeplayJSON.DiffTextP[1];
 		diffText.x = FreeplayJSON.DiffTextP[0];
 	}
-	function beatHit()
+	override function beatHit()
 	{
-	    bg.setGraphicSize(bg.width + 300);
-	    iconBoyfriendArray[curSelected].setGraphicSize(iconBoyfriendArray[curSelected].width + 30);
-	    iconOpponentArray[curSelected].setGraphicSize(iconOpponentArray[curSelected].width + 30);
-        }
+	   if (curBeat % 4 == 0) 
+		{
+			//FlxG.camera.zoom += 0.065;
+			FlxTween.tween(FlxG.camera, {zoom:1.03}, 0.3, {ease: FlxEase.quadOut, type: BACKWARD});
+		}
+    }
 }
 
 class SongMetadata
