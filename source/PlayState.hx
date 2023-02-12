@@ -3285,10 +3285,6 @@ class PlayState extends MusicBeatState
 				campaignMisses += songMisses;
 
 				storyPlaylist.remove(storyPlaylist[0]);
-				
-				var cutsceneYes:Bool = false;
-
-		    	var daSong:String = Paths.formatToSongPath(curSong);
 		    }
 
 				if (storyPlaylist.length <= 0)
@@ -3299,15 +3295,8 @@ class PlayState extends MusicBeatState
 					if(FlxTransitionableState.skipNextTransIn) {
 						CustomFadeTransition.nextCamera = null;
 					}
-					if (cutsceneYes){
-						FlxTransitionableState.skipNextTransIn = true;
-						FlxTransitionableState.skipNextTransOut = false;
-					}
-					LoadingState.loadAndSwitchState(new CutsceneState(SONG.song, true, function()
-					{
-						MusicBeatState.switchState(new StoryMenuState());
-						FlxG.sound.playMusic(Paths.music('freakyMenu'));
-					}));	
+					MusicBeatState.switchState(new StoryMenuState());
+					FlxG.sound.playMusic(Paths.music('freakyMenu'));
 					// if ()
 					if(!ClientPrefs.getGameplaySetting('practice', false) && !ClientPrefs.getGameplaySetting('botplay', false)) {
 						StoryMenuState.weekCompleted.set(WeekData.weeksList[storyWeek], true);
@@ -3352,17 +3341,11 @@ class PlayState extends MusicBeatState
 					if(winterHorrorlandNext) {
 						new FlxTimer().start(1.5, function(tmr:FlxTimer) {
 							cancelMusicFadeTween();
-					                LoadingState.loadAndSwitchState(new CutsceneState(PlayState.storyPlaylist[0].toLowerCase(), false, function()
-						        {
-							LoadingState.loadAndSwitchState(new PlayState(), true);
-						        }), true);
-						  });
+							LoadingState.loadAndSwitchState(new PlayState());
+						});
 					} else {
 						cancelMusicFadeTween();
-					        LoadingState.loadAndSwitchState(new CutsceneState(PlayState.storyPlaylist[0].toLowerCase(), false, function()
-						{
-							LoadingState.loadAndSwitchState(new PlayState(), true);
-						}), true);
+						LoadingState.loadAndSwitchState(new PlayState());
 					}
 				}
 			}
