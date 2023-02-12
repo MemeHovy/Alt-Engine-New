@@ -288,6 +288,9 @@ class FreeplayState extends MusicBeatState
 		var ctrl = FlxG.keys.justPressed.CONTROL #if android || _virtualpad.buttonC.justPressed #end;
 
 		var shiftMult:Int = 1;
+		
+		Conductor.changeBPM(PlayState.SONG.bpm);
+		
 		if(FlxG.keys.pressed.SHIFT #if android || _virtualpad.buttonZ.pressed #end) shiftMult = 3;
 
 		if(songs.length > 1)
@@ -355,7 +358,6 @@ class FreeplayState extends MusicBeatState
 				Paths.currentModDirectory = songs[curSelected].folder;
 				var poop:String = Highscore.formatSong(songs[curSelected].songName.toLowerCase(), curDifficulty);
 				PlayState.SONG = Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase());
-				Conductor.changeBPM(PlayState.SONG.bpm);
 				if (PlayState.SONG.needsVoices)
 					vocals = new FlxSound().loadEmbedded(Paths.voices(PlayState.SONG.song));
 				else
@@ -574,6 +576,12 @@ class FreeplayState extends MusicBeatState
 		diffText.y = FreeplayJSON.DiffTextP[1];
 		diffText.x = FreeplayJSON.DiffTextP[0];
 	}
+	function beatHit()
+	{
+	    bg.setGraphicSize(bg.width + 300);
+	    iconBoyfriendArray[curSelected].setGraphicSize(iconBoyfriendArray[curSelected].width + 30);
+	    iconOpponentArray[curSelected].setGraphicSize(iconOpponentArray[curSelected].width + 30);
+        }
 }
 
 class SongMetadata
