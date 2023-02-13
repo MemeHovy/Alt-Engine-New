@@ -115,7 +115,7 @@ class CreditsState extends MusicBeatState
 			[
 				'Daniel',
 				'daniel',
-				'Musican in Main Menu of Alt Engine',
+				'Musician in Main Menu of Alt Engine',
 				'https://youtube.com/@0_Daniel_0',
 				'FFFF00'
 			],
@@ -137,7 +137,7 @@ class CreditsState extends MusicBeatState
 			[
 				'Saw (M.A. Jigsaw)',
 				'jigsaw',
-				'Main Programmer of Psych Engine Android And The MainMenu And The Achievements PupUp',
+				'Main Programmer of Psych Engine Android\nMain Menu and Achievements Pop Up',
 				'https://www.youtube.com/channel/UC2Sk7vtPzOvbVzdVTWrribQ',
 				'F73838'
 			],
