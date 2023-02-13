@@ -291,7 +291,6 @@ class FreeplayState extends MusicBeatState
 
 		var shiftMult:Int = 1;
 		
-		Conductor.changeBPM(PlayState.SONG.bpm);
 		
 		if(FlxG.keys.pressed.SHIFT #if android || _virtualpad.buttonZ.pressed #end) shiftMult = 3;
 
@@ -466,6 +465,8 @@ class FreeplayState extends MusicBeatState
 			curSelected = songs.length - 1;
 		if (curSelected >= songs.length)
 			curSelected = 0;
+
+                Conductor.changeBPM(PlayState.SONG.bpm);
 			
 		var newColor:Int = songs[curSelected].color;
 		if(newColor != intendedColor) {
