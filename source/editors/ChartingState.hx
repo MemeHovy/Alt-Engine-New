@@ -218,14 +218,11 @@ class ChartingState extends MusicBeatState
 				player3: null,
 				gfVersion: 'gf',
 				speed: 1,
-				stage: 'stage',
-				validScore: false
+				stage: 'stage'
 			};
 			addSection();
 			PlayState.SONG = _song;
 		}
-
-		// Paths.clearMemory();
 
 		#if desktop
 		// Updating Discord Rich Presence
@@ -2831,8 +2828,7 @@ class ChartingState extends MusicBeatState
 			player2: _song.player2,
 			player3: null,
 			gfVersion: _song.gfVersion,
-			stage: _song.stage,
-			validScore: false
+			stage: _song.stage
 		};
 		var json = {
 			"song": eventsSong
