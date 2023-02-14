@@ -466,7 +466,8 @@ class FreeplayState extends MusicBeatState
 		if (curSelected >= songs.length)
 			curSelected = 0;
 
-                Conductor.changeBPM(PlayState.SONG.bpm);
+                		Conductor.songPosition = FlxG.sound.music.time;
+               	Conductor.songPosition = FlxG.sound.music.time;
 			
 		var newColor:Int = songs[curSelected].color;
 		if(newColor != intendedColor) {
